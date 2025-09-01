@@ -1,0 +1,743 @@
+1
+2
+0
+2
+
+l
+u
+J
+
+7
+
+]
+I
+S
+.
+s
+c
+[
+
+1
+v
+8
+1
+3
+3
+0
+.
+7
+0
+1
+2
+:
+v
+i
+X
+r
+a
+
+Climate Change Conspiracy Theories on Social
+Media
+
+Aman Tyagi1[0000−0002−6654−0670] and Kathleen M.
+Carley1,2[0000−0002−6356−0238]
+
+1 Engineering and Public Policy, Carnegie Mellon University, PA 15213, USA
+2 Institute for Software Research, Carnegie Mellon University, PA 15213, USA
+amantyagi@cmu.edu, kathleen.carley@cs.cmu.edu
+
+Abstract. One of the critical emerging challenges in climate change
+communication is the prevalence of conspiracy theories. This paper dis-
+cusses some of the major conspiracy theories related to climate change
+found in a large Twitter corpus. We use a state-of-the-art stance de-
+tection method to ﬁnd whether conspiracy theories are more popular
+among Disbelievers or Believers of climate change. We then analyze
+which conspiracy theory is more popular than the others and how pop-
+ularity changes with climate change belief. We ﬁnd that Disbelievers of
+climate change are overwhelmingly responsible for sharing messages with
+conspiracy theory-related keywords, and not all conspiracy theories are
+equally shared. Lastly, we discuss the implications of our ﬁndings for
+climate change communication.
+
+Keywords: Climate Change · Conspiracy Theories · Twitter Conversa-
+tions · Hashtags · Label Propagation · Climate Change Communication
+
+1
+
+Introduction
+
+There is a virtually 100% consensus among scientists that greenhouse gas emis-
+sions from human activity cause climate change [12]. Despite the overwhelming
+evidence, much public discourse shows open skepticism with many popular con-
+trarian voices [13,6,17]. In fact, it is believed that between 20% to 40% of the
+U.S. population considers climate change as a hoax or do not believe in its
+anthropogenic cause [22].
+
+Contrarian voices on climate change can be divided among diﬀerent cate-
+gories. For instance, there is a category of people who argue that climate change
+is real but is not caused by human activity. Another example would be peo-
+ple who believe that climate change is real, but they dispute the anthropogenic
+cause. However, the most alarming category are climate change deniers who
+outright reject climate science ﬁndings or the data as a hoax. Diﬀerent ideolo-
+gies drive most people who describe climate science ﬁndings and data as hoax
+[22]. One such facet of ideology is conspiratorial thinking. Previous studies have
+suggested that conspiratorial thinking is associated with beliefs about climate
+
+ 
+ 
+ 
+ 
+ 
+ 
+2
+
+Tyagi and Carley
+
+change. In other words, individuals who believe in conspiracies are more likely
+to refute the anthropogenic cause of climate change [22].
+
+Conspiracy theories are “unsubstantiated explanations of events or circum-
+stances that accuse powerful malevolent groups of plotting in secret for their own
+beneﬁt against the common good” [22]. People who believe in conspiracy theory
+might want to derive an explanation for any complex scientiﬁc fact from these
+theories. Conspiracy theories can be interlinked with each other, although they
+might not have any logical basis. In this paper, we would discuss some of the
+major conspiracy theories in climate change that are popular on a social media
+platform. These conspiracy theories present a signiﬁcant challenge in removing
+the false narratives around climate change. Thus, it becomes essential to analyze
+these conspiracy theories.
+
+Previous work on climate change and conspiracy theories suggest that people
+believing in conspiracy theories are likely to believe that climate change is a hoax
+[22]. That work relied on the manual survey-based collection methods. Surveys
+are limited in ﬁnding nuanced beliefs and in studying extensive social network
+structures. This paper uses extensive Twitter data to link beliefs about climate
+change and sharing of conspiracy related text. Thus, the main research question
+we answer is, In climate change discussion, do climate change Disbelievers share
+more conspiracy related terms compared to Believers? To answer this research
+question, we scrape Twitter data for all the Tweets containing climate change
+and conspiracy related keywords. We then use a state-of-the-art stance detection
+method to ﬁnd climate change Believers and Disbelievers 3.
+
+Moreover, conspiracies about climate change could be promulgated by bot-
+like accounts - automated user accounts - in addition to human actors. These
+bot-like accounts can further create confusion on well established climate change
+realities. Previous studies have suggested that “bots seek to create false ampliﬁ-
+cation of contentious issues with the intention to create discord” [20]. This paper
+examines whether or not bot-like accounts are more active in sharing conspira-
+torial messages in diﬀerent belief groups.
+
+This paper begins by deﬁning some of the common climate change-related
+conspiracy theories §2. Next, we discuss the method used to identify individual
+beliefs, keywords used to identify the conspiracy theories, and method used to
+ﬁnd bot-like accounts §3. We present our results in §4. Our results (§4) suggest
+that Disbelievers share most conspiracy theory related Tweets. Conspiracy the-
+ory related to chemtrails and geo-engineering is most popular in our dataset.
+However, conspiracy theory related to ﬂat earth is most popular among Believ-
+ers but rather used as a sarcasm. We also ﬁnd that most Disbelievers share only
+one or two diﬀerent conspiracy theories with climate change discussion. Finally,
+we discuss our ﬁndings and their implications in §5.
+
+3 We deﬁne Believers as people who cognitively accept anthropogenic causes of climate
+
+change Disbelievers as those who reject the same.
+
+Climate Change Conspiracy Theories
+
+3
+
+2 Major Conspiracies about Climate Change
+
+Conspiracy theories evolve with time and do not follow logical arguments. This
+section covers the most well-known conspiracy theories related to climate change
+and gives brief backgrounds about each. The list was created based on the au-
+thor’s ﬁndings, and readings of previous work on the same topic [23,20,22,19]4.
+
+1. Deep state: Followers of this conspiracy theory agree that there is a hidden
+government within the legitimately elected government that controls the
+state. Climate change is a hidden agenda of the deep state to further the
+deep’s states motives.
+
+2. Chem Trails: The condensation trails from the jet engines of an aircraft are
+erroneously recognized as consisting of chemical or biological agents. The
+theory posits that these trails are responsible for climate change.
+
+3. Sunspots: Sunspots are a temporary phenomenon of reduced temperature
+on the Sun’s surface [18]. This theory asserts that sunspots and not human
+activity are causing climate change.
+
+4. Directed Energy Weapon (DEW): A human-made weapon that damages its
+target by a highly focussed beam of energy. As per the proponents of this
+theory, the usage of DEWs is causing climate change.
+
+5. Flat Earth: Advocates of this conspiracy theory do not believe that the earth
+is a sphere but rather believe that the earth is a ﬂat disc. Climate is hence
+not governed by the standard scientiﬁc laws, and climate change is a hoax.
+6. Geo Engineering: Enthusiasts of this conspiracy theory believe that govern-
+
+mental experiments cause climate change.
+
+7. Unknown Planet: A ninth planet with a vast orbit and unknown to humanity
+is causing climate change. The eﬀect of the planet will keep on increasing as
+it goes through its perigee.
+
+3 Data Collection and Method
+
+In this section, we ﬁrst describe our data collection in §3.1. Second, in §3.2, we
+describe our method to ﬁnd climate change belief stance and the keywords used
+to ﬁnd conspiracy theory related Tweets.
+
+3.1 Data Collection
+
+We collected tweets using Twitter’s standard API5 with keywords “Climate
+Change”, “#ActOnClimate”, “#ClimateChange”. Our dataset was collected be-
+tween August 26th, 2017 to September 14th, 2019. Due to server errors, the col-
+lection was paused from April 7th, 2018 to May 21st, 2018, and again from May
+12th, 2019 to May 16th, 2019. We ignore these periods in our analysis. After
+deduplicating tweets, our dataset consisted of 38M unique tweets and retweets
+from 7M unique users.
+
+4 List of example tweets can be found at https://github.com/amantyag/Climate_
+
+Change_Conpiracies/
+
+5 https://developer.Twitter.com/en/docs/tweets/search/overview/standard
+
+4
+
+Tyagi and Carley
+
+3.2 Method
+
+This section will ﬁrst discuss the stance detection method used to identify cli-
+mate change Believers and Disbelievers. Then, the keywords used to identify
+conspiracy related Tweets.
+
+Stance Detection: Labeling each user as a climate change Believer or a Dis-
+believer is a non-trivial task. The broader ﬁeld of labeling users based on the
+position the user takes on a particular topic is called stance mining [16]. We
+use state-of-the-art stance mining method which uses weak supervision to ﬁnd
+Believers and Disbelievers [15]. The model uses text signals from Tweets along
+with retweet and hashtag network features using a co-training approach with la-
+bel propagation [24] and text classiﬁcation. A set of seed hashtags are provided
+as a pro and anti stance signals to the model. The model then labels seed users
+based on the usage of these seed hashtags at the end of the tweet (endtags).
+The labeled and unlabeled users are then taken as input to the co-training algo-
+rithm. In each step, a combined user-retweet and user-hashtag network is used
+to propagate labels to unlabelled users. Concurrently, the text classiﬁer uses the
+seed user’s tweets to train an SVM [11] based text classiﬁer to predict unlabeled
+users. A common set from text classiﬁcation and label propagation of highly
+conﬁdent labels are then used as seed labels for the next iteration. The ﬁnal
+classiﬁcation is based on the prediction of the joint model using the combined
+conﬁdence scores.6 The model has been shown to be above 80% accurate with
+multiple datasets.
+
+We select hashtag #ClimateHoax and #ClimateChangeIsNotReal as Disbe-
+liever seed hashtags and #ClimateChangeIsReal and #SavetheEarth as Believer
+seed hashtags. Hashtags ClimateHoax has been shown to be used mostly by
+Disbelivers [20,21]. We found similar results on using other Disbeliever hashtags
+reported in [20,21]. We use ClimateChangeIsReal and SavetheEarth as Believer
+hashtags because of their semantics. Out of the 7M users, we classiﬁed 3.1M as
+disbelievers and 3.9M as believers 7.
+
+Conspiracy Keywords: We use the following keywords to identify if a Tweet is
+a conspiracy related Tweet.
+
+1. Deep state: club of rome, clubofrome, clubrome, pizzagate, lizard people,
+
+lizardpeople, illuminati, deepstate, deep state, qanon
+
+2. Chem Trails: chemtrail, chem trail
+3. Sunspots: sunspot
+
+6 We use the parameter values as deﬁned in [15] as {k = 5000, p = 5000, θI = 0.1,
+
+θU = 0.0, θT = 0.7}.
+
+7 We randomly sampled 1000 users from each group to manually validate the results.
+We label a user as Disbeliever if we ﬁnd any Tweet akin to someone who does
+not believe in climate change or anthropogenic cause of climate change. Otherwise,
+we label the user as Believer. We observe that the average precision from manual
+validation of 2000 users is 81.2%.
+
+Climate Change Conspiracy Theories
+
+5
+
+4. Directed Energy Weapon: dew, directed energy weapon, directedenergy
+5. Flat Earth: ﬂat earth, ﬂatearth
+6. Geo Engineering: geo engineering, geoengineering, weather modiﬁcation, weath-
+
+ermodiﬁcation
+
+7. Unknown Planet: planet x, niburu
+
+Bot Detection: We label an account as bot-like or not using CMU’s Bot-Hunter
+[2,3]. Bot-Hunter’s output is a probability measure of bot-like behavior assigned
+to each account.
+
+4 Results
+
+Climate change Disbelievers share more conspiracy related Tweets than climate
+change Believers. We ﬁnd that the number of Tweets and Retweets shared by
+climate change Believers (4830 and 3576) and Disbelievers (31084 and 14369) are
+an order of magnitude diﬀerent. Disbelievers overwhelmingly share Tweets re-
+lated to conspiracy theories. Interestingly, for both the groups, conspiracy theory
+related Tweets are Tweeted more than Retweeted. This behavior is contrary to
+the ﬁndings of most studies on Twitter which conclude that users prefer Retweet-
+ing to Tweeting [5]. More Tweeting activity than Retweet activity suggests that
+although conspiracy related Tweets can be found in climate change discussion,
+not many users are re-sharing the message.
+
+Once we know that Disbelievers are predominantly sharing the conspiracy
+theory related Tweets, next, we ﬁnd which conspiracy theory is most popular.
+We break down the Tweets/Retweets with the respective type of conspiracy
+theory in ﬁgure 1. As expected, Disbelievers are sharing conspiracy theories
+more than Believers. The most popular conspiracy theory among Disbelievers is
+Geo-engineering and Chemtrails related conspiracy theory. On the other hand,
+Believers are sharing Flat Earth conspiracy theory more than other conspiracies.
+A manual analysis of 100 randomly selected Tweets show that the Flat Earth
+conspiracy theory is used as a sarcastic comment or to make fun of the other
+group. We provide further evidence by ﬁnding the average sentiment towards
+conspiracy related keywords 8. Figure 1 reports the average sentiment in Tweets
+towards conspiracy theory related words. Flat Earth conspiracy theory stands
+out with negative sentiment, more so when shared by Disbelievers. In other
+words, irrespective of beliefs about climate change, the Flat Earth conspiracy
+theory is viewed negatively. Interestingly, Believers have a higher positive sen-
+timent towards ChemTrails and Geo-Engineering conspiracy theories compared
+to Disbelievers. We suspect that this could be attributed to Believers explaining
+the actualities of these theories. More robust sentiment analysis with a labeled
+
+8 To ﬁnd sentiment towards keywords, we utilize Netmapper [10] which uses a word-
+level sentiment computation based on the average of known valences of surrounding
+words within a sliding window. The output values are between -1 and 1, where neg-
+ative value represents a negative sentiment, and a positive value represents positive
+sentiment.
+
+6
+
+Tyagi and Carley
+
+dataset is needed to draw detailed sentiment level conclusions; such analysis is
+out of scope for this work.
+
+Fig. 1. Number of unique Tweets and Retweets shared by Disbelievers and Believers
+containing diﬀerent conspiracy theory related keywords deﬁned in §3.2 (left).Average
+sentiment score towards the keywords related to diﬀerent conspiracy theories. A nega-
+tive value means a negative sentiment and a positive value means a positive sentiment
+towards the conspiracy keywords (right).
+
+After analyzing the origin of diﬀerent conspiracy theories, next, we look at
+the correlation of diﬀerent conspiracy theories shared by each user. In table 1,
+we report the correlation between two diﬀerent conspiracy theories by ﬁnding
+the number of times diﬀerent conspiracy keyword is used by each user. We ﬁnd
+that most conspiracies are highly correlated with each other, indicating that
+users who Tweet about one conspiracy also tweet about other conspiracies. The
+Chemtrails and Unknown Planet conspiracies are least likely to be Tweeted
+by a user who tweets other conspiracy theories. To further gain insight into
+the sharing pattern, in ﬁgure 2 we report the number of users sharing unique
+conspiracy theories. Even on a log scale, we see a steep decline in the number of
+Believers and Disbelievers sharing diﬀerent types of conspiracy theories.
+
+Next, we ﬁnd whether or not the same Tweet has more than one conspiracy
+discussed. In table 2, we report the correlation between two diﬀerent conspiracy
+theories by ﬁnding the number of times diﬀerent conspiracy keyword occurs in
+the same Tweet. We notice in table 2 that there is a weak negative or close to zero
+correlation between all the keywords belonging to diﬀerent conspiracy theories.
+Twitter users prefer using conspiracy theory keywords independent of using other
+conspiracy theory keywords in a Tweet. Moreover, conspiracy theories related
+to Flat Earth and Geo Engineering are most negatively correlated (-0.338). In
+other words, Twitter users using keywords related to Flat Earth do not use
+keywords related to Geo Engineering in the same Tweet. Thus, we conclude
+that most users share one or two types of conspiracy theory and most Tweets
+have keywords related to one type of conspiracy. Moreover, this behavior does
+not diﬀer from a change in climate change belief.
+
+Lastly, we look at whether bot-like accounts drive the conspiracy theory re-
+lated discussion. We ﬁnd that even at 0.7 probability cutoﬀ, about a quarter
+of all users exhibit bot-like characteristics. We also ﬁnd that there is not much
+
+Climate Change Conspiracy Theories
+
+7
+
+Table 1. Correlation matrix of conspiracy theories related keywords used by diﬀerent
+users. We ﬁnd the correlation between two diﬀerent conspiracy theories by calculating
+the number of respective keywords used by each user.
+
+Deep
+State
+
+Chem
+Trails
+
+Sunspots
+
+Directed
+Energy
+Weapons
+
+Flat
+Earth
+
+Geo
+Engineering
+
+Planet
+X
+
+Deep State 1.000 0.360
+Chem Trails 0.360 1.000
+Sunspots
+0.713 0.195
+Directed
+Energy
+Weapons
+Flat Earth
+Geo
+Engineering
+Planet X
+
+0.953 0.333
+
+0.958 0.321
+
+0.161 0.041
+
+0.892 0.361
+
+0.713
+0.195
+1.000
+
+0.953 0.958
+0.333 0.321
+0.751 0.740
+
+0.892 0.161
+0.361 0.041
+0.676 0.156
+
+0.751
+
+1.000 0.982
+
+0.903 0.202
+
+0.740
+
+0.676
+
+0.156
+
+0.982 1.000
+
+0.915 0.231
+
+0.903 0.915
+
+1.000 0.184
+
+0.202 0.231
+
+0.184 1.000
+
+Table 2. Correlation matrix of conspiracy theories related keywords occurring in a
+single Tweet. We ﬁnd the correlation between two diﬀerent conspiracy theories by
+calculating the number of respective keywords used in each Tweet.
+
+Deep
+State
+
+Chem
+Trails
+
+Sunspots
+
+Directed
+Energy
+Weapons
+
+Flat
+Earth
+
+Geo
+Engineering
+
+Planet
+X
+
+Deep State
+1.000 -0.179
+Chem Trails -0.179 1.000
+Sunspots
+-0.056 -0.114
+Directed
+Energy
+Weapons
+Flat Earth
+Geo
+Engineering
+Planet X
+
+-0.151 -0.309
+
+-0.106 -0.218
+
+-0.010 -0.021
+
+-0.190 -0.284
+
+-0.056
+-0.114
+1.000
+
+-0.106 -0.151
+-0.218 -0.309
+-0.065 -0.096
+
+-0.190 -0.010
+-0.284 -0.021
+-0.119 -0.006
+
+-0.065
+
+1.000 -0.183
+
+-0.227 -0.012
+
+-0.096
+
+-0.183
+
+1.000
+
+-0.338 -0.017
+
+-0.119
+
+-0.227 -0.338
+
+1.000 -0.022
+
+-0.006
+
+-0.012 -0.017
+
+-0.022 1.000
+
+diﬀerence in the activity between Disbelievers and Believers. Moreover, we ﬁnd
+that most bots (∼88%) share only one type of conspiracy theory. This conclusion
+is similar to the results described in ﬁgure 2, where we report the distribution
+without separating bot-like accounts. Moreover, bot-like accounts also show a
+similar pattern with regards to sharing the type of conspiracy theories. Bot-like
+accounts showing behavior akin to Disbelievers share more conspiracy theories
+related to Geo-engineering and Chem Trails. On the other hand, bot-like ac-
+counts showing behavior akin to Believers share more conspiracy theories with
+Flat Earth related keywords.
+
+5 Discussion
+
+Understanding people’s underlying beliefs helps understand the constructs by
+which people could be attracted or repelled by diﬀerent messaging. People be-
+lieving in conspiracy theories are more likely to believe that a conspiracy theory
+is a possible explanation of climate change [22]. Hence, conspiracy theories could
+be used as a potential recruitment tool by Disbeliever lobbyists. Celebrities and
+politicians have been vocal about their criticism of science, even using conspiracy
+theories as possible explanations for climate change [22]. These reasons make the
+study of conspiracy theories in the climate change context even more relevant.
+Conspiracy theories are a means for people to justify the actions of a powerful
+entity or a person, mostly when those actions are not relatable [8,9]. [22] argue
+
+8
+
+Tyagi and Carley
+
+Fig. 2. Distribution of Disbeliever and Believer users (in log scale) sharing unique
+conspiracy theories.
+
+that the inﬂuence of elites interacting with the masses predispositions explains
+conspiracy thinking and why there is a partisan divide in such thinking. More-
+over, President Donald Trump’s election has further enhanced this eﬀect and
+could potentially lead to mass radicalization [1]. Conspiracy belief is thus linked
+to people’s justiﬁcation of predisposed climate change belief. Future research on
+conspiracy theories warrants these explanations to be looked at from the lens of
+psychology and social science. In this paper, we ﬁnd that climate change Dis-
+believers are more likely to share conspiracy theories. The conspiracy theories
+range from deep state conspiracy theory, which portrays climate change as an
+agenda of individual actors or deep state to possible explanatory theories such
+as sunspots and chemtrails. Future research should look at these theories from
+the lens of explanatory or motivated by partisanship.
+
+Conspiracy theories are a real threat to eﬀective climate change messaging.
+Climate change messaging should not indiscriminate all conspiracy theories but
+tackle the popular ones and alienate the unpopular ones. Climate change commu-
+nication research should look to evolve messaging in ways that take into account
+diﬀerent beliefs. Conspiratorial thinking and reasoning to justify climate change
+will dampen the global eﬀort to decrease climate change eﬀects. In this paper,
+we show that most people sharing conspiracies in the context of climate change
+only share one or two types of conspiracies. The most popular conspiracy theo-
+ries are related to Chem Trails or Geo-Engineering. Policymakers should focus
+on delivering targeted messages to Disbelievers about the scientiﬁc practicalities
+of these conspiracies. Moreover, climate change Believers using Flat Earth con-
+spiracy theory to target Disbelievers or their belief does not help clear scientiﬁc
+facts. Our results suggest that Flat Earth conspiracy theory is not the most
+popular conspiracy theory among Disbelievers.
+
+Previous studies have concluded that Bot-like accounts stir conversations in
+diﬀerently politically aligned belief groups rather than concentrating on conver-
+sations in one belief group [20,4]. In this study, we further provide evidence that
+Bot-like accounts were similarly active in sharing conspiracy related messages
+irrespective of whether they showed activity akin to a Disbeliever or a Believer.
+
+Climate Change Conspiracy Theories
+
+9
+
+These bot-like accounts aim at widening the divide between belief groups and
+pose a danger of creating confusion on scientiﬁc facts [4,7,14]. As more and more
+people consume information via social media, it becomes imperative for these
+platforms to identify and remove bot-like accounts.
+
+To the best of our knowledge, this study is the ﬁrst attempt to ﬁnd con-
+spiracy theories in climate change in a large social media dataset. We ﬁnd that
+some conspiracy theories are more popular and used widely to justify climate
+change compared to others. Future psychology and social science scholarship
+should divide conspiratorial thinking into diﬀerent types of conspiracies. This
+will help ﬁnd the underlying constructs and motivations, knowing which helps
+target climate change communication messaging.
+
+Besides the demographic representativeness of the data, there are other lim-
+itations in this analysis. First, although we have many tweets about climate
+change conspiracies, it does not encompass those interactions that do not in-
+clude our collection keywords. Second, we use a proxy of keywords to classify
+Tweets as conspiracy related or not. We do not make an eﬀort to ﬁnd if sarcasm
+or negation is used to call out conspiracies; we leave this to future scholarship.
+Last, we focused on the conspiracy theories recorded in media or found during
+our search. Many more conspiracy theories could be widespread in the climate
+change debate. Nevertheless, we believe that we were able to analyze the main
+conspiracy theories more widely popular among general Twitter users.
+
+References
+
+1. ALLAM, H.: Right-wing embrace of conspiracy is ’mass radicalization,’ experts
+
+warn. NPR (2020)
+
+2. Beskow, D., Carley, K.M., Bisgin, H., Hyder, A., Dancy, C., Thomson, R.: Intro-
+ducing bothunter: A tiered approach to detection and characterizing automated
+activity on twitter. In: International Conference on Social Computing, Behavioral-
+Cultural Modeling and Prediction and Behavior Representation in Modeling and
+Simulation. Springer (2018)
+
+3. Beskow, D.M., Carley, K.M.: You are known by your friends: Leveraging network
+metrics for bot detection in twitter. In: Open Source Intelligence and Cyber Crime,
+pp. 53–88. Springer (2020)
+
+4. Bessi, A., Ferrara, E.: Social bots distort the 2016 us presidential election online
+
+discussion. First Monday 21(11-7) (2016)
+
+5. Boyd, D., Golder, S., Lotan, G.: Tweet, tweet, retweet: Conversational aspects of
+retweeting on twitter. In: 2010 43rd Hawaii international conference on system
+sciences. pp. 1–10. IEEE (2010)
+
+6. Boykoﬀ, M.T., Boykoﬀ, J.M.: Balance as bias: Global warming and the us prestige
+
+press. Global environmental change 14(2), 125–136 (2004)
+
+7. Broniatowski, D.A., Jamison, A.M., Qi, S., AlKulaib, L., Chen, T., Benton, A.,
+Quinn, S.C., Dredze, M.: Weaponized health communication: Twitter bots and rus-
+sian trolls amplify the vaccine debate. American journal of public health 108(10),
+1378–1384 (2018)
+
+8. Brotherton, R.: Suspicious minds: Why we believe conspiracy theories. Bloomsbury
+
+Publishing (2015)
+
+10
+
+Tyagi and Carley
+
+9. Brotherton, R., French, C.C., Pickering, A.D.: Measuring belief in conspiracy the-
+ories: The generic conspiracist beliefs scale. Frontiers in psychology 4, 279 (2013)
+10. Carley, L.R., Reminga, J., Carley, K.M.: ORA & Netmapper. In: International
+Conference on Social Computing, Behavioral-Cultural Modeling and Prediction
+and Behavior Representation in Modeling and Simulation. Springer (2018)
+
+11. Cortes, C., Vapnik, V.: Support-vector networks. Machine learning 20(3), 273–297
+
+(1995)
+
+12. Doran, P.T., Zimmerman, M.K.: Examining the scientiﬁc consensus on climate
+change. Eos, Transactions American Geophysical Union 90(3), 22–23 (2009)
+13. Dunlap, R.E., McCright, A.M., Yarosh, J.H.: The political divide on climate
+change: Partisan polarization widens in the US. Environment: Science and Pol-
+icy for Sustainable Development 58(5), 4–23 (2016)
+
+14. Ferrara, E., Varol, O., Davis, C., Menczer, F., Flammini, A.: The rise of social
+
+bots. Communications of the ACM 59(7), 96–104 (2016)
+
+15. Kumar, S.: Social Media Analytics for Stance Mining A Multi-Modal Approach
+
+with Weak Supervision. Ph.D. thesis, Carnegie Mellon University (2020)
+
+16. Mohammad, S.M., Sobhani, P., Kiritchenko, S.: Stance and sentiment in tweets.
+
+ACM Transactions on Internet Technology (TOIT) 17(3), 1–23 (2017)
+
+17. Painter, J., Gavin, N.T.: Climate skepticism in british newspapers, 2007–2011.
+
+Environmental Communication 10(4), 432–452 (2016)
+
+A.:
+
+Challenges
+
+18. Ruzmaikin, A.: Origin of sunspots. Space Science Reviews 95(1-2), 43–53 (2001)
+Communication
+19. Tyagi,
+on
+University
+(2021),
+https://search.proquest.com/dissertations-theses/
+challenges-climate-change-communication-on-social/docview/2504529667/
+se-2?accountid=9902
+
+Change
+Carnegie Mellon
+
+Social Media.
+
+Climate
+
+thesis,
+
+Ph.D.
+
+in
+
+20. Tyagi, A., Babcock, M., Carley, K.M., Sicker, D.C.: Polarizing tweets on climate
+change. In: Halil Bisgin, A.H., Dancy, C., , Thomson, R. (eds.) To appear Inter-
+national Conference SBP-BRiMS. Springer (2020)
+
+21. Tyagi, A., Uyheng, J., Carley, K.M.: Aﬀective polarization in online climate change
+discourse on twitter. In: International Conference on Advances in Social Network
+Analysis and Mining. IEEE/ACM, Virtual Conference (2020)
+
+22. Uscinski, J.E., Douglas, K., Lewandowsky, S.: Climate change conspiracy theories.
+In: Oxford Research Encyclopedia of Climate Science. Oxford University Press
+(2017)
+
+23. Wikipedia contributors: Wikipedia, the free encyclopedia (2020), https://
+[Online; accessed 22-
+
+en.wikipedia.org/wiki/List_of_conspiracy_theories,
+October-2020]
+
+24. Zhu, X., Ghahramani, Z.: Learning from labeled and unlabeled data with label
+propagation. Technical Report CMU-CALD-02-107, Carnegie Mellon University
+(2002)
+
+

@@ -1,0 +1,1381 @@
+YouNICon: YouTube’s CommuNIty of Conspiracy Videos
+
+Liaw Shao Yi1, Fan Huang2, Fabricio Benevenuto3, Haewoon Kwak2, Jisun An2
+1School of Computing and Information Systems, Singapore Management University, Singapore
+2Luddy School of Informatics, Computing, and Engineering, Indiana University Bloomington, USA
+3Federal University of Minas Gerais Belo Horizonte, Brazil
+shaoyi.liaw.2022@phdcs.smu.edu.sg, huangfan@acm.org, fabricio@dcc.ufmg.br, haewoon@acm.org, jisunan@acm.org
+
+3
+2
+0
+2
+
+r
+p
+A
+1
+1
+
+]
+
+Y
+C
+.
+s
+c
+[
+
+1
+v
+4
+7
+2
+5
+0
+.
+4
+0
+3
+2
+:
+v
+i
+X
+r
+a
+
+Abstract
+
+Conspiracy theories are widely propagated on social me-
+dia. Among various social media services, YouTube is one
+of the most inﬂuential sources of news and entertainment.
+This paper seeks to develop a dataset, YOUNICON, to en-
+able researchers to perform conspiracy theory detection as
+well as classiﬁcation of videos with conspiracy theories into
+different topics. YOUNICON is a dataset with a large col-
+lection of videos from suspicious channels that were identi-
+ﬁed to contain conspiracy theories in a previous study (Led-
+wich and Zaitsev 2020). Overall, YOUNICON will enable re-
+searchers to study trends in conspiracy theories and under-
+stand how individuals can interact with the conspiracy theory
+producing community or channel. Our data is available at:
+https://doi.org/10.5281/zenodo.7466262.
+
+Introduction
+Conspiracy theories are nothing new in human history.
+Scholarly research on conspiracy theories began in the 1930s
+(Butter and Knight 2018), and it has been a ﬁeld that is
+highly multidisciplinary and diverse (Mahl, Sch¨afer, and
+Zeng 2022). Various researchers have proposed deﬁnitions
+for conspiracy theories. Keeley (1999) deﬁnes conspiracy
+theory as “a proposed explanation of some historical event
+(or events) in terms of the signiﬁcant causal agency of a rel-
+atively small group of persons–the conspirators—acting in
+secret.” A more general deﬁnition of conspiracy theory is
+provided by Wood, Douglas, and Sutton (2012) as “a pro-
+posed plot by powerful people or organizations working to-
+gether in secret to accomplish some (usually sinister) goal.”
+Conspiracy is sometimes considered a form of misinfor-
+mation. Misinformation is commonly deﬁned as “false or
+inaccurate information that ... spread regardless of an inten-
+tion to deceive. (Tomlein et al. 2021)” This suggests that any
+malicious intent of the content creator is not a necessary con-
+dition of misinformation, but incorrectness of information
+is. Thus, there is a stark difference between conspiracy and
+misinformation; the intent of powerful people (or organiza-
+tions) is crucial for the deﬁnition of conspiracy. This differ-
+ence proves the need for in-depth research on conspiracies
+that should be differentiated from those on misinformation.
+
+Copyright © 2023, Association for the Advancement of Artiﬁcial
+Intelligence (www.aaai.org). All rights reserved.
+
+A belief in conspiracy often correlates with anomia, lack
+of interpersonal trust, and having political beliefs at extreme
+ends of the political spectrum (especially on the right-hand
+extreme) (Goertzel 1994; Sutton and Douglas 2020). Con-
+spiracy theories, in contrast to non-conspiracy views, tend to
+be more attractive as they satisfy one’s epistemic (e.g., the
+desire for understanding, accuracy, and subjective certainty),
+existential (e.g., the desire for control and security), and so-
+cial desires (e.g., the desire to maintain a positive image of
+the self or group) (Douglas, Sutton, and Cichocka 2017).
+This results in undesirable outcomes like decreased insti-
+tutional trust and social engagement, political disengage-
+ment, prejudice, environmental inaction, and an increased
+tendency towards everyday crime (Pummerer et al. 2022;
+Douglas, Sutton, and Cichocka 2017; Jolley et al. 2019).
+Additionally, conspiracy theories can form a worldview in
+which believers of a type of conspiracy tend to approve of
+other conspiracies as well (Wood, Douglas, and Sutton 2012;
+Dagnall et al. 2015). Polls have also shown that “everyone
+believes in at least one or a few conspiracy theories (Uscin-
+ski 2020)”. Hence, a holistic understanding of conspiracy
+theories cannot be achieved in isolation from a speciﬁc type
+of conspiracy.
+
+In today’s context, conspiracy theories are widely propa-
+gated on social media (Enders et al. 2021; Mahl, Zeng, and
+Sch¨afer 2021). Conspiracy narratives are nourished by in-
+formation cascades on social media and reach a larger au-
+dience (Monaci 2021). Consequently, these false narratives
+tend to outperform real news in terms of popularity and audi-
+ence engagement within online environments (Coninck et al.
+2021; Vosoughi, Roy, and Aral 2018). Enders et al. (2021)
+show that usage of 4chan/8kun has the highest correlation
+with the number of conspiracy beliefs, followed by Reddit,
+Twitter, and YouTube.
+
+Among the social media services, YouTube is one of the
+most inﬂuential sources of news and entertainment (Cen-
+ter 2012). It has 2,562 million monthly active users, and it
+is the second most popular social network worldwide as of
+January 2022 (Statista 2022), contributing to a billion hours
+of video viewed daily (Goodrow 2017). Audit studies show
+that video recommendations on YouTube can lead to the for-
+mation of ﬁlter bubbles on misinformation topics (Hussein,
+Juneja, and Mitra 2020). Similarly, exposure to conspiracy
+videos might result in undesirable outcomes. For example,
+
+ 
+ 
+ 
+ 
+ 
+ 
+the belief that the 5G cellular network caused COVID-19
+has resulted in more than 200 reports of attacks against tele-
+com workers in the United Kingdom (Vincent 2020). The
+belief in white genocide conspiracies resulted in the death
+of 51 individuals in New Zealand (Commission et al. 2020).
+The belief in conspiracy theories is no doubt an issue of con-
+cern. However, most existing research focuses only on spe-
+ciﬁc types of conspiracy theories, and not all datasets are
+available for research communities.
+
+In this work, we build YOUNICON, a curated dataset of
+YouTube videos from channels identiﬁed as producing con-
+spiracy content by Recﬂuence (Ledwich and Zaitsev 2020).
+We aim to help researchers to study the patterns of produc-
+tion and consumption of conspiracy videos, such as how
+individuals interact with those videos from an aggregated
+(video) or individual level (comments)1.
+
+YOUNICON comprises the following information:
+
+• Metadata of all 596,967 videos from 1,912 channels that
+produced conspiracy identiﬁed by Recﬂuence (Ledwich
+and Zaitsev 2020)
+
+• A list of 3,161 videos manually labeled as being about
+
+conspiracy or not
+
+• 37,199,252 comment IDs of comments in all videos with
+basic metadata and scores from the Perspective API1
+• 100 videos manually labeled for the type of conspiracy.
+YOUNICON will be a valuable resource for studying
+YouTube as a medium of conspiracy theory production and
+consumption. The contributions of this paper are as follows:
+• Curate a large-scale dataset of videos with conspiracy
+
+content (https://doi.org/10.5281/zenodo.7466262)
+
+• Perform exploratory analyses on the dataset to under-
+
+stand its key properties
+
+• Discuss potential uses for the dataset
+
+Related Work and Datasets
+
+Conspiracy Detection
+Table 1 highlights several existing datasets that have been
+used for conspiracy theory detection research. Existing lit-
+erature often focuses on misinformation (Lin et al. 2019;
+Kumar et al. 2020) or speciﬁc conspiracy theories related
+to COVID-19, alien visitation, anti-vaccination, white geno-
+cide, climate change, or Jeffery Epstein (Mofﬁtt, King, and
+Carley 2021; Marcellino et al. 2021; Phillips, Ng, and Carley
+2022). Most works focus mainly on Tweets as the unit of the
+study (Mofﬁtt, King, and Carley 2021; Galende et al. 2022;
+Phillips, Ng, and Carley 2022; Mahl, Zeng, and Sch¨afer
+2021). For example, Galende et al. (2022) study Tweets ex-
+plicitly containing the word “conspiracy.” Phillips, Ng, and
+Carley (2022) have compiled a dataset consisting of four
+types of conspiracy, namely climate change, COVID-19 ori-
+gins, COVID-19 vaccine, Epstein Maxwell. Mofﬁtt, King,
+and Carley (2021) study COVID-19-related conspiracies by
+training a BERT-based classiﬁer to distinguish conspiracy
+Tweets.
+
+1The comment text and real author names are not shared to pro-
+tect the identity of the commenter. The actual comment text can be
+rehydrated using YouTube Data API.
+
+Conspiracy Taxonomy
+Mahl, Zeng, and Sch¨afer (2021) used network analysis of
+co-occurring hashtags in Tweets to assign hashtags into topic
+groups qualitatively based on their thematic relationship.
+This resulted in the 10 most visible conspiracies, which
+include Agenda 21, Anti-Vaccination, Chemtrails, Climate
+Change Denial, Directed Energy Weapons, Flat Earth, Illu-
+minati, Pizzagate, Reptilians, and 9/11 Conspiracies. While
+co-occurring patterns of hashtags reveal a partial taxon-
+omy of conspiracy, a more comprehensive one is found on
+Wikipedia.
+
+On Wikipedia, a list of conspiracy theories is constantly
+being updated (Wikipedia contributors 2022). Upon closer
+inspection of the list of conspiracy topics from Wikipedia,
+we found that it covers well the conspiracies in Mahl, Zeng,
+and Sch¨afer (2021) (see Table 3 for details). Hence, we will
+use the taxonomy of Wikipedia for YOUNICON.
+
+Data Collection
+On YouTube, interactions between content creators and con-
+sumers occur as follows: a content creator posts a video
+with a title, description, and tags. A content consumer views,
+likes, or comments on a video. A “view” represents a play-
+back of a video, a “like” is positive feedback to the video by
+users, and a “comment” is the way in which online collective
+debates grow around the video (Bessi et al. 2016; YouTube
+2022). A comment can be a reply to a video (a top-level
+comment) or a reply to other comments.
+
+YouTube Channels about Conspiracy
+Ledwich and Zaitsev (2020) curated a list of US-based po-
+litical channels in the Recﬂuece project. They classify each
+channel based on its political leaning, channel type (e.g.,
+mainstream news, AltRight, etc), and topical category (e.g.,
+conspiracy, libertarian, organized religion, LGBT, etc).
+
+We downloaded an entire list of YouTube channels from
+Recﬂuence on 25 February 2022 and extracted only chan-
+nels with the “conspiracy” label. We then used the YouTube
+Data API2 to collect the basic information about these chan-
+nels. Out of the 2365 channels with the “conspiracy” label,
+1912 channels were accessible by the YouTube API. The
+rest of the channels were deleted from YouTube and thus ex-
+cluded from the following analysis. While Recﬂuence pro-
+vides a quite extensive list of US-based political channels,
+the resulting list could be improved with more channels.
+However, all the pipelines used in this work will still be
+valid.
+
+Video Metadata
+In contrast
+to Recﬂuence (Ledwich and Zaitsev 2020)
+that provide channel-level conspiracy information, YOUNI-
+CON focuses on video-level conspiracy. For the extracted
+conspiracy-related channels from Recﬂuence, we collect the
+metadata of every video published on those channels. The
+metadata includes the title, description, tags, number of
+likes, number of views, duration, and published date. We
+
+2https://developers.google.com/youtube/v3
+
+Table 1: Related Datasets for Conspiracy Detection
+
+Dataset
+
+Description
+
+Labels
+
+Recﬂuence (Ledwich
+and Zaitsev 2020)
+
+Political inclination of YouTube channels
+and tags to characterize channel.
+
+7,085 channels with 2,365
+of the channels with the tag
+conspiracy
+
+theory
+Conspiracy
+videos
+(Faddoul,
+Chaslot, and Farid
+2020)
+
+YouTube Video Dataset of Conspiracy
+Theory Videos from YouTube’s Watch
+Next engine
+
+Conspiracy (542) and non-
+conspiracy (568) in training
+set
+
+Conspiracy
+theory
+Tweets and videos
+(Ginossar et al. 2022)
+
+Cross-platform dataset which includes
+YouTube videos from Tweets related to
+COVID-19 and vaccines
+
+930,539 Tweets and 1,280
+YouTube conspiracy theory
+videos with transcripts
+
+Annotation Method
+
+Agreement between
+3 labelers
+
+Conspiracy Videos
+from a Book (Jack-
+son 2017) or Reddit
+and non-conspiracy
+videos from random
+scraping
+
+Not applicable
+
+Twitter conversations
+conspiracy (Galende
+et al. 2022)
+
+Twitter conversations dataset of conversa-
+tions with more than 1000 Tweets that con-
+tain the word “conspiracy”.
+
+More than 4,500 conversa-
+tions
+
+Semi-automatic
+
+Hoaxes and Hidden
+agendas
+(Phillips,
+Ng, and Carley 2022)
+
+Tweets from 4 Topics: climate change,
+COVID origins, COVID vaccine, and Ep-
+stein.
+
+3,100 annotated instances.
+Conspiracy (2,336) and non-
+conspiracy (764)
+
+Agreement between
+3 labelers.
+
+CMU-MisCOV19
+(Memon and Carley
+2020)
+
+Mofﬁtt, King,
+Carley (2021)
+
+and
+
+Tweets related to COVID-19 misinforma-
+labels which in-
+tion with 17 different
+clude topics like Irrelevant, Conspiracy,
+True Treatment, Politics, Commercial Ac-
+tivity, etc.
+
+4,573
+Conspiracy (924)
+
+annotated Tweets.
+
+Annotation class de-
+termined by 1 single
+annotator.
+
+Extension of the dataset by Memon and
+Carley (2020) using the same procedure,
+then collapsed labels into a binary conspir-
+acy classiﬁcation task.
+
+8,781 labeled Tweets 4,573
+Tweets from Memon and
+Carley (2020) and 4,208
+new labeled tweets.
+
+Manually labeled by
+research assistants.
+
+collect these metadata for 1,049,413 videos in total. To get a
+better sense of the content that was presented in the videos,
+we also collect transcripts or subtitles of the videos using
+a PyPI package, youtube-transcript-api3. We only consider
+those videos with English transcripts, which are 761,565
+videos in total.
+
+We further ﬁlter out non-English videos by detecting the
+language of the videos based on their titles, which often
+summarizes the gist of the video. In particular, we use the
+Fasttext language identiﬁcation model (Joulin et al. 2016),
+which can recognize 176 languages, with a threshold of
+0.5 to determine the language with the highest probability
+for a video. Between the two Fasttext language identiﬁca-
+tion models, we used the larger and more accurate one (i.e.,
+lid.176.bin). As a rule of thumb, channels with less than 80
+percent of their videos that are in English are excluded from
+the rest of the analysis.
+
+For all textual metadata, we apply common preprocess-
+ing techniques (e.g., remove emojis, URLs, punctuation, and
+numbers, and convert them to lowercase). Then, we ﬁlter out
+videos that do not have all the metadata. This results in a col-
+lection of 596,967 videos with all metadata, which are title,
+
+description, tag, and transcript.
+
+Additionally, we collect top-level comments as a part of
+the video’s features. We ﬁlter out comments’ authors if 1)
+their comments detected as English are less than 80%, or 2)
+they leave only one comment. We also eliminate the top-
+level comments written by the same video creator to fo-
+cus on the behavior of the viewers. As a result, we obtain
+37,199,252 comments. For these comments, we use the Per-
+spective API to perform scoring for toxicity, identity attack,
+and threat4.
+
+Dataset Construction
+
+Figure 1 is a ﬂowchart that summarises the dataset construc-
+tion proposed in this paper. The following sections will ex-
+plain the proposed method in detail. Table 2 summarises the
+variables available in the YOUNICON.
+
+Video Labeling
+
+The procedure of manual annotation is done in accordance
+with the Institutional Review Board (IRB) guidelines under
+
+3https://github.com/jdepoix/youtube-transcript-api
+
+4www.perspectiveapi.com
+
+Table 2: Variables and descriptions in the YOUNICON
+dataset
+
+Variable
+
+Description
+All Videos
+
+Tags
+Transcript
+
+YouTube Video ID
+Video id
+ID of the channel that video is from
+Channel ID
+Title
+Title of the video
+Video Description Description of Video Provided by
+content creators
+Tags provided by content creators
+transcript of the video from the
+youtube-transcript-api
+date video is published
+number of views
+number of likes
+number of dislikes
+number of comments
+duration
+content
+YouTube
+duration of videos in seconds
+
+Published date
+Views
+Likes
+Dislikes
+NumComments
+Duration
+Category
+
+DurationSec
+
+provided
+
+category
+
+by
+
+Figure 1: Overview of YOUNICON Construction
+
+the approval number IRB-22-129-A071(922) of Singapore
+Management University.
+
+We use Amazon Mechanical Turk (AMT) for data label-
+ing. Our labeling task, known as Human Intelligence Task
+(HIT) in AMT, asks an AMT worker whether a given video
+contains conspiracy or not. The title, description, tags, and
+the ﬁrst 1,000 characters of the transcript of each video are
+given to AMT workers. We select workers located in the US,
+with a past HIT approval rate of greater than 98% and 5,000
+HITs approved, and compensated them at a rate of 0.05 USD
+per HIT.
+
+For each video, we recruit three workers and determined a
+label based on the majority vote. In contrast to misinforma-
+tion where there is a clear-cut answer, determining whether
+a video contains conspiracy can be more challenging as an
+individual’s political or religious belief might affect their de-
+cision about conspiracy videos. Thus, we follow a majority
+voting scheme for each video’s label.
+
+Labeling is conducted in two stages. In the ﬁrst stage,
+we sample 2,200 videos. After labeling, we ﬁnd that this
+dataset is somewhat imbalanced; only around 20% (436 of
+the videos out of 2,184) contain conspiracy theories. Al-
+though 20% may seem like a relatively large proportion of
+the videos with conspiracy theories, we note that all these
+videos are from the channels that are categorized as ‘con-
+spiracy’ in Recﬂuence (Ledwich and Zaitsev 2020). To make
+
+Comments
+
+Comment Id
+VideoId
+Anon id
+Toxic
+Identity
+
+Threat
+LikeCount
+PublishedAt
+TotalReplyCount
+
+ID of comments
+ID of the video comment is on
+anonymised author’s ID
+Toxic Score from Perspective API
+Identity Attack Score from Perspec-
+tive API
+Threat Score from Perspective API
+number of likes on comment
+publish time of comment
+number of replies to comment
+
+Conspiracy Label
+
+Video id
+Majority label
+
+YouTube Video ID
+1 if the video contains conspiracies
+0 otherwise
+
+YOUNICON a better-balanced dataset of conspiracy and
+non-conspiracy videos, we use Machine Learning models
+to get pseudo-labels ﬁrst. We ﬁnetune the RoBERTa-large
+model by using the sampled videos. We split the data into
+train, validation, and test sets and use the concatenated texts
+as features for the model. This model attained an accuracy
+of 0.74, with a positive F1 of 0.5273 and a negative F1 of
+0.8207. We used this trained model to assign ‘conspiracy’
+or ‘non-conspiracy’ pseudo-labels to all the videos in the
+full dataset. Then, we sample 1,000 videos with ‘conspir-
+acy’ pseudo-labels and manually labeled them in the same
+manner. After these 2 rounds of labeling, we obtain a dataset
+of 3,161 videos (1,144 conspiracy videos (36.2%)). Fleiss’
+Kappa, an extension of Cohen’s kappa, is used to measure
+inter-rater reliability (Fleiss 1971). A score of 0.4111 is cal-
+culated, implying that there is a moderate agreement be-
+tween raters in the dataset (Landis and Koch 1977).
+
+DATA COLLECTION AND PREPROCESSINGList of Channels from Recfluencewith possible conspiracy contentList of Videos Transcripts of videosVideo MetadataPreprocessingTrain-Validation-Test SplitModellingCONSPIRACY DETECTIONTopic ExtractionTopic Keyword ExtractionSubsampling and AMT LabellingTest SetTrain SetValidation SetConspiracy VideosWikiConspiracy ArticlesTopic KeywordsTOPIC CLASSIFICATIONTopic
+
+Aviation
+
+Table 3: Topics of Conspiracy Theories and the corresponding keywords
+
+Description
+
+Representative Keywords
+
+Chemtrails, Air travel and aircraft
+
+Business and Industry
+
+Deep Water Horizon and New Coca-
+cola formula
+
+Deaths and Disappearances Deaths of prominent leaders and public
+ﬁgures
+New World Order, George Soros,
+Freemasonry
+
+Economics and Society
+
+Espionage
+
+Spying with animals or individuals
+
+Ethnicity, Race, and Reli-
+gion
+
+Related to Anti-Religion, Racism,
+Genicides, and Religious Beliefs
+
+Extraterrestrials and UFOs
+Government, Politics, and
+Conﬂict
+
+Alien visitation
+9/11. False Flag operations, Political
+Figures
+
+Medicine
+
+Science and Technology
+
+Outer Space
+
+COVID-19 related, Claims that dis-
+eases like HIV and Ebola is invented,
+anti-vaccination, Water ﬂuoridation
+Global Warming Denial, Flat Earth,
+Weather Control, Technology Surpres-
+sion
+Staged moon landings by NASA,
+Nibiru (doomday belief of large planet
+almost crashing on Earth)
+
+chemtrail, black helicopter, airline, aircraft,
+airlines, remotely, ﬂight, crash
+cocacola, deepwater, coke, formula
+
+jfk, dnc, ﬂee, lookalike, assassination
+
+jesus, antichrist, paul,
+islamic, bah´a’´ı, bible,
+
+masonic, new world order, george soros, turkey,
+freemasonry, ¨ust akıl, mastermind, denver airport,
+economy, freemason, erdo˘gan, rip
+animal, taliban, spy, wilson, malala, harold,
+golitsyn
+rastafari,
+antisemitism,
+apostle,
+catholicism,
+racism, christ, islam, catholic, jihad, bah´a’´ısm,
+armenianism
+ufo, anunnaki, extraterrestrial, alien
+election, congress, trump, marxism,barack,
+clinton, obama, epstein, ukraine, sandy hook,
+biden, clintons, national, crisis actor, fema
+vaccination, ﬂuoridation, vaccine, disease,
+therapy, suppression, virus, pandemic,
+pharmaceutical, virology
+rﬁd, weather, earthquake, weaponry, weather
+control, mkultra, tsunami, haarp, mind control,
+warming, earth, warm, technology, ﬂat
+nibiru, outer space, planet, nasa, solar, space
+
+Topic Classiﬁcation
+
+Going beyond whether a video is about conspiracy or not,
+we also assign a conspiracy topic to a video based on con-
+spiracy taxonomy compiled on Wikipedia (Wikipedia con-
+tributors 2022). In doing so, we ﬁrst parse the text of the
+“List of conspiracy theories” page on Wikipedia (Wikipedia
+contributors 2022). This Wikipedia page contains sum-
+maries of the popular conspiracy theories, which include
+Aviation, Business and Industry, Deaths and Disappear-
+ances, Economics and Society, Espionage, Ethnicity, Race
+and Religion, Extraterrestrials and UFOs, Government, Pol-
+itics and Conﬂict, Medicine, Science and Technology, Outer
+Space and Sports (Table 3). We exclude the category of
+“Sports” because our dataset, based on Recﬂuence (Ledwich
+and Zaitsev 2020), is unlikely to contain Sports-related con-
+spiracies. The topic “Fandom, celebrity relationships, and
+shipping”, a new topic added on 18 May 2022, which is af-
+ter our Wikipedia data collection, is also not included in this
+analysis.
+
+The topic classiﬁcation consists of two stages: 1) key-
+word extraction and 2) topic inference. For keyword extrac-
+tion, we identify representative words of each topic using
+log-odds ratios with informative Dirichlet priors (Monroe,
+Colaresi, and Quinn 2008), which is a widely used tech-
+nique for a large-scale comparative text analysis (An et al.
+
+2021; Kwak, An, and Ahn 2020). It estimates the log-odds
+ratio of each word between two corpora i and j given the
+prior frequencies obtained from a background corpus. We
+rank the words based on their log-odds scores and obtain a
+list of representative words for each of the conspiracy the-
+ories. The background corpus used in this analysis is the
+“google 1-gram” (Michel et al. 2011), extended with the
+counts of the vocabulary used in the “list of conspiracy the-
+ories” Wikipedia page. For each conspiracy topic, we com-
+pare the corpus of one topic against the concatenated cor-
+pus of all other topics. For each topic, we use the top ten
+keywords as the preliminary keywords for topic inference
+(see Table 3 for the list of words extracted). We also add the
+subtopic names listed in Wikipedia to the keywords of each
+topic. We then convert 21 keywords to bigrams or trigrams
+to be more distinguishable (e.g., the keywords new, world,
+and order should be considered as a trigram, not three uni-
+grams) and remove 62 keywords related to countries or loca-
+tions (Malaysia, Wuhan) or those that are generic (January,
+human).
+
+Having the representative keywords for topics at hand,
+we infer the topic of the video by simply using a keyword-
+matching method. We match the keywords in each topic to
+the video’s features by using spaCy’s PhraseMatcher. We as-
+sign a topic by choosing one with the highest frequency of
+
+Table 4: Feature comparisons between conspiracy (C) and
+non-conspiracy (NC) videos. Avg. and Med. are average and
+mean values, respectively.
+
+Feature
+
+Avg.(C) Avg.(NC) Med.(C) Med.(NC)
+
+Duration (s)
+Likes
+Comments
+Views
+
+1,398
+736
+171
+27,245
+
+1,298
+645
+113
+20,021
+
+688
+136
+32
+4,317
+
+638
+72
+14
+2,018
+
+keywords in a video’s features.
+
+Exploratory Data Analysis
+To provide a brief overview of the dataset, we conduct
+an exploratory analysis. We ﬁrst compare the difference
+in engagement of videos with conspiracy theories and
+those without conspiracy theories. Table 4 shows the av-
+erage and median values of various features of conspir-
+acy and non-conspiracy videos. Conspiracy videos have
+longer lengths and get more likes, comments, and views
+than non-conspiracy videos. Conspiracy videos have 736
+likes, 171 comments, and 27,245 views on average, while
+non-conspiracy videos have only 645 likes, 113 comments,
+and 20,021 views. All differences are statistically signiﬁ-
+cant based on the Mann Whitney U test (Mann and Whitney
+1947) for unpaired samples.
+
+Results
+
+Conspiracy Detection
+We use the annotated data of 3,161 videos to build a classi-
+ﬁer that detects whether a video is about conspiracy or not.
+Since our data is slightly unbalanced (1,144 videos are con-
+spiracy), we perform under-sampling to balance the classes
+for the training. For testing, we use the holdout test set sam-
+pled from the initial (ﬁrst-round) 2,200 annotated videos.
+
+As a feature, we use all video’s textual meta information,
+including title, tags, description, and transcript. Since the
+deep learning models can take 512 tokens at maximum (Liu
+et al. 2019), we truncate the video description and transcript,
+using the ﬁrst 200 tokens. The feature input, called com-
+bined, is created by concatenating the ﬁrst 200 tokens or
+words for both the video description and transcript, followed
+by the title and tags.
+
+In order to compare the performance of the models, other
+than simply accuracy, recall, or precision, we use the F1-
+score:
+
+F1 =
+
+2 × Precision × Recall
+Precision + Recall
+
+, which is calculated for both the positive and negative
+classes. To account for class imbalance, F1 weighted, which
+is the F1 score weighted by the support, is also used.
+
+Table 5 summarizes the prediction results of various mod-
+els. Dummy Classiﬁer predicts all videos as negative (or
+non-conspiracy), yielding an accuracy of 0.8, which is the
+same as the proportion of non-conspiracy videos in the test
+set. Traditional machine learning models, including Naive
+
+Bayes, Logistics Regression, and Support Vector Machine
+with Linear Kernel (SVM), are also tested. All three mod-
+els, Naive Bayes, Logistics, and SVM slightly outperform
+the Dummy classiﬁer, obtaining a weighted F1 of 0.7141,
+0.7930, and 0.7863, respectively.
+
+We also explore pre-trained language models, such as
+RoBERTa-large. The training set is further split into 80-20
+train-validation split for ﬁnetuning of the pre-trained model.
+The learning rate of 1e-5 is used with a batch size of 4 with
+random seed 13 for ﬁnetuning. Our results in Table 5 show
+that the pre-trained models result in better performance in
+all metrics but recall, obtaining an accuracy of 0.8575 and
+weighted F1 of 0.8624.
+
+In Table 5, we also show the prediction results based on
+individual features. By comparing the weighted F1 of mod-
+els built based on each feature, we observe that the tags are
+best among the individual features, followed by video de-
+scription, titles, and transcript.
+
+Zero Shot and Few Shot Classiﬁcation
+
+We further conduct experiments to examine if it is possible
+to detect conspiracy theories via zero and few-shot learning.
+Zero and few-shot learning are techniques that aim to make
+predictions for new classes with limited labeled data. We
+test pre-trained Natural Language Inference (NLI) (Bowman
+et al. 2015; Williams, Nangia, and Bowman 2018) and Nat-
+ural Language Generation (NLG) (Lewis et al. 2020; Zhang
+et al. 2022) models on zero and few-shot settings. We use all
+the features of videos as the input for those models.
+
+For the NLG models, we test on both auto-regressive gen-
+eration and sequence to sequence models5. However, we ﬁnd
+that the generated results of zero-shot and most few-shot
+models are simply a repeat of the given text, from which we
+cannot infer the classiﬁcation labels. The model could gen-
+erate clear classiﬁcation indicators (i.e., yes or no in our set-
+ting) only for the few-shot settings with 128 ﬁne-tuning data
+instances. However, it predicts all inputs as non-conspiracy.
+As for the NLI models, we apply the top three most popu-
+lar ﬁne-tuned zero-shot inference models from the Hugging-
+face website6. Considering the NLI is not a binary classiﬁ-
+cation task, we neglect the score of neutral prediction and
+activate the scores of entailment and contradiction predic-
+tions as the ﬁnal binary output. To help the NLI models bet-
+ter understand the objective of detecting the conspiracy from
+short texts, we concatenate the input text with the assump-
+tion statement (i.e., That is a conspiracy.). The model would
+then give out the answer about whether the assumption state-
+ment entails or contradicts the given text. The contradicting
+answer means that the model predicts the given text as non-
+conspiracy. The zero-shot test results are in Table 6. The best
+positive f1-score of 0.57 still does not outperform our pro-
+posed conspiracy detection method. Yet, we demonstrate the
+possibility of those NLI models for the conspiracy detection
+task.
+
+5opt-125m for auto-regressive model and bart-base for the se-
+
+quence to sequence model
+
+6bart-large-mnil, distilbart-mnli-12-1, xlm-roberta-large-xmli
+
+Table 5: Conspiracy detection result of baselines and RoBERTa-based model (R) with different features
+
+Model
+
+accuracy
+
+recall
+
+precision
+
+F1 weighted
+
+F1 negative
+
+F1 positive
+
+Dummy Classiﬁer
+Na¨ıve Bayes
+Logistics
+SVM Linear
+
+combined (R)
+transcript (R)
+video description (R)
+Title (R)
+Tags (R)
+
+0.8000
+0.6825
+0.7750
+0.7675
+
+0.8575
+0.7875
+0.8075
+0.8025
+0.8100
+
+0.0000
+0.8125
+0.7750
+0.7625
+
+0.7500
+0.8250
+0.7000
+0.6875
+0.6875
+
+0.0000
+0.3672
+0.4627
+0.4519
+
+0.6186
+0.4818
+0.5138
+0.5046
+0.5189
+
+0.7111
+0.7141
+0.7930
+0.7863
+
+0.8624
+0.8050
+0.8177
+0.8130
+0.8193
+
+0.8889
+0.7661
+0.8464
+0.8410
+
+0.9085
+0.8542
+0.8740
+0.8707
+0.8762
+
+0.0000
+0.5058
+0.5794
+0.5674
+
+0.6780
+0.6083
+0.5926
+0.5820
+0.5914
+
+Table 6: Zero-shot and Few-shot F1-scores for NLI Mod-
+els. The W stands for weighted f1-score; the N stands for
+Negative score, and the P stands for Positive score. For the
+settings column, the ZS stands for zero-shot, while FS-16
+stands for Few-shot ﬁne-tuned by 16 data instances.
+
+Model
+
+F1-W F1-N F1-P
+
+Setting
+
+bart-large-mnli
+
+distilbart-mnli-12-1
+
+xlm-roberta-large-xnli
+
+0.83
+0.83
+0.72
+0.82
+0.79
+
+0.83
+0.83
+0.65
+0.77
+0.83
+
+0.34
+0.32
+0.40
+0.65
+0.62
+
+0.91
+0.91
+0.77
+0.88
+0.85
+
+0.91
+0.91
+0.69
+0.83
+0.90
+
+0.34
+0.31
+0.42
+0.72
+0.68
+
+0.53
+0.54
+0.53
+0.57
+0.54
+
+0.52
+0.52
+0.48
+0.52
+0.54
+
+0.34
+0.33
+0.32
+0.36
+0.37
+
+ZS
+FS-16
+FS-32
+FS-64
+FS-128
+
+ZS
+FS-16
+FS-32
+FS-64
+FS-128
+
+ZS
+FS-16
+FS-32
+FS-64
+FS-128
+
+Topic Classiﬁcation
+We perform topic inference to understand the type of con-
+spiracy theory of a video published on YouTube. For the
+ground-truth dataset, we randomly sample 100 videos and
+label them by the ﬁrst author based on Table 3.
+
+In Figure 2, we investigate how sensitive our topic in-
+ference method is. The method has two parameters: domi-
+nance and the minimum number of words matched. Dom-
+inance (Zumpe and Michael 1986) is a metric that is com-
+monly used to study the diversity of a community. A higher
+dominance score suggests a higher percentage of the words
+matched with one topic (i.e., if dominance is 1, all words
+matched are in one topic). Hence, having a threshold for
+dominance to be higher will ensure that the matched topic
+will have higher accuracy, but lesser videos are likely to
+be matched. The number of words matched also interplays
+with the retrieval and accuracy. Figure 2 shows this relation-
+ship. For example, when we consider a match of the topic
+
+to be that it requires at least one word matched, 76 videos
+are matched with a topic, but the accuracy of matching is
+0.789. If we increase the threshold to at least 10 words and
+the dominance score to be greater than 0.6, only 14 videos
+are matched with a topic but all matching is correct. When
+there are at least 2 words matched and a dominance thresh-
+old of greater than 0.5, the accuracy is 0.842, and 57 videos
+are matched with a topic.
+
+We explore the topics covered by conspiracy videos using
+the method outlined above. By using the parameters of at
+least 2 words matched and a dominance threshold of greater
+than 0.5, we apply the matching to all the videos with con-
+spiracy theories in our dataset to understand the distribution
+of the conspiracy topics. Out of the 1,144 conspiracy videos
+in the dataset, 770 videos have been matched with a topic.
+Figure 3 shows the distribution of the detected topics. Top-
+ics are relatively well distributed, and the top four topics are
+“Ethnicity, Race, and Religion,” “Government, Politics, and
+Conﬂict,” “Science and technology,” and “Extraterrestrials
+and UFOs.”
+
+Discussion
+
+In this paper, we propose a new dataset, YOUNICON, for
+the detection of conspiracy theories on YouTube over vari-
+ous topics. While conspiracy theories have been studied for
+decades across different disciplines, a large-scale dataset of
+videos on popular social media services will accelerate re-
+search on the production and consumption of conspiracy
+theories on online platforms.
+
+YOUNICON offers a plethora of opportunities to study
+the subject of conspiracy theories from the text data. First,
+we hope that the automatic detection of conspiracy theories
+can be deeply explored by the machine learning community
+and potentially result in real-world tools to assist and facil-
+itate the work of fact-checkers (e.g., pointing out not only
+conspiracy theories videos but the exact time the conspiracy
+theory appears within the video). Our study gives a ﬁrst step
+in this direction by exploring standard classiﬁcation tech-
+niques, providing the ﬁrst assessment of the potential of au-
+tomated detection of conspiracy theories, and also a baseline
+for future comparisons. Second, we hope researchers can use
+the dataset to study the dynamics of conspiracy theories on
+systems like YouTube. As this dataset contains all videos
+
+Figure 2: Sensitivity of Number of words and Dominance on Accuracy and Videos Matched
+
+starting point for a better taxonomy to be developed. Given
+the advances of large language models (LLMs), it would be
+worth exploring the prompting approach with recent LLMs
+or the in-context learning approach with prompt tuning for
+the conspiracy detection task.
+
+FAIR Consideration
+
+The proposed dataset follows the FAIR principles of Find-
+ability, Accessibility, Interoperability, and Reuse-ability.
+The dataset can be found and accessed through Zenodo
+at the DOI: https://doi.org/10.5281/zenodo.7466262. Key-
+words for the topics of conspiracy theories are also shared as
+a CSV ﬁle for the use of other researchers for works related
+to conspiracy theories. Hence, the data satisﬁes reusability
+and interoperability.
+
+Ethical Consideration
+
+We carefully designed our dataset from the data collection
+period. We collect only publicly available data on YouTube
+with the use of YouTube’s Data API. Also, our approach
+is approved by the Institutional Review Board of Singapore
+Management University (IRB-22-129-A071(922)). To safe-
+guard the interests of our labelers on Amazon Mechanical
+Turks, they are informed that the content that the conspiracy
+theories are not true and that withdrawal from the study is
+without penalty. Helplines are also provided to the partici-
+pants in the event of any negative emotions.
+
+References
+An, J.; Kwak, H.; Lee, C. S.; Jun, B.; and Ahn, Y.-Y.
+2021. Predicting Anti-Asian Hateful Users on Twitter dur-
+ing COVID-19. In Findings of the Association for Compu-
+tational Linguistics: EMNLP 2021, 4655–4666.
+
+Bessi, A.; Zollo, F.; Vicario, M. D.; Puliga, M.; Scala, A.;
+Caldarelli, G.; Uzzi, B.; and Quattrociocchi, W. 2016. Users
+Polarization on Facebook and Youtube. PLOS ONE, 11:
+e0159641.
+
+Figure 3: Topic distribution
+
+that are available in the channel’s lifetime (as long as it is
+not removed from the platform), we are able to study how
+these content creators have evolved their production strate-
+gies over time. For example, do channels focus on a particu-
+lar type of conspiracy over time or do they adopt a more gen-
+eralist approach and produce a variety of content? Are there
+relationships between engagement and topics of conspiracy?
+The dataset has the potential to answer such questions.
+
+Similarly, for the content consumers (or the video audi-
+ence), the comments included in the dataset can act as a
+peephole for us to analyze the behaviour of their consump-
+tion of conspiracy theories. In other words, researchers can
+potentially trace a conspiracy pathway, and look at how peo-
+ple can get involved in the echo chambers of conspiracy the-
+ories.
+
+Future works can include looking for better ways to per-
+form topic classiﬁcation. While Wikipedia’s list of conspir-
+acy theories is used here, this classiﬁcation can serve as a
+
+0.00.40.50.60.70.9dominance1234510number of words0.790.790.820.840.820.820.80.810.840.860.860.880.810.820.850.880.880.930.810.810.860.890.870.920.790.790.860.90.870.880.830.850.94111Accuracy0.00.40.50.60.70.9dominance1234510number of words7672625540227167575035176965554833155753433630124743362923824201614114Number of Videos Matched0.800.850.900.951.0010203040506070Ethnicity16.23%  (125)Science14.42%  (111)Government13.12%  (101)Extraterrestrials11.17%  (86)Outer9.48%  (73)Deaths7.79%  (60)Medicine7.79%  (60)Aviation7.40%  (57)Economics7.01%  (54)Espionage4.16%  (32)Business1.43%  (11)Bowman, S. R.; Angeli, G.; Potts, C.; and Manning, C. D.
+2015. A large annotated corpus for learning natural language
+inference. In Empirical Methods in Natural Language Pro-
+cessing.
+Butter, M.; and Knight, P. 2018. The History of Conspir-
+acy Theory Research: A Review and Commentary. In Con-
+spiracy Theories and the People Who Believe Them. Oxford
+University Press. ISBN 9780190844073.
+Center, P. R. 2012. YouTube & News — Pew Research Cen-
+ter.
+Commission, R.; et al. 2020. Royal Commission of In-
+quiry into the terrorist attack on Christchurch masjidain on
+15 March 2019.
+Coninck, D. D.; Frissen, T.; Matthijs, K.; d’Haenens, L.;
+Lits, G.; Champagne-Poirier, O.; Carignan, M. E.; David,
+M. D.; Pignard-Cheynel, N.; Salerno, S.; and G´en´ereux, M.
+2021. Beliefs in Conspiracy Theories and Misinformation
+About COVID-19: Comparative Perspectives on the Role of
+Anxiety, Depression and Exposure to and Trust in Informa-
+tion Sources. Frontiers in Psychology, 12.
+Dagnall, N.; Drinkwater, K.; Parker, A.; Denovan, A.; and
+Parton, M. 2015. Conspiracy theory and cognitive style: A
+worldview. Frontiers in psychology, 6: 206.
+Douglas, K. M.; Sutton, R. M.; and Cichocka, A. 2017. The
+psychology of conspiracy theories. Current directions in
+psychological science, 26(6): 538–542.
+Enders, A. M.; Uscinski, J. E.; Seelig, M. I.; Klofstad, C. A.;
+Wuchty, S.; Funchion, J. R.; Murthi, M. N.; Premaratne, K.;
+and Stoler, J. 2021. The Relationship Between Social Media
+Use and Beliefs in Conspiracy Theories and Misinforma-
+tion. Political Behavior, 1–24.
+Faddoul, M.; Chaslot, G.; and Farid, H. 2020. A longitudi-
+nal analysis of YouTube’s promotion of conspiracy videos.
+arXiv preprint arXiv:2003.03318.
+Fleiss, J. L. 1971. Measuring nominal scale agreement
+among many raters. Psychological bulletin, 76(5): 378.
+Galende, B. A.; Hern´andez-Pe˜naloza, G.; Uribe, S.; and
+Garc´ıa, F. ´A. 2022. Conspiracy or not? A deep learning ap-
+proach to spot it on Twitter. IEEE Access, 10: 38370–38378.
+Ginossar, T.; Cruickshank, I. J.; Zheleva, E.; Sulskis, J.;
+and Berger-Wolf, T. 2022. Cross-platform spread: vaccine-
+related content, sources, and conspiracy theories in YouTube
+videos shared in early Twitter COVID-19 conversations. Hu-
+man vaccines & immunotherapeutics, 18(1): 1–13.
+Goertzel, T. 1994. Belief in Conspiracy Theories. Political
+Psychology, 15(4): 731–742.
+Goodrow, C. 2017. You know what’s cool? A billion hours.
+Hussein, E.; Juneja, P.; and Mitra, T. 2020. Measuring Mis-
+information in Video Search Platforms: An Audit Study on
+YouTube. ACM Conference on Human-Computer Interac-
+tion, 4(CSCW1).
+Jackson, L. 2017. Top 201 Conspiracy Theory Videos on
+YouTube: Full Color Version. ISBN 9780692995235.
+Jolley, D.; Douglas, K. M.; Leite, A. C.; and Schrader, T.
+2019. Belief in conspiracy theories and intentions to engage
+
+in everyday crime. British Journal of Social Psychology, 58:
+534–549.
+Joulin, A.; Grave, E.; Bojanowski, P.; and Mikolov, T.
+2016. Bag of Tricks for Efﬁcient Text Classiﬁcation. arXiv
+preprint arXiv:1607.01759.
+Keeley, B. L. 1999. Of conspiracy theories. The journal of
+Philosophy, 96(3): 109–126.
+Kumar, S.; Asthana, R.; Upadhyay, S.; Upreti, N.; and Ak-
+bar, M. 2020. Fake news detection using deep learning mod-
+els: A novel approach. Transactions on Emerging Telecom-
+munications Technologies, 31(2): e3767.
+Kwak, H.; An, J.; and Ahn, Y.-Y. 2020. A systematic media
+frame analysis of 1.5 million new york times articles from
+In 12th ACM Conference on Web Science,
+2000 to 2017.
+305–314.
+Landis, J. R.; and Koch, G. G. 1977. The measurement of
+observer agreement for categorical data. biometrics, 159–
+174.
+Ledwich, M.; and Zaitsev, A. 2020. Algorithmic extremism:
+Examining YouTube’s rabbit hole of radicalization. First
+Monday.
+Lewis, M.; Liu, Y.; Goyal, N.; Ghazvininejad, M.; Mo-
+hamed, A.; Levy, O.; Stoyanov, V.; and Zettlemoyer, L.
+2020. BART: Denoising Sequence-to-Sequence Pre-training
+for Natural Language Generation, Translation, and Compre-
+hension. In Association for Computational Linguistics.
+Lin, X.; Liao, X.; Xu, T.; Pian, W.; and Wong, K.-F.
+2019. Rumor Detection with Hierarchical Recurrent Convo-
+lutional Neural Network. In Natural Language Processing
+and Chinese Computing.
+Liu, Y.; Ott, M.; Goyal, N.; Du, J.; Joshi, M.; Chen, D.;
+Levy, O.; Lewis, M.; Zettlemoyer, L.; and Stoyanov, V.
+2019. Roberta: A robustly optimized bert pretraining ap-
+proach. arXiv preprint arXiv:1907.11692.
+Mahl, D.; Sch¨afer, M. S.; and Zeng, J. 2022. Conspiracy the-
+ories in online environments: An interdisciplinary literature
+review and agenda for future research. new media & society,
+14614448221075759.
+Mahl, D.; Zeng, J.; and Sch¨afer, M. S. 2021.
+From
+“Nasa Lies” to “Reptilian Eyes”: Mapping communica-
+tion about 10 conspiracy theories, their communities, and
+main propagators on Twitter. Social Media+ Society, 7(2):
+20563051211017482.
+Mann, H. B.; and Whitney, D. R. 1947. On a test of whether
+one of two random variables is stochastically larger than the
+other. The annals of mathematical statistics, 50–60.
+Marcellino, W.; Helmus, T. C.; Kerrigan, J.; Reininger, H.;
+Karimov, R. I.; and Lawrence, R. A. 2021. Detecting
+Conspiracy Theories on Social Media: Improving Machine
+Learning to Detect and Understand Online Conspiracy The-
+ories. Santa Monica, CA: RAND Corporation.
+Memon, S. A.; and Carley, K. M. 2020. Characterizing
+covid-19 misinformation communities using a novel twitter
+dataset. arXiv preprint arXiv:2008.00791.
+Michel, J.-B.; Shen, Y. K.; Aiden, A. P.; Veres, A.; Gray,
+M. K.; Team, G. B.; Pickett, J. P.; Hoiberg, D.; Clancy, D.;
+
+Zumpe, D.; and Michael, R. P. 1986. Dominance index:
+a simple measure of relative dominance status in primates.
+American Journal of Primatology, 10(4): 291–300.
+
+Norvig, P.; et al. 2011. Quantitative analysis of culture using
+millions of digitized books. science, 331(6014): 176–182.
+Mofﬁtt, J.; King, C.; and Carley, K. M. 2021. Hunting con-
+spiracy theories during the COVID-19 pandemic. Social Me-
+dia+ Society, 7(3): 20563051211043212.
+Monaci, S. 2021. The pandemic of conspiracies in the covid-
+19 age: How twitter reinforces online infodemic. Online
+Journal of Communication and Media Technologies, 11.
+Monroe, B. L.; Colaresi, M. P.; and Quinn, K. M. 2008.
+Fightin’words: Lexical feature selection and evaluation for
+identifying the content of political conﬂict. Political Analy-
+sis, 16(4): 372–403.
+Phillips, S. C.; Ng, L. H. X.; and Carley, K. M. 2022. Hoaxes
+and Hidden Agendas: A Twitter Conspiracy Theory Dataset:
+In Companion Proceedings of the ACM Web
+Data Paper.
+Conference.
+Pummerer, L.; B¨ohm, R.; Lilleholt, L.; Winter, K.; Zettler,
+I.; and Sassenberg, K. 2022. Conspiracy theories and their
+societal effects during the COVID-19 pandemic. Social Psy-
+chological and Personality Science, 13(1): 49–59.
+Statista. 2022. Most popular social networks worldwide as
+of January 2022, ranked by number of monthly active users.
+Sutton, R. M.; and Douglas, K. M. 2020. Conspiracy the-
+ories and the conspiracy mindset: implications for political
+ideology. Current Opinion in Behavioral Sciences, 34: 118–
+122.
+Tomlein, M.; Pecher, B.; Simko, J.; Srba, I.; Moro, R.;
+Stefancova, E.; Kompan, M.; Hrckova, A.; Podrouzek, J.;
+and Bielikova, M. 2021. An audit of misinformation ﬁlter
+bubbles on YouTube: Bubble bursting and recent behavior
+changes. In ACM Recommender Systems.
+Uscinski, J. E. 2020. Conspiracy theories: A primer. Row-
+man & Littleﬁeld Publishers.
+Vincent, J. 2020. Something in the air: Conspiracy theorists
+say 5G causes novel coronavirus, so now they’re harassing
+and attacking UK telecoms engineers.
+Vosoughi, S.; Roy, D.; and Aral, S. 2018. The spread of true
+and false news online. science, 359(6380): 1146–1151.
+Wikipedia contributors. 2022. List of conspiracy theories —
+Wikipedia, The Free Encyclopedia. [Online; accessed 18-
+May-2022].
+Williams, A.; Nangia, N.; and Bowman, S. 2018. A Broad-
+Coverage Challenge Corpus for Sentence Understanding
+In Conference of the North American
+through Inference.
+Chapter of the Association for Computational Linguistics:
+Human Language Technologies.
+Wood, M. J.; Douglas, K. M.; and Sutton, R. M. 2012. Dead
+and alive: Beliefs in contradictory conspiracy theories. So-
+cial psychological and personality science, 3(6): 767–773.
+YouTube. 2022. Understand audience engagement - Com-
+puter - YouTube Help.
+Zhang, S.; Roller, S.; Goyal, N.; Artetxe, M.; Chen, M.;
+Chen, S.; Dewan, C.; Diab, M.; Li, X.; Lin, X. V.; et al. 2022.
+Opt: Open pre-trained transformer language models. arXiv
+preprint arXiv:2205.01068.
+
+

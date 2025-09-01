@@ -1,0 +1,2457 @@
+What Makes People Join Conspiracy Communities?: Role of
+Social Factors in Conspiracy Engagement
+
+0
+2
+0
+2
+
+t
+c
+O
+6
+
+]
+I
+S
+.
+s
+c
+[
+
+2
+v
+7
+2
+5
+4
+0
+.
+9
+0
+0
+2
+:
+v
+i
+X
+r
+a
+
+SHRUTI PHADKE, University of Washington, USA
+MATTIA SAMORY, GESIS, Germany
+TANUSHREE MITRA, University of Washington, USA
+
+Widespread conspiracy theories, like those motivating anti-vaccination attitudes or climate change denial,
+propel collective action and bear society-wide consequences. Yet, empirical research has largely studied
+conspiracy theory adoption as an individual pursuit, rather than as a socially mediated process. What makes
+users join communities endorsing and spreading conspiracy theories? We leverage longitudinal data from 56
+conspiracy communities on Reddit to compare individual and social factors determining which users join
+the communities. Using a quasi-experimental approach, we first identify 30K future conspiracists—(FC) and
+30K matched non-conspiracists—(NC). We then provide empirical evidence of importance of social factors
+across six dimensions relative to the individual factors by analyzing 6 million Reddit comments and posts.
+Specifically in social factors, we find that dyadic interactions with members of the conspiracy communities and
+marginalization outside of the conspiracy communities, are the most important social precursors to conspiracy
+joining—even outperforming individual factor baselines. Our results offer quantitative backing to understand
+social processes and echo chamber effects in conspiratorial engagement, with important implications for
+democratic institutions and online communities.
+
+CCS Concepts: • Human-centered computing → Empirical studies in collaborative and social com-
+puting; Social media.
+
+Additional Key Words and Phrases: online communities;conspiracies;social factors;empirical study;regression
+
+ACM Reference Format:
+Shruti Phadke, Mattia Samory, and Tanushree Mitra. 2020. What Makes People Join Conspiracy Communities?:
+Role of Social Factors in Conspiracy Engagement. Proc. ACM Meas. Anal. Comput. Syst. 37, 4, Article 111
+(August 2020), 30 pages. https://doi.org/10.1145/1122445.1122456
+
+1 INTRODUCTION
+The spread of conspiratorial belief and misinformation online is a growing concern. Conspiracy
+theories of ethnic replacement motivated the mass shootings in El Paso [48], Christchurch [21], and
+recently Hanau [5], which the perpetrators discussed in fringe online communities like 8chan and
+Gab. Conspiratorial thinking fosters speculations in online discussions and may lead to increased
+offline consequences, such as the QAnon conspiracy theory about the recent COVID-19 pandemic
+that drove a train engineer to crash a train near a hospital ship [17, 45]. By its very nature, social
+media offers a social component to conspiracy discussions where users can interact with each
+other through discussion threads. Online conspiracy communities thus bring together multiple
+heterogeneous groups of individuals with different background beliefs and motivations, sharing
+
+Authors’ addresses: Shruti Phadke, University of Washington, Seattle, USA, phadke@uw.edu; Mattia Samory, GESIS, Cologne,
+Germany, mattia.samory@gesis.org; Tanushree Mitra, University of Washington, Seattle, USA, tmitra@uw.edu.
+
+Permission to make digital or hard copies of all or part of this work for personal or classroom use is granted without fee
+provided that copies are not made or distributed for profit or commercial advantage and that copies bear this notice and
+the full citation on the first page. Copyrights for components of this work owned by others than ACM must be honored.
+Abstracting with credit is permitted. To copy otherwise, or republish, to post on servers or to redistribute to lists, requires
+prior specific permission and/or a fee. Request permissions from permissions@acm.org.
+© 2020 Association for Computing Machinery.
+2476-1249/2020/8-ART111 $15.00
+https://doi.org/10.1145/1122445.1122456
+
+111
+
+Proc. ACM Meas. Anal. Comput. Syst., Vol. 37, No. 4, Article 111. Publication date: August 2020.
+
+ 
+ 
+ 
+ 
+ 
+ 
+111:2
+
+Shruti Phadke, Mattia Samory, Tanushree Mitra
+
+similar epistemological concerns [33]. Once joined, conspiracy community users may radicalize,
+increasingly engaging with conspiracy and neglecting other communities [51]. It is thus crucial to
+understand the precursors to joining conspiracy communities.
+
+What drives users to join online conspiracy communities? Users who do so, show early on a
+distinctive use of language and choice of special-interest communities [32]. This is in line with
+ample research in social psychology on the individual factors associated with conspiratorial
+belief [11, 20, 25]. Yet, these studies investigate individuals’ attitudes isolated from their social
+environment. Despite the social nature of conspiracy theorizing online [18, 56] and of the collective
+action it projects onto the real world [36, 43], we have surprisingly little insight about the role of
+social factors in joining online conspiracy communities. This paper provides just such an insight.
+We take a socio-constructionist approach—a line of scholarship beholding that meanings are
+developed in coordination with others rather than separately within each individual [40]—and
+consider online conspiracy discussions as a shared pursuit by a collection of individuals towards
+making sense of the reality around them. As such, we investigate conspiracy theory adoption as
+a social phenomena. We leverage the theoretical framework laid out by Sunstein [57] to identify
+social factors that may influence conspiracy joining on Reddit—a network of online communities
+(or subreddits) with dedicated subreddits for conspiracy discussions.
+
+First, we identify a group of 56 subreddits as conspiracy communities by empirically devel-
+oping a “conspiracy scale” that weighs subreddits from most conspiratorial to most scientific. For
+example, r/C_S_T, a subreddit that is essentially a sequel to r/conspiracy—the biggest breeding
+ground of conspiracies on Reddit—is also most similar to r/conspiracy on our conspiracy scale. Next,
+using a retrospective case control study design, we analyze future conspiracist (FC)—Redditors
+who would go on to contribute—comment or post—in any of the 56 conspiracy communities
+on Reddit. We implement an intricate statistical matching process to contrast the cohort of fu-
+ture conspiracist (FC) users with a control group of non-conspiracist (NC) users, who never
+contribute to conspiracy communities but have similar Reddit activity as FC users prior to their
+joining. Specifically, we compare the direct interactions happening on Reddit threads by FC and
+NC with current conspiracist (CC)—users currently engaged in conspiracy communities. Based
+on the direct interactions, we build social factors, such as the preeminence of CC in the users’ social
+circles or social segregation from other communities. Precisely, using Sunstein’s framework [57]
+we map social factors across six dimensions—availability of conspiracists, informational pressure,
+reputational pressure, emotional snowballing, group polarization, and self-selection. To provide a
+reference for the significance of social factors, we also calculate the individual factors related to
+psychological predisposition [11, 20], such as feelings of anger, sadness, anxiety and inclinations
+towards crippled epistemology, [57]—limited exposure to relevant information.
+
+In all, we compare 30K FC with 30K NC over 6M Reddit contributions using individual and social
+factors as features in logistic regression. By analyzing model coefficients in logistic regression, we
+find ample evidence suggesting that social factors are important towards conspiratorial joining. At
+least one feature from each dimension is significant. In fact, some social factors have higher predic-
+tive power than any of the individual factors. Additional investigation of the relative importance of
+different social factors reveal that availability of conspiracists as the most important social factor. In
+other words, direct exposure to conspiracists and their conspiratorial ideals via direct interactions
+happening on online platforms is the most important social precursor of conspiracy joining.
+
+Our results provide us with a unique standing to consider conspiracies as a social effort. This
+allows us to observe the processes through which conspiracists may experience informational
+and emotional segregation, face social stigma, and become subject to recruiting efforts by current
+members of the conspiracy communities. Our results provide evidence of how group polarization
+
+Proc. ACM Meas. Anal. Comput. Syst., Vol. 37, No. 4, Article 111. Publication date: August 2020.
+
+What Makes People Join Conspiracy Communities?: Role of Social Factors in Conspiracy Engagement
+
+111:3
+
+Fig. 1. Flowchart detailing our quasi-experimental design and analysis for investigating social factors in
+conspiratorial joining. We first identify the conspiracy communities (step 1) and then create the cohort of
+future conspiracists (FC) who will go on to contribute in the conspiracy communities (step 2). We use statistical
+matching to find non-conspiracists (NC)—users that never contribute in the conspiracy communities but
+have similar Reddit activity as FC (step 3). In step 4, we identify current conspiracists (CC)—users who are
+currently engaged in conspiracy communities and characterize the dyadic interactions of FC and NC with CC
+(step 5). Next, we compute features to capture individual predisposition of FC and NC towards conspiratorial
+thinking (step 6) and also compute social factors based on dyadic interactions of FC and NC with CC (step 7).
+Finally, we perform regression analysis using both, individual and social factors and assess the importance of
+social factors in FC’s conspiracy joining (step 8).
+
+and social self selection lead to joining the conspiracy communities. Specifically, we make the
+following contributions:
+
+• Using a data driven approach, we construct the “conspiracy scale” to identify conspiratorial
+subreddits (Figure 2 (2)). The conspiracy scale allows us to characterize subreddits according to
+their similarity to r/conspiracy and diversity of user contributions across different subreddits
+(Section 4.3).
+
+• To study social factors as precursors to conspiracy joining, we undertake an elaborate
+statistical matching scheme that finds similar future cospiracists and non-conspiracists based
+on their Reddit joining time, contribution volumes across different time spans, and semantic
+similarity between the subreddits they contribute in (Figure 3).
+
+• We offer a systematic operationalization of theoretically-motivated individual and social
+
+factors towards conspiracy engagement (Section 5, Table 3).
+
+• Through a quasi-experimental study, we detail the individual and social factors correlated
+with users joining of the conspiracy communities (Section 6). We further assess the relative
+importance of different social feature groups (Section 6.3) and test the generalizability of
+social features towards topic-specific and general conspiracy discussion joining (Section 6.4).
+
+To our knowledge this is the first study to establish empirical evidence supporting the importance
+of social factors in conspiratorial engagement. Overall, our study has implications in content
+moderation suggesting that excessive and mindless censorship can drive people towards conspiracy
+communities. Moreover, our results support a socio-constructionist view of conspiracy theorizing
+and open up future research avenues for studying information mobilization and collective action
+resulting from conspiracy discourse online.
+
+Figure 1 outlines the high-level experimental design and analyses undertaken in this work. The
+rest of the paper is organized as follows. First, we describe relevant scholarly work on conspiratorial
+belief. Then we explain our experiment setup and the process of user cohort selection. Next, we
+describe our operationalization of individual and social factors, followed by a regression analysis.
+
+Proc. ACM Meas. Anal. Comput. Syst., Vol. 37, No. 4, Article 111. Publication date: August 2020.
+
+1.identify       conspiracy communities2.identify        future conspiracists (FC)3. match         FC with non-conspircists (NC)4.identify         current conspiracists (CC)5. characterize          direct intactions of         FC and NC with CC6. compute          individual factors  7. compute           social factors  8. regress          FC and NC on individual         and social factors 111:4
+
+Shruti Phadke, Mattia Samory, Tanushree Mitra
+
+Finally, we discuss the relevance of social factors in social processes in the conspiracy communities,
+before concluding with the implications and limitations of our findings.
+
+2 RELATED WORK
+Be it vaccine skeptics or in climate change denialists, belief in conspiracy theory fuels collective
+action and has widespread consequences for society as a whole. Yet, studies of conspiracy theory
+adoption focused on precursors that are intrinsic to an individual, rather than influenced by the
+individual’s social context. Drawing from literature in collective action and social constructionism
+we take a step in latter direction and study how social factors influence online users’ participation
+in conspiracy theory communities. Next, we outline existing research on individual factors in
+conspiracy theory adoption. Then, we describe social aspects of conspiracy adoption. Finally, we
+review existing work exploring online conspiracy theories. .
+
+2.1 Individual Factors in Conspiratorial Belief
+Conspiracy theories are attempts to explain the occurrence of an event as a covert plot orchestrated
+by secret organizations [2]. Research on conspiracy theory adoption have largely focused on individ-
+ual’s psychological and epistemological characteristics [57]. For example, feelings of hopelessness,
+insecurity, anxiety, and lack of trust are considered important towards forming conspiratorial
+beliefs [11, 20]. Moreover, individuals that engage in conspiratorial beliefs are reported to show
+characteristics of paranoia [25], suspicion towards authoritative information sources [57] and
+tendency to believe unsubstantiated or false claims [43]. Previous studies stress that the need for
+justifying or explaining events forms the very foundation for conspiratorial thinking [30, 42, 62, 64].
+For example, van Prooijen et al. found that people feel the need to detect patterns or “connect the
+dots” in order to make sense of the physical and social environment they live in [62]. This may
+explain the core process in developing irrational beliefs where people attempt to detect patterns
+for random events. Sunstein and Vermeule suggest that it is thus important to understand how
+people acquire information related to conspiracies [57]. Specifically, absence of relevant and ample
+information can result in “crippled epistemologies.” In other words, people who are exposed to
+very limited relevant information and if what they know is wrong, they have a high likelihood of
+fixating on their inaccurate beliefs [57]. Though the individuals who believe in conspiracies might
+be psychologically predisposed, their social environment can also play a key role in conspiracy
+adoption. Thus, in this work we extract cues related to an individual’s psychological attributes
+(e.g., feelings of anger, anxiety, sadness [11, 20]) and their epistemological inclinations (crippled
+epistemologies [57]) from their social media activity. These serve as a strong baseline to understand
+the ability of social factors in identifying which users will join conspiracy theory communities.
+
+2.2 Social Aspects of Conspiracy Theory Adoption
+In social sense, the development of conspiracy theories can be described by groups of individuals
+jointly constructing the understandings of the world on the basis of shared identity [18]. From this
+socio-constructionist stance, conspiracy theories are born from the social processes of filtering
+available information and deliberating on whether it is true. For example, conspiracy theories
+prosper in the wake of dramatic events [51, 55] when available information is insufficient to
+assess its truthfulness. Thus in such situations conspiracy theorizing is an attempt of collective
+sensemaking [34]. Studies focusing on the collective processes of consuming information in the
+context of fake news present crucial insight on the collective pitfalls that may lead to formulating
+(false) conspiracy theories [34, 39]. In this work, we explicitly abstain from assessing the truth of
+conspiracy theories. Our focus, instead, is on the social factors that lead users to conspiracy theory
+discussions in the first place.
+
+Proc. ACM Meas. Anal. Comput. Syst., Vol. 37, No. 4, Article 111. Publication date: August 2020.
+
+What Makes People Join Conspiracy Communities?: Role of Social Factors in Conspiracy Engagement
+
+111:5
+
+One challenge in studying such social factors in conspiracy theory adoption is the lack of
+longitudinal data and of granular information of social interactions, prior to individuals’ adoption
+of conspiracy theories. We overcome this challenge by comparing online traces of 30k future
+conspiracists (FC) before they join conspiracy discussion communities with 30k non-conspiracists
+(NC) who never join conspiratorial communities on Reddit.
+
+2.3 Conspiracies in Social Media
+Research in analyzing conspiracies online mainly explores the effects of exposure to conspiratorial
+discussions and their linguistic attributes. Specifically, how conspiratorial belief affects user’s infor-
+mation retrieval habits [13, 35], what causes conspiratorial predisposition [43, 61], how individuals
+discuss conspiracy theories in social media [55], and what linguistic mechanisms are at play in
+conspiratorial narratives [52]. However, there is limited empirical evidence as to what leads to
+the formation of conspiracy theory groups. The present work fills this gap. Perhaps closest to
+ours, recent work by Klein [32] investigates language use and posting patterns of users before
+they join one conspiracy subreddit on Reddit. In this work, we focus on social, rather than linguis-
+tic factors that influence users joining multiple conspiracy communities. Specifically, we adhere
+to Sunstein’s categorization of social features in conspiracy theory adoption [57]. We describe
+Sunstein’s framework in Section 5 while elaborating on our feature construction process. Table 3
+presents the overview of the individual and social factors and the features derived from them.
+
+3 THE CONSPIRACY COMMUNITIES
+We take a socio-constructionist stance, and consider the collective of users producing conspiracy
+discussions as a community producing knowledge. Specifically on Reddit, we first define a group
+of subreddits hosting conspiratorial discussions as the “conspiracy communities”. Identifying
+subreddits that engage in conspiracy discussions is a challenging process for several reasons.
+Reddit has a total of 1.2 million subreddits with no global taxonomy that could help us easily
+understand the themes in different subreddits. Previous researchers have commonly focused
+only on r/conspiracy–a subreddit dedicated to discussing all types of conspiracy theories—to
+study conspiratorial engagement and narratives [32, 51, 52]. However, there are several other
+communities on Reddit that promote conspiracy theories as well. In that, some subreddits openly
+self-identify as conspiracy discussion communities while others host conspiratorial content without
+having it as their primary focus. For example, r/ConspiracyII invites only conspiracy theories
+whereas r/ConspiracyNews focuses on reporting news around conspiratorial topics. Moreover,
+even within the solely conspiratorial communities, some specialize on just one or few related
+conspiracy theory narratives and others welcome all types of discussions. To elaborate, there are
+specialized subreddits dedicated to discussing specific conspiracies, such as moon landing hoax and
+flat earth (r/moonhoax and r/theworldisflat, respectively) while others welcome any and all kinds
+of conspiratorial discussions (r/FringeTheory and r/ConspiracyZone). Given such high diversity
+in conspiracy discussion subreddits, it is imperative that we identify conspiracy communities
+with high precision. Towards this end, we employ a multi-stage, mixed-methods approach to first,
+mine potentially conspiratorial subreddits and then, carefully vet them using human judgement.
+Specifically, to find the candidates for conspiracy communities, we resort to two key steps. First
+we look at external sources such as Reddit recommendations and methods based on previous
+research. Second, we devise a conspiracy scale that weighs subreddits based on their similarity to
+r/conspiracy. Figure 2 displays the entire process of identifying the conspiracy communities.
+
+Proc. ACM Meas. Anal. Comput. Syst., Vol. 37, No. 4, Article 111. Publication date: August 2020.
+
+111:6
+
+Shruti Phadke, Mattia Samory, Tanushree Mitra
+
+Fig. 2. (a) Flowchart illustrating the process for identifying the conspiracy communities. We obtain the
+subreddit candidates for conspiracy communities using both, (1) external sources and (2) conspiracy scale.
+The conspiracy scale is generated by sorted second principal component of subreddit × user matrix of top
+r/conspiracy and r/science user contributions across different subreddits. We take leftmost 200 (200
+subreddits closest to r/conspiracy) from conspiracy scale along with subreddits from external sources
+as candidates for conspiracy communities. We manually annotate the candidate subreddits to include 56
+subreddits in conspiracy communities (b) Top 10 subreddits on both sides of the conspiracy scale alongwith
+their weights according to the 2nd principal component. We did not normalize the weights to preserve sparsity
+in values of the principal component.
+
+3.1 External Sources:
+We look at four external sources for finding conspiratorial communities. Specifically, Reddit search
+results, subreddit names and descriptions, subreddit sidebar recommendations and mutual infor-
+mation based methods used in previous research. Table 2 provides examples for subreddits mined
+from each of the four external sources alongwith the conspiracy scale described later.
+
+(1) Reddit search results: We look at search results provided by Reddit to emulate how Reddit
+users might find conspiratorial subreddits. Reddit has a search bar at the top of any page
+in which users can enter the search query to find different subreddits, users and posts. We
+search the term ‘conspiracy’ on Reddit’s home page and note 236 recommended subreddits.
+(2) Subreddit name and description: We consider the user’s choice of knowingly participating
+in conspiracy discussions as an important criterion towards identifying Redditors that engage
+in conspiracies. Reddit users can understand the theme of a subreddit by subreddit names
+or the descriptions. Hence, we refer to the subreddit names and descriptions available on
+files.pushshift.io/reddit 1. Since we are interested in selecting self-identifying conspiracy
+subreddits, we perform regular expression match for the string “conspir” in the descriptions
+and the names.
+
+1https://files.pushshift.io/reddit/ is a publicly accessible repository of Reddit datasets maintained by Jason Baumgartner [3]
+
+Proc. ACM Meas. Anal. Comput. Syst., Vol. 37, No. 4, Article 111. Publication date: August 2020.
+
+Subreddit sidebarrecommendations (37 subs)Pointwise mutual information (Samory) (10 subs)Subreddit names and descriptions (492 subs)Reddit search results (236 subs)Contributions by top 100 r/conspiracy & r/science authorssubreddits X user matrix for 12k subs and 200 usersPrincipal component analysisSecond principal component as conspiracy scaleEXTERNAL SOURCESCONSPIRACY SCALEr/conspiracyr/WayofBernr/EndlessWarr/TruthLeaksr/HighStrangenessr/The_Donaldr/C_S_Tr/EverythingSciencer/Economicsr/spacer/asksciencer/Futurologyr/programmingr/conspiracyr/WhiteRightsr/1984isrealityr/VaccinesCauser/politicsr/technologyr/physicsr/sciencer/science729 unique subs from external sources200 closest subs to r/conspiracyManual annotation of 657 unique subreddits obtained from steps above. Two annotators  analyzed the top 10 posts in each subreddit using deﬁnitions of conspiracy theories. We kept only those subreddits that both annotators labeled as conspiratorial based on the top posts (label 1) and discarded all others (label 0)56 Conspiratorial Subreddits(a)(1)(2)(3)(b)-0.14-0.18-0.22-0.23-0.32-0.367.6912.8811.5115.0115.6427.03-2.61-0.12-0.12-0.1327.0527.359.7390.64sub 1user 1user 200sub n.   .  ..   .  ...sub 1PC 1PC 2PC 10sub n..SORTEDSORTEDWhat Makes People Join Conspiracy Communities?: Role of Social Factors in Conspiracy Engagement
+
+111:7
+
+(3) Subreddit sidebar recommendations: Often, subreddit descriptions contain a sidebar in
+which the other related subreddits are listed. For example, r/conspiracy lists r/Wikileaks
+and r/Endlesswar as “related subreddits” it the sidebar (Table 2). Hence we looked at sidebar
+recommendations for subreddits obtained in step 2. We continued this process recursively
+until there were no more sidebar recommendations or the recommended subreddits were
+already listed in step 1-3. This process resulted in 37 new subreddits.
+
+(4) Pointwise mutual information: We also look at the work by other researchers character-
+izing conspiratorial communities. Specifically, Samory et. al. [51] find communities that share
+surprising number of common users to r/conspiracy (page 5, Table 1 in [51] ). We consider
+top 10 subreddits listed in [51] as potentially conspiratorial subreddits.
+
+We look at multiple sources for identifying conspiratorial subreddits to select conspiracy com-
+munities with high precision. While external sources produce useful candidates for the conspiracy
+communities, they are also limited in their effectiveness. Reddit recommendations produce high
+number of irrelevant suggestions. For example, we find several subreddits unrelated to conspiracy
+even within the top 10 search results on Reddit (r/todayilearned Table 2). In addition, subreddit
+sidebars are not always populated by the subreddit community. Moreover, pointwise mutual in-
+formation approach extracts subreddits that are distinctively similar to r/conspiracy favouring
+smaller subreddits. For example, all of the top 10 subreddits closer to r/conspiracy listed in [51]
+have less number of subscribers and contribution volume (Table 2). Hence, we look for a data-driven,
+scalable approach that could capture subreddits that are generally, and not just surprisingly, similar
+to r/conspiracy. Specifically, we perform Principal Component Analysis (PCA) on contributions
+received in subreddits by different users to devise the “conspiracy scale” (Figure 2 a and b).
+
+3.2 Conspiracy scale
+We design the conspiracy scale to characterize semantic similarity between subreddits in terms of
+shared user base [41]. Previously, other researchers have also employed user participation based
+measures to compare subreddits [37, 41, 65]. However, such representations are not designed to
+specifically study the conspiratorial nature of the subreddits. Samory et. al. [51] use pointwise
+mutual information (PMI) to identify communities that are distinctively similar to r/conspiracy.
+While their approach successfully identifies conspiratorial subreddits, it focuses on identifying
+communities that share surprisingly common users with r/conspiracy. To elaborate, PMI is a
+co-occurrence based measure where mutual information between two subreddits is calculated
+based upon the number of common users in them. PMI can return surprisingly similar subreddits to
+r/conspiracy because it is known to be biased towards low frequency or rare items (or subreddits
+in this case) [9, 29]. To bridge this gap, we search for the method that would not be biased towards
+just surprise while measuring similarity between the subreddits. We take intuition from Samory et.
+al. [51] specifically that conspiratorial subreddits can be identified by contrasting the user activity
+in r/conspiracy to its polar opposite community—r/science [6]. However, instead of focusing on
+finding subreddits that are distinctively similar to r/conspiracy, we try to understand the similarity
+based on the variance in user-subreddit participation for users in r/conspiracy and r/science based
+on Principal Component Analysis (PCA).
+
+3.2.1 Creating conspiracy scale. Figure 2 illustrates the process of devising the conspiracy scale.
+Previous scholars have shown that people who believe in one conspiracy tend to believe in others
+as well [8, 44, 55]. Accordingly, we presume that top contributing users—users with highest number
+of contributions—from r/conspiracy will have propensity to engage in other conspiracy related
+subreddits. Further juxtaposing their activity with top contributing r/science users can help
+enhance the contrast between conspiratorial and scientific subreddits. Hence, after removing bot
+
+Proc. ACM Meas. Anal. Comput. Syst., Vol. 37, No. 4, Article 111. Publication date: August 2020.
+
+111:8
+
+Shruti Phadke, Mattia Samory, Tanushree Mitra
+
+Our conspiracy scale
+
+PMI [51]
+
+Subreddit embeddings [37]
+
+Conspiracy ranks for
+conspiracy related subreddits
+
+Science ranks for
+science related subreddits
+
+method
+
+results
+
+method
+
+results
+
+conspiracy scale sorted
+from r/conspiracy to r/science
+
+rms 3332
+4447
+std
+
+conspiracy scale sorted
+from r/science to r/conspiracy
+
+rms 3570
+5816
+std
+
+ranked by closeness
+to r/conspiracy by PMI
+4271
+4939
+
+ranked by cosine distance
+to r/conspiracy vector
+17,741
+11,567
+
+ranked by closeness
+to r/science by PMI
+4385
+7102
+
+ranked by cosine distance
+to r/science vector
+14,786
+21,448
+
+Table 1. We validate the conspiracy scale generated from PCA (Figure 2 (a)(2) and (b)) by comparing the
+ranks generated for conspiracy and science related subreddits by our conspiracy scale and other approaches
+([37, 51]). This table describes the methods used for generating ranks and the results (root mean square and
+standard deviation) for the ranks obtained. Our method has lowest rms and std in both, conspiracy and
+science rankings indicating that out scale places conspiracy related subreddits closer to r/conspiracy and
+science related subreddits closer to r/science.
+
+accounts, we select the 100 top contributing users from each of the two subreddits. We extract
+the entire contribution timelines of these users across all subreddits using pushshift.io [3]. In
+all, this starting dataset spans over 12k subreddits. One could understand the variance in types of
+the 12k subreddits by analyzing the number of contributions made by the users in each of those
+subreddits. For example, just by sorting the raw counts of contributions within each subreddit, one
+could distinguish subreddits with larger subscriber counts from the smaller ones. For the task at
+hand, we want to extract the directionality in subreddits that places them from most similar to
+r/science to most similar to r/conspiracy. Principal Component Analysis (PCA) is a dimentionality
+reduction technique that could reduce the data along principal components that explain the maximal
+amount of variance. Intuitively, the first few components should give us different viewpoints to
+understand the variance in types of subreddits. Hence, we construct a 𝑠𝑢𝑏𝑟𝑒𝑑𝑑𝑖𝑡 × 𝑢𝑠𝑒𝑟 matrix
+with values indicating contributions made by a user (column of the matrix) in a subreddit (row
+of the matrix) and apply PCA on it. Specifically, we extract first 10 components ranked based on
+the amount of variance they explain. Our underlying assumption here is that r/conspiracy users
+engage with more conspiratorial subreddits while r/science users engage with non conspiratorial
+subreddits. Hence we look for the principal component that projects subreddits in a way that
+places conspiratorial subreddits on one end and non-conspiratorial subreddits (subreddits similar
+to r/science) on the other end, resulting in maximal variance. The first component arranged the
+subreddits from smallest to largest—summarizing the general variety between subreddits. However,
+when sorted by second component of the PCA (Figure 2(a)(2)), r/science and r/conspiracy fall
+on two extreme ends indicating that the second component explains the second order variance
+that the first component does not capture. Since the second component identifies two poles in
+subreddits—r/science and r/conspiracy, we use it as the conspiracy scale. We consider top 200
+subreddits from the conspiracy scale as candidates for the conspiracy communities (Figure 2 (b)).
+
+3.2.2 Validating conspiracy scale. How well does our scale place conspiracy related subreddit
+on conspiracy end and science related subreddits on the other? How does it compare with other
+subreddit similarity measures? We compare our conspiracy scale with two external subreddit
+similarity measures—pointwise mutual information by Samory et. al. [51] and community em-
+beddings by Kumar et. al. [37]. First, we generate the list of (i) conspiracy related and (ii) science
+related subreddits based on the subreddit names and descriptions. Specifically, we search for the
+substring “conspir” and “sci” in subreddit names and terms “conspiracy”. “conspiracies”, “science”
+and “scientific” in subreddit descriptions. We curate this list to keep only relevant subreddits in both
+
+Proc. ACM Meas. Anal. Comput. Syst., Vol. 37, No. 4, Article 111. Publication date: August 2020.
+
+What Makes People Join Conspiracy Communities?: Role of Social Factors in Conspiracy Engagement
+
+111:9
+
+External Sources
+
+Subreddit names & descriptions
+r/thoseconspiracyguys
+
+Reddit search results
+r/conspiracy
+r/insanepeoplefacebook r/conspiratard
+r/WTF
+r/911truth
+
+r/muaconspiracy
+r/conspiracyundone
+
+r/PanicHistory
+r/TrueReddit
+r/WikiLeaks
+r/isconspiracyracist
+
+r/ConspiracyMemes
+r/conspiracies
+r/ConspiracyII
+r/actualconspiracies
+
+Subreddit Sidebar Recommendations
+
+r/conspiracy
+
+r/conspiracytheories
+
+r/Wikileaks
+r/EndlessWar
+r/PostCollapse
+r/Documentaries
+
+r/skeptic
+r/spacex
+r/fakenews
+r/bigfoot
+
+PMI [51]
+r/CHEMPRINTS
+r/bilderberg
+r/conspiracyhub
+r/greenlight2
+
+Conspiracy Scale
+
+r/conspiracy
+r/C_S_T
+r/The_Donald
+r/HighStrangeness
+
+r/WhiteNationalism r/TruthLeaks
+r/EndlessWar
+r/greenlight
+r/WayofBern
+r/HealthConspiracy
+r/VaccineCause
+r/OccupyLangley
+
+r/pokemonconspiracies
+r/OccultConspiracy
+
+r/todayilearned
+r/politics
+Table 2. Table listing the example subreddits obtained by each method. In all, we obtained a total of 657
+unique subreddits from every method.
+
+r/OccultConspiracy
+r/TheTranslucentSociety r/moonhoax
+
+r/1984isreality
+r/WhiteRights
+
+r/mysterybabylon
+
+r/conspiracyII
+
+(i) and (ii). Next, we rank the subreddits using the three methods as described in Table 1. In all three
+methods, r/conspiracy and r/science have rank 1 in conspiracy and science ranks respectively.
+Thus it follows that the conspiracy ranks for conspiracy related subreddits should be close to one.
+Similarly, the science ranks for science related subreddits should be close to one. Hence, to compare
+the aggregate ranking of subreddits across all three methods, we calculate root mean square and
+standard deviation of the ranks generated. In both, conspiracy and science, our scale produces
+lower standard deviation and root mean square (rms) in the rankings (See Table 1) indicating that
+out scale places conspiracy related subreddits closer to r/conspiracy and science related subreddits
+closer to r/science. For examples, see top 10 subreddits on both sides of the conspiracy scale 2 (b).
+Moreover, unlike the similarity generated by the pointwise mutual information, our scale is not
+biased towards smaller or larger subreddits. For example, top 10 subreddits closes to r/conspiracy
+on the conspiracy scale (Figure 2 (c)) contain both, smaller and larger subreddits with respect to
+the subscriber count and the contribution volume.
+
+3.3 Annotating conspiracy communities
+Table 2 provides examples of subreddits obtained from every method discussed above. With the
+subreddit list obtained from the external sources and the conspiracy scale, we have 657 candidates
+for the conspiracy communities. For each candidate, we obtained annotations from two separate
+annotators who had sufficient experience and context for distinguishing conspiratorial and non-
+conspiratorial discussions. First, the annotators read the subreddit names and their descriptions.
+Then, they read at least top 10 submissions from each of the subreddits and analyzed them using
+the definitions of conspiracy theories aggregated in [52]. For example, one of the definitions states:
+“...(conspiracies) involve multiple actors working together in secret to achieve hidden goals that are
+perceived to be unlawful or malevolent...” [1, 14, 63, 68]. The annotators annotated the subreddit
+as 1 if either of the definitions applied in at least five posts and 0 otherwise (Figure 2(a)(3)). We
+discarded all subreddits that either of the annotators found to be irrelevant or anti-conspiracy or
+were about trolling conspiracists. For example, r/ChickenApocalypse contains jokes mentioning
+the conspiracies about chicken controlling the world and r/Disinfo is a watchdog subreddit for
+cataloguing misinformation and debunking conspiracy theories. After manual validation, we
+obtained a list of 56 subreddits that both annotators considered to host conspiracy discussions,
+ensuring high precision. We provide a list of subreddits in the conspiracy communities alongwith
+the links to the example posts containing conspiracies in the supplementary material.
+
+Proc. ACM Meas. Anal. Comput. Syst., Vol. 37, No. 4, Article 111. Publication date: August 2020.
+
+111:10
+
+Shruti Phadke, Mattia Samory, Tanushree Mitra
+
+4 DATA AND SUBJECTS
+Informed by collective action theories, we hypothesize that the participants in the conspiracy
+communities—Current Conspiracists, CC—exert some influence on people outside of the com-
+munities, via discussions and other interactions. In this light, our research question thus investigates
+if and how the influence of CC leads users to join the conspiracy communities. We measure CC’s
+influence over users who will, at some point, join any one of the conspiracy communities (Future
+Conspiracists, FC). We compare and contrast CC’s influence on FC against a matched cohort of
+control users. Using statistical matching, we find users that are comparable to FC in all respects but
+who never join any of the conspiracy communities—Non Conspiracists, NC (Figure 3). Below,
+we detail the source of our discussion data and our process for selecting our user cohorts FC, NC,
+and CC, and how we match FC and NC.
+
+4.1 Discussions on Reddit
+We study conspiracists on Reddit, a social media platform where users can create, share, and
+discuss content by participating in specific subdivisions of Reddit (or subreddits). Subreddits contain
+discussions around specific themes. For example, r/Kanye is for discussing anything related to Kanye
+West and r/nintendo is a subreddit for Nintendo news and games. Discussions in subreddits start
+with an opening post called submission, that sets the theme. Users can comment on the submissions
+and on other users’ comments. For the sake of simplicity, we collectively call submissions and
+comments as “contributions”, and all contributions in a discussion as “thread” (see Figure 3 (c)).
+
+4.2 Finding Future Conspiracists (FC)
+Figure 3 (b) outlines different time spans that we use throughout this paper to characterize users’
+lifetime on Reddit. FC are Reddit users who eventually engage with any one of the conspiracy
+communities. We consider the time of their first contribution to any of the conspiracy subreddits
+as the time when a FC joins the community. We consider the 6 months preceding their joining as
+the observation period in which we study the individual and social factors affecting their joining.
+A total of 740,093 users ever contributed to the conspiracy communities; however, we impose a
+number of constraints to obtain a high quality sample of FC. We want to study FC who become
+actively engaged, and not users who post only incidentally such as spammers and trolls. Therefore,
+for each subreddit in the conspiracy communities, we calculate median number of contributions
+made by users in that community in their lifetime. We consider users that contribute more than
+the previously calculated median in any of the conspiracy communities as treatment candidates.
+To eliminate throwaway accounts we also remove users with less than 2 years of Reddit lifetime.
+To reliably measure signals of social factors during the observation period, we keep only users who
+have enough data—5 contributions—in that time. Finally, in order to reliably match FC and NC, we
+limit to users with at least 5 contributions and 6 months of activity prior to the observation period.
+Our final set of FC consists of 30,325 users.
+
+4.3 Finding Non Conspiracists (NC)
+To understand the prominence of individual and social factors towards conspiratorial engagement
+in FC, we need to compare such factors in normal Reddit users, the control group of NC users.
+Ideally, we want the FC and NC to be indistinguishable based on their Reddit contributions and
+tenure, but for the fact that NC never join any of the conspiracy communities. We begin with a
+list of 10 million Reddit users who have at least 2 years of Reddit lifetime and no contributions in
+the conspiracy communities. Next, we refine this list to match the group of FC users based on the
+following criteria.
+
+Proc. ACM Meas. Anal. Comput. Syst., Vol. 37, No. 4, Article 111. Publication date: August 2020.
+
+What Makes People Join Conspiracy Communities?: Role of Social Factors in Conspiracy Engagement
+
+111:11
+
+Fig. 3. (a) Matching criteria used for finding similar FC and NC (b) Different time spans in the users’ Reddit
+criteria using nearest neighbor matching
+,
+life. FC and NC are matched on
+
+exactly and on
+
+,
+
+,
+
+with Mahalanobis distance.
+symbolizes Reddit start, observation period start and signifies FC’s and CC’s
+joining any one of the conspiracy communities. FC and NC have at least 2 years of Reddit life, at least 10
+contributions in the observation and 10 in pre-observation period. We calculate the users dyadic interactions
+with CC in the observation period. (c) Elaboration of dyadic interactions (faded gray arrows in (a)) indicating
+replies to or from CC) with examples of dyadic interactions in a typical Reddit discussion thread.
+
+• A: Reddit start month. To select users with similar Reddit tenure, we first match FC with all
+
+NC candidates that made first contribution in Reddit in the same month as FC.
+
+Next, we want users that are similarly active on Reddit. We define different time spans over FC’s
+life and find NC that have similar contributions in those time periods. Specifically, we match on:
+
+• B: Contribution volume in the Reddit lifetime
+• C: Contribution volume in the observation period
+• D: Contribution volume in the pre-observation period
+
+Finally, we also consider the similarity in contributions during the pre-observation period.
+
+• E: Contributions in similar subreddits in the pre-observation period. We want to control for
+the types of subreddits FC and NC contribute in, prior to the observation period. Controlling
+for contributions in similar subreddits can give us FC and NC users who have tendencies to
+contribute in similar subreddits. We assess the similarity of subreddit contributions made by
+FC and NC using the conspiracy scale described in Section 3.2. The conspiracy scale gives us
+weights for subreddits based on their similarity to r/conspiracy (see Figure 2 b for example).
+Hence, understanding the users’ subreddit activity using conspiracy scale can help us match
+FC and NC that are similarly conspiratorial or non-conspiratorial in the pre-observation
+period. Moreover, having FC and NC who have a history of contributions in similar subreddits
+can give us user cohorts with comparable chances of social interactions with other conspir-
+acists. Thus, to compute our final matching criteria (E), we take weighted sum of normalized
+user contributions using the subreddit’s score on the conspiracy scale. For example, if a
+user has 60% contributions in r/C_S_T (-0.36 on scale) and 40% contributions in r/The_Donald
+(-0.32) then the matching feature value is calculated as −0.36 × 0.6 + (−0.32) × 0.4 = −0.344. To
+validate that this feature is able to characterize the users’ subreddit contributions effectively,
+we plot the feature values for top 100, 1000 and 10k r/conspiracy and r/science users and
+compare their distributions. (See Figure 4). In all three cases, Wilcoxon signed rank sum test
+revealed that the distributions for conspiracy and science users are significantly different
+
+Proc. ACM Meas. Anal. Comput. Syst., Vol. 37, No. 4, Article 111. Publication date: August 2020.
+
+Reddit Lifetime(at least 2 years)Matching Methods: subredditsubmissioncommentsObservation Period(6 months)Pre-observation Period(at least 6 months)(at least 1 year)Reddit StartExactTimeCountSemantic SimilarityMahalanobis, 1:1, replacementObservation StartConspiracy joining FCNCCCmatched> average contributions in conspiracy community11B1B1B1C1C1C1A1A1A1111151514141313121212121Dyadic Interactions(b)(a)(c)DDFirst Reddit contribution in the same monthSimilar number of  contributions in Reddit lifetimeSimilar number of  contributions in observation periodDSimilar number of  contributions in pre-observation periodE1E1E1Contributions in similar subreddits in the pre-observation periodWeighted sum of contributions where weights are subreddit score on the conspiracy scaler/conspiracyr/scienceA1BCDE111:12
+
+Shruti Phadke, Mattia Samory, Tanushree Mitra
+
+) for (a) top 100 (b) top 1000 and
+Fig. 4. We obtained the contribution similarity scores (matching criteria
+(c) top 10k r/conspiracy and r/science users. The scores were generated by taking weighted contributions
+by users (weights are the conspiracy scale weights for the subreddits). The Wilcoxon rank sum test between
+distributions returned p-values < 0.05 in all three cases. This indicates that our contribution similarity
+calculation is able to characterize different types of users accurately based on their Reddit activity.
+
+which means our contribution similarity calculation is able to characterize different types of
+users accurately based on their Reddit activity.
+
+4.4 Matching FC and NC
+For each of the 30K FC, we select one NC from a pool of 3 million NC candidates using statistical
+matching. Since we want to find FC and NC that join Reddit in the exact same month, we perform
+exact matching on the Reddit start month criteria. We perform nearest neighbor matching with
+replacement using Mahalanobis distance on the remaining constraints. The matching procedure
+results in a set of 30,325 FC users matched with 29,098 NC users 2. Note that our matching procedure
+is more involved than previous empirical studies in conspiracy precursors [32] to ensure highly
+comparable groups of FC and NC users. We use five criteria (Figure 5 (a)) that find similar FC and
+NC users based on their Reddit joining, volume of contribution across different time periods and
+also the semantic similarity of subreddits they contribute in. Our intricate matching process that
+compares different attributes of the users’ Reddit activity, enables us to confidently examine the
+social factors as precursors to conspiracy joining.
+
+4.4.1 Quality of matching. To ensure that our matched FC and NC are statistically comparable,
+we check the improvement in balance across all of the matching constraints using Standardized
+Mean Difference (SMD)—a method commonly used by other researchers studying users on social
+media [49, 50]. Note that the FC and NC are matched exactly on the first criteria— Reddit start
+month. Hence, we claculate the SMD for only the rest of the matching criteria. SMD calculates
+the difference in the means of distributions between the two groups as a fraction of the pooled
+standard deviation of the two groups. Balanced groups are considered to have SMD less than 0.2
+[31]. We obtain an SMD of less than 0.08 across all of the matching constraints, suggesting high
+quality of matching (See Figure 5). Specifically, we find 77% balance increment in pre-observation
+contributions, 63% in observation period and 50% in Reddit lifetime contributions. We find highest
+balance improvement in contribution similarity scores (80%).
+
+229,098 NC users are mapped to 30,325 FC users because we allow replacements in the matching: to ensure the integrity
+of the results, we consider different observation periods for all FC and NC user pairs, in effect considering one NC user
+mapped to two FC users as two distinct NC users
+
+Proc. ACM Meas. Anal. Comput. Syst., Vol. 37, No. 4, Article 111. Publication date: August 2020.
+
+Contribution Similarity ScoreContribution Similarity ScoreContribution Similarity ScoreTop 100 conspiracy usersTop 100 science usersTop 1K conspiracy usersTop 1K science usersTop 10K conspiracy usersTop 10K science users(a)(c)(b)FrequencyEA1What Makes People Join Conspiracy Communities?: Role of Social Factors in Conspiracy Engagement
+
+111:13
+
+Fig. 5. Standardized Mean Difference (SMD) for unmatched and matched users across
+, matching
+constraints. All four constraints result in the SMD < 0.08 after matching indicating balanced matched groups
+of future conspiracists and non conspiracists
+
+,
+
+,
+
+4.5 Finding Current Conspiracists (CC)
+After matching FC and NC, we have a unique observation window for each matched FC and NC
+user pair (Figure 3(a)). Studying interactions with conspiracists in the observation period can inform
+about the social influence the conspiracists have on the conspiracy joining of FC. Hence, we select
+a group of users—current conspiracists (CC)—that have already joined the conspiracy communities.
+Each FC and NC has their own set of CC who have already made their first contribution in any of
+the conspiracy communities and who make above average contributions in aggregate in conspiracy
+communities in their lifetime. In other words, for every FC and NC pair, we select their own set
+of CC based on their unique observation window. In total, there are 61,073 CC involved in the
+interactions with FC and NC.
+
+4.6 Characterizing social interactions with CC
+For every FC/NC, we characterize their interactions with CC in the observation period. Specifically,
+we look at publicly available interactions between users in Reddit discussion threads. Figure 3(c)
+demonstrates a discussion thread. We consider “dyadic interaction” as a communication between
+two users with direct reply to a submission or a comment. For example in Figure 3(c), authors of
+comment 1 and comment 2 are involved in a dyadic interaction. Figure 3(c) also shows examples of
+other dyadic interactions in the discussion thread.
+
+5 FACTORS IN CONSPIRATORIAL ENGAGEMENT
+Table 3 presents a concise summary of individual and social factors that are described below.
+We look at two main categories of precursors towards conspiratorial engagement—individual
+factors and social factors. While individual factors are designed to reflect the users’ predisposition
+towards conspiracies, social factors capture their engagement with the members of the conspiracy
+communities prior to joining those communities.
+
+5.1 Individual Factors
+Why do people believe in conspiracies even when there is a lack of well reasoned evidence? This
+question taps into a popular debate of whether conspiratorial belief emerges from psychological
+predisposition, or from other aspects such as an individual’s exposure to biased information and to
+triggering events. We attempt to capture both arguments while measuring individual predisposition.
+
+Proc. ACM Meas. Anal. Comput. Syst., Vol. 37, No. 4, Article 111. Publication date: August 2020.
+
+Pre-ObservationContribution SimilarityLifetimeObservationMatching ConstraintsBCDE111:14
+
+Shruti Phadke, Mattia Samory, Tanushree Mitra
+
+Feature group (# features)
+
+s Psychological Factors (5)
+r
+o
+t
+c
+a
+F
+l
+a
+u
+d
+i
+v
+i
+d
+n
+I
+
+Crippled Epistemology (3)
+
+Availability (3)
+
+Information (2)
+
+s
+r
+o
+t
+c
+a
+F
+l
+a
+i
+c
+o
+S
+
+Reputation (2)
+
+Emotion (4)
+
+Group Polarization (8)
+
+Self-selection (3)
+
+LIWC categories of anger, sadness, anxiety
+VADER positive and negative sentiment
+
+Exclusivity in contributions: disproportion of contributions across
+subreddits measured through Gini coefficient
+Subreddit similarity to conspiracy communities: essentially the matching criteria
+measured in the observation period
+Content similarity to conspiracy discussions: bag of word vectors similarity to
+top-scored discussions within the conspiracy community subreddits
+Ratio of dyadic interactions with CC: number of dyadic interactions with CC
+normalized by total dyadic interactions
+Ratio of CC in dyadic interactions: number of CC normalized by
+the number of all Redditors users interact with, through dyadic interactions
+Ratio of threads with CC: number of discussion threads in common with CC
+normalized by the number of all discussion threads
+
+Contribution order in dyadic interactions: reply sent to CC is encoded as 1
+and reply received from CC is encoded as -1. The feature represents the sum
+of all such interactions converted to 1 (is sum is positive) or -1 (is sum is negative)
+Time lapse in dyadic interactions: average of absolute value of time difference
+between dyadic interactions measures in seconds
+
+Age reputation: average of the Reddit age of the CCs users interact with
+Karma reputation: average of the karma of the CCs users interact with
+
+LIWC positive and negative affect in user contributions
+in the dyadic interactions with CC
+Coordination in positive and negative affect (2): the absolute difference between
+the user’s and the CC’s positive and negative affect in dyadic interactions
+
+Use of first-person singular, first-person plural, the second person
+and third-person pronouns by users in dyadic interactions with CC
+Coordination in the pronoun use (4) : the absolute difference between
+the user’s and the CC’s pronoun use in dyadic interactions
+
+Moderated contributions: number of moderated contributions
+normalized by total number of contributions
+Negatively scoring contributions: Total contributions with negative score
+normalized by total contributions
+Contribution trend: trend of the line fitted on number of contributions in
+each of the six months in the observation period
+
+Interpretation of feature values
+
+ values  psychological factors
+
+ value  exclusivity
+
+ value  similarity to
+conspiracy communities
+ value  similarity to
+conspiracy content
+
+ value  availability
+
+ value  replies received
+from CC
+
+ value  time lapse
+
+ value  reputation
+
+ value  emotion in users
+
+ value  coordination
+in emotion with CC
+ value  use of pronouns
+
+ value  coordination
+in use of pronouns with CC
+
+ value  self-selection
+
+Table 3. Table summarizing individual and social factors used in this paper. All features are written in bold
+with a concise description. A more detailed intuition behind the features is discussed in Section 5. The
+directionality high (  ) or low (  ) indicates how we should interpret the feature values and their corresponding
+regression coefficient signs in the logistic regression analysis (Section 6). For example, for the emotion
+coordination feature, low (  ) value indicates high (  ) coordination between users and CC, i.e., if FC (label 1
+in regression) have high coordination with CC, the sign of beta coefficients will be negative for the emotion
+coordination features.
+
+5.1.1 Psychological Factors: We explore the presence of psychological factors through analyzing
+sentiment and affective words in the contributions made by FC and NC in the observation period.
+Specifically, based on previous research associating conspiratorial belief with anxiety, paranoia and
+insecurity [11, 20], we measure users’ proclivity to such psychological factors as follows.
+
+• Cognitive and affective processes:Researchers have argued that words and language reflect
+psychological states [59]. We measure Linguistic Inquiry and Word Count (LIWC) [47]
+categories of anger, sadness, and anxiety in the contributions made by users in the observation
+period, normalized by total number of contributions.
+
+• Sentiment: We calculate average VADER sentiment scores for positive and negative senti-
+
+ment [19] in the user’s contributions during the observation period.
+
+5.1.2 Crippled epistemologies: Sunstein et. al. coined the term to refer to a scenario when an
+individual’s tendency to adhere to limited information sources results in their epistemological
+isolation [57]. Thus, a conspiracy theory, which is otherwise unjustified relative to all the informa-
+tion available to the wider society, might be perfectly justified to someone whose worldview is
+
+Proc. ACM Meas. Anal. Comput. Syst., Vol. 37, No. 4, Article 111. Publication date: August 2020.
+
+EWhat Makes People Join Conspiracy Communities?: Role of Social Factors in Conspiracy Engagement
+
+111:15
+
+already distorted due to the absence of relevant and ample information. The tendency to adhere
+to epistemologically isolated information sources increases the likelihood to accept conspiracy
+theories. On Reddit, users can exhibit crippled epistemologies by refraining from participating in
+diverse communities, participating in communities that might foster a conspiratorial worldview,
+and contributing content similar to the conspiratorial themes.
+
+• Exclusivity in contributions: Do the FC and NC exclusively contribute in fewer subreddits
+or do they spread their Reddit activity evenly over multiple subreddits? We characterize
+exclusivity by calculating Gini coefficient of disproportion on the subreddit contributions
+made by the users. The feature value varies between 0 to 1 with higher values indicating
+high exclusivity in subreddit contributions.
+
+• Subreddit Similarity to conspiracy communities: Apart from subreddits in our carefully
+compiled list of 56 conspiracy communities, Reddit has other subreddits that even though,
+not dedicated to conspiracy theories, occasionally host conspiracy related discussions (for
+example, r/The_Donald). Higher engagement in such subreddits might indicate that users
+are being exposed to conspiratorial themes. The conspiracy scale introduced in section
+3.2 characterizes subreddits based on how similar they are to r/conspiracy compared to
+r/science. Thus, for every user, we weigh the contributions made in each subreddit by the
+subreddit’s score on the conspiracy scale. We consider the sum of all weighted contributions
+as a subreddit similarity feature. Remember that we used similar computations to match the
+FC and NC based on their contributions in the pre-observation period. Hence, we do not
+expect this feature to have significantly different values for FC and NC. However, measuring
+the significance of this feature in the observation period can contextualize the observations
+about other individual and social factors.
+
+• Content similarity to Conspiracies: Another way of measuring exposure to conspiracies
+is to compare the actual content produced by FC and NC with the discussions inside the
+conspiracy communities. Top ranking posts can distinguish subreddits along the dimensions
+of topics, style, audience and moderation [26]. Hence we compile a list of top 10 scored
+submissions from every subreddit in the conspiracy communities as a representative corpus
+of conspiratorial discussions. Further, we also create a corpus for every FC and NC by
+combining their contributions in the observation period. Next, we create Bag of Words (BoW)
+representations for every corpus after cleaning the text data and removing stop words. As
+previously discussed, subreddits within the conspiracy communities vary in their interests
+(general conspiratorial discussion vs. specific conspiracies). In order to capture this variance
+in conspiratorial discussions, we calculate the cosine similarity scores for the user’s BoW
+vector with all subreddits in the conspiracy communities. Finally, we take the maximum
+cosine similarity score as the user’s content similarity feature.
+
+5.2 Social Factors
+How does socializing with members of the conspiracy communities affect FC’s joining behavior?
+We quantify the social factors by analyzing users’ online interactions with current conspiracists
+(CC). Based on Sunstein et. al’s framework [57], we study various statistical, temporal and linguistic
+aspects of the interactions between the users and CC. Below we outline the characterization of
+social features across various dimensions.
+
+5.2.1 Availability: Conspiratorial beliefs may flourish upon availability of conspiratorial mate-
+rials [57]. On Reddit, interactions with other conspiracists is what makes conspiratorial content
+available to users who are yet to join these communities. Thus, to understand the prominence of
+such interactions in our two user cohorts, we introduce three features.
+
+Proc. ACM Meas. Anal. Comput. Syst., Vol. 37, No. 4, Article 111. Publication date: August 2020.
+
+111:16
+
+Shruti Phadke, Mattia Samory, Tanushree Mitra
+
+• Ratio of dyadic interactions with CC: Dyadic interactions are pairwise interactions (Fig-
+ure 3 (c)) where either user replies to CC or vice-a-versa and can provide venues where
+conspiratorial content is available to users through other conspiracists. We count the propor-
+tion of such dyadic interactions with CC normalized by all dyadic interactions the user has
+on Reddit in the observation period.
+
+• Ratio of CCs in dyadic interactions: In addition to dyadic interactions, the amount of
+conspiracists engaged with users can also signal the exposure to available conspiratorial
+content. Do FC or NC engage with just one or multiple CC? This feature captures the number
+of CC that users engage with through dyadic interactions normalized by number of all Reddit
+users they interact with via dyadic interactions.
+
+• Ratio of threads with CC: While dyadic interactions are strong indicators of information
+exchange, users are also exposed to the contributions made by CC in the overall thread. For
+example, in Figure 3, it is possible that the author of comment 4 has read comment 1 even
+without a direct interaction. To understand if users passively consume the content written by
+CC without directly engaging with them, we also consider the number of threads on which
+the user and CC appear together. Specifically, we calculate the user’s co-presence with CC in
+threads by counting the total number of threads with CC normalized by the number of all
+threads the user participates in during the observation period.
+
+Information: What role does information play in the conspiratorial engagement? Re-
+5.2.2
+searchers argue that conspiratorial beliefs can be a product of informational pressure built through
+social interactions [57]. For example, conspiracy theories are often initially accepted by people
+with low thresholds of acceptance. Informational pressure builds through social interactions with
+such people to the point where others even with higher acceptance threshold begin to accept the
+theory [57]. We consider CC as Redditors with lower acceptance threshold as they have already
+made contributions in the conspiracy communities. Towards understanding the role of information
+in conspiratorial engagement, we focus on two temporal characteristics of the dyadic interactions:
+
+• Contribution order in dyadic interactions: Do users reply to the contributions made by
+CC or do they often receive a reply from CC? If the user normally replies to CC, it can indicate
+that she is exposed to the opinions expressed by conspiracists. Sunstein et. al. claim that this
+can build informational pressure that can result in conspiratorial thinking. We encode every
+direct interaction as 1 if the user replies to CC and as -1 if the user receives as reply from CC.
+We aggregate this measure for all dyadic interactions by the user and consider the feature
+value as 1 if the sum is positive and -1 if the sum is negative. In other words, contribution
+sequence value of 1 indicates that the user more commonly replies to the CC.
+
+• Time lapse in dyadic interactions: How much time do users take to process the information
+they are exposed to by interacting with the CC? A small time duration between the interaction
+may indicate that users have less time to rationally consider all the information available
+and may tend to rely on other’s information and judgment to form their opinion. While
+contribution order captures whether the users contribute before or after CC, time lapse
+feature measures the average absolute time differences in seconds between dyadic interaction.
+Smaller value of time lapse means the user contributes shortly before or after CC.
+
+5.2.3 Reputation: When users interact with conspiracists, the reputation of conspiracists can
+also exert additional pressure to join the conspiratorial belief system [57]. Due to the reputational
+pressure, people often ignore their own beliefs to avoid social sanctions. We characterize reputation
+on Reddit with two features—account age and karma of the (CC) that NC or FC interacts with.
+
+Proc. ACM Meas. Anal. Comput. Syst., Vol. 37, No. 4, Article 111. Publication date: August 2020.
+
+What Makes People Join Conspiracy Communities?: Role of Social Factors in Conspiracy Engagement
+
+111:17
+
+• Age reputation: Does seniority of conspiracists exert a reputational pressure on potential
+joiners? We first calculate the age of a CC at the time of his last direct interaction with NC or
+FC in the observation period. Next, for every user in our NC, FC cohort, we calculate the
+age reputation feature as the average account ages of all conspiracists they engage through
+dyadic interactions. We consider CC’s account age at the time of the latest interaction with
+FC in the observation period.
+
+• Karma reputation: Redditors can accumulate karma through up-votes and down-votes on
+their contributions. We first find the aggregate karma of a CC user at the time of their latest
+direct interaction with NC or FC during the observation period. Next, for every user in our
+NC, FC cohort, we calculate the average karma accumulated by all CCs that users interacted
+with in the observation period.
+
+5.2.4 Emotion: Are emotions exchanged during interactions important towards conspiratorial
+belief? Sunstein et. al. argue that “emotional selection” could be an important aspect towards
+understanding the spread of conspiracies [57]; people select content that justify their emotional
+state. Studies have also shown that discussions involving personal accounts and rumours that
+elicit intense emotional response are likely to spread from one person to another [24]. Hence, we
+quantify this emotional snowballing by measuring the LIWC categories of positive and negative
+affect words in the dyadic interactions between the user cohorts (FC and NC) and CC.
+
+• Affective process in dyadic interactions: For every direct interaction between the users
+and CC, we calculate the presence of LIWC’s positive and negative affect category words.
+The aggregate positive and negative affects averaged over number of dyadic interactions
+represent the affective processes in dyadic interactions.
+
+• Coordination in affective processes: Do the CC reflect the same affective state as the FC and
+NC? While the previous feature measures the affective processes in the contributions made by
+FC and NC, it is also important to understand how similarly or differently the CC counteract.
+We measure the coordination between the affective state within dyadic interactions as follows:
+for every interaction, we subtract the affective state values in the contribution by CC from
+those in the contribution by the user. The average of this difference over all user interactions
+represents average coordination in the user’s affective state with the CC. Lower values of the
+feature should indicate that users closely replicate the affective states of CC.
+
+5.2.5 Group Polarization: Belief in conspiracy theories is often strengthened through strong
+group identity [18, 57]. Prior research have found that when group members—or, in-group—have
+a shared sense of identity and solidarity, they often discard the arguments by outsiders—the out-
+group—as non-credible. This suggests that if users from our NC, FC cohort relate to the identity of
+current conspiracy (CC) group members, then would likely also adopt the group’s conspiratorial
+beliefs. One way to measure the sense of group identity is by analyzing how users and conspiracists
+use pronouns in interactions [28, 46, 59]. For example, first person singular pronouns can signal
+high self and group awareness while second and third person pronouns can indicate that users are
+socially interactive with larger Reddit audience [46].
+
+• Use of pronouns in dyadic interactions : We count the average use of first person singular
+(I, me etc.) first person plural (we, us etc.), second person and third person pronouns in the
+contributions made by the user in dyadic interactions with the CC
+
+• Coordination in the use of pronouns : We also measure the difference between the use of
+
+pronouns between the user and CC for all pronoun features mentioned above.
+
+5.2.6 Self-selection: Other than exposure to limited relevant information, crippled epistemology
+can also develop from social self-selection [57]. As people start developing increasingly extreme
+
+Proc. ACM Meas. Anal. Comput. Syst., Vol. 37, No. 4, Article 111. Publication date: August 2020.
+
+111:18
+
+Shruti Phadke, Mattia Samory, Tanushree Mitra
+
+conspiratorial views, they might suffer from social segregation from others with differing ideologies.
+Hence, we measure self-selection by observing the extent of social sanctions placed on a user’s
+content contribution during their observation period. It comprises the following features.
+
+• Moderated contributions: Users can feel ostracized on Reddit by having their contributions
+moderated. Most subreddits have content moderation policies. Contributions that violate
+the subreddit rules are often removed. We calculate the number of moderated contributions
+normalized by total number of contributions in the observation period to understand social
+sanctions placed on a user’s contribution.
+
+• Negatively scoring contributions: Apart from moderation, users can also face sanctions by
+receiving more negative scores. Contributions on a subreddit accumulate scores via upvotes
+and downvotes cast by others. Negative score indicates more downvotes than upvotes. Thus,
+we calculate contributions with total negative scores normalized by the total number of
+contributions.
+
+• Contribution trend in the observation period: Users may join the conspiracy communities
+not only because they are ostracized outside of it, but also because they generally disengage
+from society. To measure disengagement, we compute the decrease in their participation in
+the observation period. We calculate the number of contributions per month, and fit a line
+via least squares regression. We take the trend of this line as the contribution trend in the
+observation period: a negative trend corresponds to a decrease in participation.
+
+5.3 Understanding the Importance of Features
+Table 6 and Table 7 in Appendix display the summary statistics and distributions for both, individual
+and social factors. In order to evaluate the importance of individual and social factors towards
+conspiratorial engagement, we construct a series of logistic regression models (see Table 4). The
+dependent variable is binary and represents the type of user cohort, FC (1) and NC (0). We interpret
+the importance of features by comparing their regression coefficients (𝛽 values) in the logistic
+regression models. If features have multicollinearity—two or more features are highly related—it
+can lead to poor estimation of 𝛽 coefficients. Thus, we tested for multicollinearity in features
+through Variance Inflation Factor (VIF). If any feature has VIF > 5.0 then the group of features is
+considered to have high multicollinearity [53]. We found all features to have VIF < 4.0 suggesting
+low multicollinearity. Additionally, all features vary in their means and standard deviations and
+variable types, such as counts, time in seconds and proportions. Hence we standardize the features
+for the regression analyses. Due to the high number of features and multiple testing, our model
+could have an increased risk of false significance. However, lower p-values have lesser chance of
+significance errors [16]. Hence, we report p-values in different thresholds. Specifically, (p < 0.001,
+𝑝 < 0.01, 𝑝 < 0.05) in Table 4. Most of the p-values in the regression models are less than 0.001.
+
+6 RESULTS
+How informative are social factors in predicting conspiracy joining? Previous research has already
+established the importance of individual predisposition in conspiratorial thinking [11, 20]. Hence,
+we treat individual features as a baseline to ascertain the importance of social features. Specifically,
+we create a baseline model consisting of only individual features and then successively add six
+social feature groups and perform logistic regression at each step. Table 4 contains the details
+of logistic regression performance for all models. In cases where new variables (features) are
+added to an existing model, there is a possibility of mediation effect. In other words, adding a new
+variable can reveal the unobserved relationship between previous independent variables and the
+dependent variable. Specifically, drastic changes in model coefficients (𝛽 coefficient) along with
+
+Proc. ACM Meas. Anal. Comput. Syst., Vol. 37, No. 4, Article 111. Publication date: August 2020.
+
+What Makes People Join Conspiracy Communities?: Role of Social Factors in Conspiracy Engagement
+
+111:19
+
+their significance after adding new variables signal mediation. We observe that the significance of
+most of the features does not change after adding new features. This implies only limited mediation
+effects that won’t effect our final model results. Additionally, the 𝛽 coefficients for features across
+the models are same. Hence, while discussing the results, we only refer to the last column of Table
+4—model that contains all features. Specifically we ask four questions:
+
+6.1 How important are individual features?
+We find that FC express more anxiety (𝛽= 0.06), and negative sentiment (𝛽= 0.86) compared to NC.
+This is consistent with qualitative studies stressing the role of negative attitudes in conspiracy
+adoption [11, 20]. FC also show more positive sentiment compared to NC (𝛽= 0.18). In all, FC
+show higher emotionality than NC. Further among the crippled epistemology features, FCs produce
+content more similar to the top scored discussions in the conspiracy communities (𝛽= 0.61) and also
+have higher exclusivity in contributions (𝛽= 0.09). Overall, our results suggest that both negative
+psychological predisposition and crippled epistemology, can inform the conspiracy joining. Our
+findings thus reinforce theoretical observations about the relevance of conspiratorial predisposition
+in the conspiracy engagement. We interpret these results further in our Discussion section.
+
+6.2 How important are social features?
+We treat individual features’ model as a baseline to compare how much value do social features
+add to the regression model. Below, we discuss each social feature group separately.
+
+6.2.1 Availability: By adding availability features we observe improvement in the pseudo 𝑅2
+compared to the individual factors model (0.21 vs. 0.12). That is, the model containing both individual
+and availability features fits better than the model with just individual features. Specifically, in
+comparison to NCs, FC users have higher proportion of dyadic interactions (𝛽 = 1.58) and more
+threads in common (𝛽= 0.12) with CCs. Moreover, out of all Redditors they interact with, the
+proportion of CCs they interact with, is larger for FC (𝛽= 0.33) compared to NC. Upon adding the
+availability features, the subreddit similarity in individual factors becomes insignificant, indicating
+a possibility of partial mediation effect. Overall, high number of dyadic interactions with CC and
+co-presence with CC indicate intimacy with current conspiracists; intimacy is one of the four tie
+strength dimensions proposed by Granovetter [22]. This may suggest that FC form strong ties with
+CC in the observation period.
+
+Information:
+
+Information features capture the order of contributions, i.e, whether users
+6.2.2
+usually reply to the CC or vice a versa, and the time lapse between the dyadic interaction. Remember
+that negative feature value of contribution order indicates more replies received from CC as opposed
+to positive which indicates more replies sent to CC. The negative and significant beta coefficient
+for the contribution order feature (𝛽= -0.13) thus implies that FC often receive more direct replies
+from the current conspiracists. Together with increased direct interactions with CC in general, this
+might reflect efforts on part of CC to engage with FC. We find no significant differences in the time
+lapse between the dyadic interactions of user cohorts and CC.
+
+6.2.3 Reputation: While there is no difference between the seniority of CC that FC and NC
+interact with, they do differ in the average karma. On Reddit, comment and submission karma can
+indicate how well the user’s opinions are accepted by other Reddit users. We find that FC interact
+with CC having lower karma (𝛽=-0.08). It is possible that the current cospiracists who feel rejected
+by other Reddit users through lower karma are reaching out to a group of users predisposed towards
+conspiratorial thinking—FC—by direct interactions outside of the conspiracy communities.
+
+Proc. ACM Meas. Anal. Comput. Syst., Vol. 37, No. 4, Article 111. Publication date: August 2020.
+
+111:20
+
+Shruti Phadke, Mattia Samory, Tanushree Mitra
+
+individual + availability + information + reputation
+
++emotion
+
++group
+
++selection
+
+0.01 (0.01)
+0.06*(0.01)
+-0.05*(0.01)
+0.15*(0.01)
+0.78*(0.01)
+
+0.01 (0.01)
+0.06*(0.01)
+-0.06*(0.01)
+0.16 *(0.01)
+0.86*(0.01)
+
+0.01 (0.01)
+0.06*(0.01)
+-0.06*(0.01)
+0.16*(0.01)
+0.87*(0.01)
+
+0.01 (0.01)
+0.06*(0.01)
+-0.06*(0.01)
+0.16*(0.01)
+0.87*(0.01)
+
+0.01 (0.01)
+0.07*(0.01)
+-0.06*(0.01)
+0.17*(0.01)
+0.87*(0.01)
+
+0.01 (0.01)
+0.07*(0.01)
+-0.06*(0.01)
+0.18*(0.01)
+0.88*(0.01)
+
+0.01 (0.01)
+0.06*(0.01)
+-0.06*(0.01)
+0.18*(0.01)
+0.86*(0.01)
+
+0.23*(0.01)
+-0.07*(0.01)
+0.56*(0.01)
+
+0.10*(0.01)
+-0.01 (0.01)
+0.59*(0.01)
+
+0.10*(0.01)
+-0.01 (0.01)
+0.59*(0.01)
+
+0.09*(0.01)
+-0.01 (0.01)
+0.59*(0.01)
+
+0.10*(0.01)
+-0.01 (0.01)
+0.59*(0.01)
+
+0.09*(0.01)
+-0.01 (0.01)
+0.60*(0.01)
+
+0.09*(0.01)
+-0.01 (0.01)
+0.61*(0.01)
+
+1.54*(0.02)
+0.35*(0.02)
+0.12*(0.02)
+
+1.55*(0.02)
+0.34*(0.02)
+0.12*(0.01)
+
+1.55*(0.02)
+0.34*(0.02)
+0.12*(0.01)
+
+1.55*(0.02)
+0.35*(0.02)
+0.12*(0.01)
+
+1.56*(0.02)
+0.34*(0.02)
+0.12*(0.02)
+
+1.58*(0.02)
+0.33*(0.02)
+0.12*(0.02)
+
+-0.13*(0.06)
+0.02 (0.01)
+
+-0.12*(0.06)
+0.03 (0.01)
+
+-0.12*(0.06)
+0.02 (0.01)
+
+-0.12*(0.06)
+0.01 (0.01)
+
+-0.13*(0.06)
+0.01 (0.01)
+
+-0.02 (0.01)
+-0.08*(0.01)
+
+-0.01 (0.01)
+-0.08*(0.01)
+
+-0.01 (0.01)
+-0.08*(0.01)
+
+-0.01 (0.01)
+-0.08*(0.01)
+
+0.02 (0.01)
+-0.05*(0.01)
+0.03 (0.01)
+-0.01*(0.01)
+
+0.01 (0.01)
+-0.05*(0.01)
+0.04 (0.01)
+-0.01*(0.01)
+
+0.01 (0.01)
+-0.05*(0.01)
+0.03 (0.01)
+-0.02*(0.01)
+
+0.04*(0.01)
+0.01 (0.01)
+0.04*(0.01)
+-0.04*(0.01)
+0.01 (0.01)
+0.02 (0.01)
+0.01 (0.01)
+-0.05*(0.01)
+
+0.04*(0.01)
+0.01 (0.01)
+0.04*(0.01)
+-0.04*(0.01)
+0.01 (0.01)
+0.01 (0.01)
+0.01 (0.01)
+-0.05*(0.01)
+
+INDIVIDUAL FACTORS
+Psychological Predisposition
+Anger
+Anxiety
+Sadness
+VADER Positive Sentiment
+VADER Negative Sentiment
+Episteomology
+Exclusivity in Contributions
+Subreddit Similarity to conspiracy communities
+Content Similarity to Conspiracies
+SOCIAL FACTORS
+Availability
+Ratio of Dyadic interactions with CC
+Ratio of CC in dyadic interactions
+Ratio of threads with CC
+Information
+Contribution Order in Dyadic Interactions
+Time Lapse in Dyadic Interactions
+Reputation
+Age Reputation of CC
+Karma Reputation of CC
+Emotion
+LIWC Positive affect
+Coordination in positive affect
+LIWC Negative affect
+Coordination in negative affect
+Group Polarization
+First person singular
+Coordination in first person singular
+First person plural
+Coordination in first person plural
+Second person
+Coordination in second person
+Third person
+Coordination in third person
+Self-selection
+Moderated contributions
+Negatively scoring contributions
+Contribution trend in the observation period
+intercept
+Adjusted 𝑅2
+Accuracy
+Precision
+Recall
+
+0.06*(0.01)
+0.18*(0.01)
+0.09*(0.01)
+0.07
+0.26
+0.73
+0.74
+0.70
+
+0.07
+0.23
+0.72
+0.73
+0.69
+
+0.07
+0.22
+0.72
+0.73
+0.68
+
+-0.10
+0.12
+0.64
+0.63
+0.65
+
+0.07
+0.21
+0.71
+0.72
+0.68
+Table 4. Results of the regression analysis. In each column we successively add social feature groups to
+the individual features and observe 𝛽 values and adjusted 𝑅2. Significant 𝛽 values are followed by *. We
+color code the numbers according to p-values as follows: (p < 0.001, 𝑝 < 0.01, 𝑝 < 0.05). 𝛽 values stay fairly
+consistent throughout all models and most features do not change their significance indicating limited
+or partial mediation effects. Accuracy, precision and recall were calculated using five-fold cross-validation.
+Our 𝑅2 values are fairly consistent with the ranges reported by other researchers studying complex social
+phenomena [12, 67]. Note that various social feature groups can be successively added to the individual
+feature model in any order. Hence, we do not use regression performance from this table to compare social
+feature groups with each other.
+
+0.06
+0.24
+0.72
+0.73
+0.69
+
+0.07
+0.23
+0.72
+0.73
+0.69
+
+6.2.4 Emotions: What role do emotions in interactions play in conspiratorial engagement?
+Adding emotion features, we observe an interesting coordination between affective state of FC
+and NC. Firstly, FC and NC do not differ in the positive and negative affect word use in dyadic
+interactions with CC. However, CC still closely reflect the affective state of FC more compared to
+NC. To elaborate, coordination features are calculated by taking the absolute difference between
+
+Proc. ACM Meas. Anal. Comput. Syst., Vol. 37, No. 4, Article 111. Publication date: August 2020.
+
+What Makes People Join Conspiracy Communities?: Role of Social Factors in Conspiracy Engagement
+
+111:21
+
+Fig. 6. (a) Six social feature groups and their relative importance as percent increase in 𝑅2 compared to
+individual features (more details in Section 6.3). Note that we add only one social feature group at a time to
+the individual model and calculate the percent increase in the 𝑅2. For example, availability features improve
+the 𝑅2 of individual model by 75% while self-selection feature improve it by 19%.
+
+the user’s and CC’s respective emotion states. Hence, lower values represent higher coordination.
+Thus, FC have higher coordination of negative (𝛽=-0.02) and positive (𝛽=-0.05) affective state with
+CC compared to NC.
+
+6.2.5 Group polarization: For the group polarization features, we measure the use of pronouns
+by the users in dyadic interactions and how similar their pronounce usage is to the use of pronouns
+by CC in dyadic interactions. While talking with CC, FC use first person pronouns more compared
+to NC. Interestingly, FC also have higher coordination in the first person plural (𝛽=-0.04) and third
+person (𝛽=-0.05) use with CCs. Previous research has associated higher use of first person plural
+and third person pronouns with strong group identity [27, 59]. This means that even before joining
+conspiracy communities, FC communicate in the language of “we”, “us”, “ours” with CC expressing
+higher group identity.
+
+6.2.6 Selection: How does self-selection affect conspiracy engagement? Do users get more
+sanctions and negative feedback from others? Selection features capture the amount of moderation,
+negative scores and users’ disengagement during the observation period. We find that all selection
+features are significant. Specifically, FC have more moderated (𝛽=0.06) and negatively scored
+contributions (𝛽=0.18) compared to NC. However, despite facing more social sanctions, FC still
+increase their contribution rate compared to NC in the observation period (𝛽=0.09).
+
+6.3 How important is each of the social feature groups?
+All social feature groups contain at least one significant predictor of joining conspiracy communities.
+In fact, some social factors are overall better predictors than individual factors. Notably, the ratio
+of dyadic interactions with CC (𝛽=1.58) is the single most important feature in the regression
+model. Furthermore, iteratively adding each group of social features consistently increases model
+performance. These findings corroborate that social factors play a sizable role in predicting users
+joining conspiracy communities even after controlling for individual factors. To understand the
+relative importance of feature groups amongst social factors, we add each of them separately to
+
+Proc. ACM Meas. Anal. Comput. Syst., Vol. 37, No. 4, Article 111. Publication date: August 2020.
+
+% increase in adj. R-sqr over individual model020406080availabilityself-selectionreputationinformationemotiongroup 111:22
+
+Shruti Phadke, Mattia Samory, Tanushree Mitra
+
+Features
+
+Test 1 Accuracy
+(20% remaining)
+
+Test 2 Accuracy
+(10% Generalist Population)
+
+Test 3 Accuracy
+(10% Specialist Population)
+
+individual
+individual+social
+
+Training
+(80% whole population)
+Table 5. Full model tested on the generalist and specialist population. The experiment was repeated five times.
+The accuracy values are the average of 5 experiments. We find that accuracy values are similar across three
+tests and increase after adding social factors. This indicates that social factors are informative in predicting
+conspiracy joining regardless of the topic of discussion in the conspiracy subreddit.
+
+0.62
+0.74
+
+0.66
+0.71
+
+0.64
+0.73
+
+the individual features, and compare their percent increase in explained variance (𝑅2). Figure 6
+displays a bar chart indicating relative increase in the 𝑅2 value over individual features. We find that
+among all the social features, availability features are the most informative (75% increase), followed
+by selection (19%), reputation (8%), information (7%), emotion (5%), and group polarization (5%). In
+summary, we find evidence that the different social factors hypothesized in [57] capture specific,
+complementary, and relevant aspects of the joining behavior—although in varying amounts.
+
+6.4 Are social factors similarly informative for topic-specific vs. general conspiracy
+
+joining?
+
+Conspiracy communities are internally diverse, including subreddits discussing conspiracy theories
+in general, like r/conspiracy, along with ones with a narrow focus on specific theories, like ad-
+vanced energy weapons (r/TargetedEnergyWeapons) and alien encounters (r/reptilians). Previous
+researchers have characterized Reddit users as generalists and specialists, and found significant
+behavioral differences [66]. In particular, generalists engage with more diverse sets of subreddits
+than specialists do.3 We test the robustness of social factors as predictors towards engagement
+with conspiracy communities, and study their informativeness for users who focus on general vs.
+specific conspiracy communities. We first labeled every subreddit in the conspiracy communities as
+“general” or “specific”. All subreddits in the conspiracy communities had descriptions that allowed
+us to identify, with confidence, whether the subreddit was topic-specific or not. For example,
+r/HOLLOWEARTH is a topic-specific subreddit that purports that planet Earth is internally hollow; it
+self describes as a subreddit “[...] for celebrating and sharing the knowledge of our hollow earth”.
+Whereas, the general subreddit r/conspiro “[...] allow[s] intelligent discussion on any topic”. Next,
+we classify every FC user as a “generalist” or a “specialist” based on the subreddit they have the
+highest contributions since joining the conspiracy communities. In other words, if their future
+conspiracy community subreddit of highest contribution was “specific”, then the FC was labeled as
+“specialist”, otherwise “generalist”.
+
+To understand how well individual and social factors can predict different types of FC users—
+generalists and specialists—we performed a series of tests. First, we trained models on two sets
+of features: (1) only individual and (2) individual plus social factors (corresponds to the first and
+the last columns in Table 4, respectively). We calculated the accuracy of the models on a randomly
+sampled held out set of 10% of generalist FC and 10% of specialist FC (along with their matched
+NC). We repeated this experiment five times and reported the average accuracy results in Table 5.
+In particular, we measured if the models performed equally well on the two cohorts of generalist
+and specialist FC users, and if social factors improved model performance in both cases.
+
+3We adapt the definition of generalist and specialist to the context of conspiracies. We characterize the scope of the
+conspiracies discussed in the most frequented subreddit, rather than the user’s activity diversity across subreddits [66].
+
+Proc. ACM Meas. Anal. Comput. Syst., Vol. 37, No. 4, Article 111. Publication date: August 2020.
+
+What Makes People Join Conspiracy Communities?: Role of Social Factors in Conspiracy Engagement
+
+111:23
+
+Indeed, accuracy values do not change significantly based on the test population. For example,
+in the model with only individual features, accuracy on a random sample of the population is 0.64,
+whereas accuracy for generalists and specialists only is respectively 0.66 and 0.62. This indicates
+that model performance is comparable for generalist and specialist users. Furthermore, we find that
+adding social factors increases model accuracy in all test conditions (0.73 for random test, 0.71 for
+generalists and 0.74 for specialists). In other words, conspiratorial joining can be predicted from
+social factors regardless of how narrow the topic of the subreddit.
+
+7 DISCUSSION
+Our current understanding of social factors in conspiracy adoption is assembled from mainly
+theoretical studies. This work calls into attention the importance of empirically studying how
+interactions with current members can influence the user’s joining into the conspiracy communities.
+By proposing a theoretical-motivated, quantitative operationalization of social factors across six
+dimensions, we take a step in this direction. Specifically, we provide empirical representation of
+social features proposed by Sunstein and Vermeule in six groups: 1) importance of social availability
+of conspiracists, 2) informational pressure, 3) reputational pressure, 4) emotional snowballing, 5)
+group identity, and 6) self-selection towards conspiracy adoption. We compared the social factors
+with the strong baseline of individual factors from literature [11, 14, 20, 58], and found that social
+factors are crucial precursors of joining conspiracy communities. Not only social factors as a whole
+add significant explanatory power over individual factors, each of the six dimensions contains
+significant predictors that capture separate and complementary facets of conspiracy theory adoption.
+Our findings bring forth several implications for understanding how the conspiracy communities
+form, how they maintain their echo chamber, and how social exclusion may lead to joining 4.
+
+7.1 Selection, Evocation, and Manipulation Among Joiners
+How do conspiracy communities grow? We refer to Buss’s proposed causal mechanisms of
+individual—community correspondence to understand how future conspiracists first select, and
+then assimilate into conspiracy communities [10]. Buss presents three key mechanisms: selection,
+whereby individuals decide to participate in a social group based on personal preference or mere
+proximity; evocation, where individuals elicit emotional responses from the group in order to make
+connections; and manipulation, whereby they use their position in newly found environment to
+change it. We find that users produce content similar to discussions within the conspiracy commu-
+nities (𝛽= 0.61) and increasingly interact with conspiracy members before joining the conspiracy
+communities (𝛽 = 1.58). Together, these findings show the hallmarks of the selection process of
+conspiracists’ future social group. Next, we observe evocation in how future and current conspir-
+acists coordinate their online messages. Specifically, we find that the affective states and group
+identity signals of future conspiracists closely mirror those of their future social group—current
+conspiracists (See Table 4 last column). The present work studies the precursors to joining the
+social group, and therefore it does not directly observe future conspiracists’ behavior after they
+become members of the community. According to Buss, in the manipulation phase, conspiracists
+would take on an active role in gatekeeping their newly found community. In particular, we see that
+current conspiracist may play a crucial role in recruiting new members though dyadic interactions
+(𝛽 = 1.58), although whether that is on purpose remains unanswered. Dyadic interactions between
+future and current conspiracists are at the nexus of the former’s selection of a community to belong,
+and the latter’s attempts to shape it. Studying this negotiation is essential to understand how
+conspiracy communities self-sustain and thrive. Our work offers crucial insight in this direction.
+
+4while referencing the 𝛽 coefficients downstream, we refer to the numbers only from the last column of Table 4
+
+Proc. ACM Meas. Anal. Comput. Syst., Vol. 37, No. 4, Article 111. Publication date: August 2020.
+
+111:24
+
+Shruti Phadke, Mattia Samory, Tanushree Mitra
+
+7.2 Conspiracy Communities as an Echo Chamber
+Previous studies posit that consumers of conspiracy-like content are likely to aggregate in ho-
+mophilic clusters—i.e. “echo chambers” [7]. In fact, conspiracy theorists are renowned for their
+commitment to conspiratorial attitudes, and this may come from limited access to contradicting
+information early on [57]. Our results empirically corroborate previous work’s hypothesis that
+future conspiracists live in an information bubble. In fact, not only do they contribute content
+similar to conspiracy discussions (𝛽 = 0.61), they also engage disproportionately in subreddits
+similar to those in the conspiracy communities (𝛽 = 0.09). Apart from such informational isolation,
+echo chambers can also result from fragmentation of communities where like minded people come
+together to discuss ideas through a very narrow world-view. Our results indicate that along with
+exposure to conspiratorial material, users also directly interact with members of the conspiracy
+communities (𝛽 = 1.58) and current conspiracists make up a significant fraction of their social circle
+on Reddit (𝛽 = 0.33). While we do not claim that the information discussed in such interactions
+is strictly conspiracy related, the relevance of both epistemological and social isolation indicate
+that future conspiracists may be living in their own informational echo chamber circulating similar
+conspiratorial content even prior to joining conspiracy communities.
+
+7.3 Social Stigma and Joining the Conspiracy
+We uncover an important factor in joining conspiracy communities: marginalization from other
+communities. Through self-selection features we find that future conspiracists are ostracized from
+subreddits outside of the conspiracy communities through negative feedback from other members
+of those communities (𝛽 = 0.18) and content moderation (𝛽 =0.06), significantly more than non-
+conspiracists. Future conspiracists express anxiety and negative sentiment in the months leading up
+to their joining (psychological predisposition, Table 4). We give an interpretation of how this may
+affect the formation of conspiracy groups. While discussing deviance as a social construct, Becker
+proposed that groups create rules to define what they (subjectively) consider to be desirable behavior
+[4]. As a consequence, people who break such rules are labeled as deviants and criminalized. Despite
+their popularity, the public image of conspiracies is still tainted, and conspiratorial thinking bears
+the stigma of deviance. A two-fold process can then explain joining conspiracy communities. First,
+social sanctions make users feel like outsiders in mainstream subreddits. Such socially outcast users
+then find home in the conspiracy communities for their rejected thoughts.
+
+7.4 Implications
+
+Implications for content moderation: Researchers have found that moderators notice repeat
+7.4.1
+offenders—users who have already faced sanctions before—and partially focus their moderation
+efforts on them [38]. We observe that future conspiracists already start facing social sanctions in
+terms of content moderation (𝛽 = 0.06) and negative karma (𝛽 = 0.18) prior to joining conspiracy
+communities. We argue that this type of ostracizing may exacerbate the segregation of future
+conspiracists and drive them to contribute in communities that accept their conspiratorial worldview.
+Therefore, community managers and social platform may play a determining role in the creation
+of conspiracy communities. A mindless application of norms that are too rigid may ultimately
+ostracize non-conforming individuals, thus running the risk of driving them into fringe groups.
+
+7.4.2 Theoretical Implications: Our study engages with methodological challenges of using obser-
+vational data to implement a theoretical framework for understanding social factors in conspiratorial
+joining. We explore beyond the purely theoretical framework and quantitatively establish the im-
+portance of different social factors on large-scale online discussion communities. We further test
+the generalizability of our individual and social factors for topic-specific and general conspiracy
+
+Proc. ACM Meas. Anal. Comput. Syst., Vol. 37, No. 4, Article 111. Publication date: August 2020.
+
+What Makes People Join Conspiracy Communities?: Role of Social Factors in Conspiracy Engagement
+
+111:25
+
+joining. Although prior work largely framed conspiracism as an individual pursuit, focusing on
+psychological disposition [11, 20, 25] and epistemological characteristics [58] our results support a
+socio-constructionist view of conspiracy theory. In particular, this view grants drawing the parallel
+between discussing conspiracy theories, and entering the community that hosts those discussions.
+Our analysis and results focusing on social factors in conspiracy engagement provide us with a
+unique opportunity to consider conspiracies as social movements—“a network of interactions be-
+tween groups of individuals or organizations, engaged in a political or cultural conflict, on the basis
+of a shared collective identity” [15]. For instance, in the case of conspiracist belief, collective identity
+based on political ideology can lead to upholding different types of anti-government conspiracies.
+Republicans are more likely to believe that a “Deep State” is colluding against President Trump
+[60] whereas Democrats more commonly believe that 9/11 was an inside job [54]. Characterizing
+conspiracies as social movements becomes more relevant when conspiracism has a potential to
+turn into conspiracy activism towards a cause with detrimental consequences. Consider the anti-
+vaccination movement set in motion by anti-vaccination conspiracies which has directly resulted
+in lower herd immunity. Analyzing conspiracies through a social movement lens can open up
+further research avenues exploring how conspiracists frame their narrative, mobilize informational
+resources, and ultimately coordinate collective action.
+
+8 LIMITATIONS
+Our work has some limitations which also pave the way for promising future directions. We
+characterize engagement within the conspiracy communities based on the number of contributions
+a user makes in conspiracy subreddits; contribution based approach is a common methodological
+choice made when studying users in social media [23]. A more robust definition of engagement could
+involve analyzing the topics and synchronicity of the user’s contribution content with that of the
+community. For example, the criteria for selecting FC could be made stricter by keeping only those
+who discuss topics similar to conspiracies. Additionally, similar to any observational quantitative
+research, we can not infer true causality. While acknowledging this, we believe that our work is an
+important step towards understanding the variety of statistical, temporal and linguistic social factors
+towards conspiracy joining in a complex, real world setting. However, we take this opportunity
+to invite further qualitative studies investigating conspiracy joining using insights provided in
+our work. While testing the robustness of social features we consider only one dichotomy—topic
+specific and general conspiracy discussion subreddits. Fruitful path for future exploration could be
+to check how social factors vary for conspiracy joining in smaller or larger subreddits or, political
+or non-political conspiracy subreddits. Finally, our results exemplify conspiracy joining on just one
+online platform—Reddit. We do not know how these results translate to other platforms such as
+Facebook or Gab with various levels of content moderation. We encourage future researchers to
+build up on our findings and to explore conspiracy joining across multiple platforms.
+
+9 CONCLUSION
+Currently, our understanding of social factors in conspiracy adoption is patched together by
+mainly theoretical and very few empirical studies. This work calls into attention the importance
+of systematically studying how interactions with conspiracists can influence the user’s joining
+into the conspiracy communities. Using a theory driven framework of social factors across six
+dimensions, we perform a retrospective case control study of future conspiracists and compare them
+with non conspiracists. We not only find that the social factors are important but that conspiracy
+joining can be explained at least partially by at least one feature in each group. Given these findings,
+we offer a unique, empirically backed perspective on the life-cycle of conspiracists, echo chambers
+in conspiracy communities and the effect of social exclusion in conspiracy engagement.
+
+Proc. ACM Meas. Anal. Comput. Syst., Vol. 37, No. 4, Article 111. Publication date: August 2020.
+
+111:26
+
+Shruti Phadke, Mattia Samory, Tanushree Mitra
+
+10 ACKNOWLEDGMENTS
+This paper would not be possible without the valuable feedback from the entire Social Computing
+lab group at Virginia Tech and the University of Washington. This work is partially supported by
+an ICTAS Junior Faculty award and NSF grant IIS-1755547.
+
+REFERENCES
+[1] Marina Abalakina-Paap, Walter G. Stephan, Traci Craig, and W. Larry Gregory. 1999. Beliefs in Conspiracies. Political
+
+Psychology 20, 3 (1999), 637–647. https://doi.org/10.1111/0162-895X.00160
+
+[2] John A Banas and Gregory Miller. 2013. Inducing resistance to conspiracy theory propaganda: Testing inoculation and
+
+metainoculation strategies. Human Communication Research 39, 2 (2013).
+
+[3] Jason Baumgartner, Savvas Zannettou, Brian Keegan, Megan Squire, and Jeremy Blackburn. 2020. The pushshift reddit
+
+dataset. In Proceedings of the International AAAI Conference on Web and Social Media, Vol. 14. 830–839.
+
+[4] Howard S Becker. 2008. Outsiders. Simon and Schuster.
+[5] Lois Beckett. 2020. Hanau attack part of pattern of white supremacist violence flowing from US | World news | The
+Guardian. https://www.theguardian.com/world/2020/feb/21/hanau-attack-part-of-pattern-of-white-supremacist-
+violence-flowing-from-us. (Accessed on 05/28/2020).
+
+[6] Alessandro Bessi, Mauro Coletto, George Alexandru Davidescu, Antonio Scala, Guido Caldarelli, and Walter Quattro-
+ciocchi. 2015. Science vs Conspiracy: Collective Narratives in the Age of Misinformation. PLOS ONE 10, 2 (2 2015),
+e0118093. https://doi.org/10.1371/journal.pone.0118093
+
+[7] Alessandro Bessi, Mauro Coletto, George Alexandru Davidescu, Antonio Scala, Guido Caldarelli, and Walter Quattro-
+
+ciocchi. 2015. Science vs conspiracy: Collective narratives in the age of misinformation. PloS one 10, 2 (2015).
+
+[8] Alessandro Bessi, Fabiana Zollo, Michela Del Vicario, Antonio Scala, Guido Caldarelli, and Walter Quattrociocchi. 2015.
+Trend of narratives in the age of misinformation. PLoS ONE 10, 8 (2015), 1–16. https://doi.org/10.1371/journal.pone.
+0134641
+
+[9] Gerlof Bouma. 2009. Normalized (pointwise) mutual information in collocation extraction. Proceedings of GSCL (2009),
+
+31–40.
+
+[10] David M Buss. 1987. Selection, evocation, and manipulation. Journal of personality and social psychology 53, 6 (1987).
+[11] Lisa D Butler, Cheryl Koopman, and Philip G Zimbardo. 1995. The psychological impact of viewing the film" JFK":
+
+Emotions, beliefs, and political behavioral intentions. Political psychology (1995).
+
+[12] Jonathan P Chang, Justin Cheng, and Cristian Danescu-Niculescu-Mizil. 2020. Don’t Let Me Be Misunderstood:
+Comparing Intentions and Perceptions in Online Discussions. In Proceedings of The Web Conference 2020. 2066–2077.
+
+[13] David Coady. 2006. Conspiracy theories: The philosophical debate. Ashgate Publishing, Ltd.
+[14] Hannah Darwin, Nick Neave, and Joni Holmes. 2011. Belief in conspiracy theories. The role of paranormal belief,
+paranoid ideation and schizotypy. Personality and Individual Differences 50, 8 (2011), 1289–1293. https://doi.org/10.
+1016/j.paid.2011.02.027
+
+[15] Mario Diani. 1992. The concept of social movement. The sociological review 40, 1 (1992).
+[16] Ronald J Feise. 2002. Do multiple outcome measures require p-value adjustment? BMC medical research methodology 2,
+
+1 (2002), 8.
+
+[17] Meagan Flynn. 2020. Conspiracy theory leads engineer to crash train near hospital ship | Boston.com. https://www.
+boston.com/news/national-news-2/2020/04/02/coronavirus-conspiracy-california-train-crash-usns-mercy. (Accessed
+on 05/25/2020).
+
+[18] Bradley Franks, Adrian Bangerter, Martin W Bauer, Viren Swami, Jan Willem, and Van Prooijen. 2013. Conspiracy
+theories as quasi-religious mentality: an integrated account from cognitive science, social representations theory, and
+frame theory. (2013). https://doi.org/10.3389/fpsyg.2013.00424
+
+[19] CJ Hutto Eric Gilbert. 2014. Vader: A parsimonious rule-based model for sentiment analysis of social media text. In
+
+Proc. ICWSM.
+
+[20] Ted Goertzel. 1994. Belief in conspiracy theories. Political Psychology (1994).
+[21] Benjamin Goggin. 2019. ’White genocide’: racist conspiracy theory fueled New Zealand shooting - Insider. https:
+//www.insider.com/white-genocide-racist-conspiracy-theory-fueled-new-zealand-shooting-2019-3. (Accessed on
+05/28/2020).
+
+[22] Mark S. Granovetter. 1973. The strength of weak ties. American journal of sociology (1973). http://www.jstor.org/
+
+stable/2776392
+
+[23] William L. Hamilton, Justine Zhang, Cristian Danescu-Niculescu-Mizil, Dan Jurafsky, and Jure Leskovec. 2017. Loyalty
+
+in Online Communities. (2017). http://arxiv.org/abs/1703.03386
+
+[24] Chip Heath, Chris Bell, and Emily Sternberg. 2001. Emotional selection in memes: the case of urban legends. Journal
+
+of personality and social psychology 81, 6 (2001).
+
+Proc. ACM Meas. Anal. Comput. Syst., Vol. 37, No. 4, Article 111. Publication date: August 2020.
+
+What Makes People Join Conspiracy Communities?: Role of Social Factors in Conspiracy Engagement
+
+111:27
+
+[25] Richard Hofstadter. 2012. The paranoid style in American politics. Vintage.
+[26] Benjamin D Horne, Sibel Adali, and Sujoy Sikdar. 2017. Identifying the social signals that drive online discussions: A
+case study of reddit communities. In 2017 26th International Conference on Computer Communication and Networks
+(ICCCN).
+
+[27] Isabel Íñigo-Mora. 2004. On the use of the personal pronoun we in communities. Journal of Language and Politics 3, 1
+
+(2004).
+
+[28] Kirk Job-Sluder and Sasha A Barab. 2004. Shared" we" and shared" they" indicators of group identity in online teacher
+
+professional development. Designing for virtual communities in the service of learning (2004).
+
+[29] Marius Kaminskas and Derek Bridge. 2014. Measuring surprise in recommender systems. In Proceedings of the
+workshop on recommender systems evaluation: dimensions and design (Workshop programme of the 8th ACM conference
+on recommender systems). Citeseer.
+
+[30] Brian L Keeley. 1999. Of conspiracy theories. The Journal of Philosophy 96, 3 (1999).
+[31] Emre Kiciman, Scott Counts, and Melissa Gasser. 2018. Using longitudinal social media analysis to understand the
+
+effects of early college alcohol use. In Twelfth International AAAI Conference on Web and Social Media.
+
+[32] Colin Klein, Peter Clutton, and Adam G. Dunn. 2019. Pathways to conspiracy: The social and linguistic precursors of
+involvement in Reddit’s conspiracy theory forum. PLoS ONE 14, 11 (2019), 1–23. https://doi.org/10.1371/journal.pone.
+0225098
+
+[33] Colin Klein, Peter Clutton, and Vince Polito. 2018. Topic modeling reveals distinct interests within an online conspiracy
+
+forum. Frontiers in Psychology 9, FEB (2018), 1–12. https://doi.org/10.3389/fpsyg.2018.00189
+
+[34] Yubo Kou, Xinning Gui, Yunan Chen, and Kathleen Pine. 2017. Conspiracy Talk on Social Media. Proceedings of the
+
+ACM on Human-Computer Interaction 1, CSCW (2017), 1–21. https://doi.org/10.1145/3134696
+
+[35] Danai Koutra, Paul N Bennett, and Eric Horvitz. 2015. Events and controversies: Influences of a shocking news event
+
+on information seeking. In Proc. WWW.
+
+[36] Péter Krekó. 2015. CONSPIRACY THEORY AS COLLECTIVE MOTIVATED COGNITION.
+
+In The Psychology of
+
+Conspiracy. Routledge, Chapter 10. https://doi.org/10.4324/9781315746838
+
+[37] Srijan Kumar, William L. Hamilton, Jure Leskovec, and Dan Jurafsky. 2018. Community Interaction and Conflict on
+the Web. In Proceedings of the 2018 World Wide Web Conference on World Wide Web - WWW ’18. ACM Press, New York,
+New York, USA, 933–943. https://doi.org/10.1145/3178876.3186141
+
+[38] Cliff Lampe and Paul Resnick. 2004. Slash (dot) and burn: distributed moderation in a large online conversation space.
+
+In Proceedings of the SIGCHI conference on Human factors in computing systems. 543–550.
+
+[39] Alex Leavitt and John J Robinson. 2017. The Role of Information Visibility in Network Gatekeeping. Proceedings of the
+2017 ACM Conference on Computer Supported Cooperative Work and Social Computing - CSCW ’17 (2017), 1246–1261.
+https://doi.org/10.1145/2998181.2998299
+
+[40] Wendy Leeds-Hurwitz. 2009. Social construction of reality. Encyclopedia of communication theory 2 (2009), 891–894.
+[41] Trevor Martin. 2017. community2vec: Vector representations of online communities encode semantic relationships. In
+
+Proc. of the Second Workshop on NLP and Computational Social Science.
+
+[42] Clark McCauley and Susan Jacques. 1979. The popularity of conspiracy theories of presidential assassination: A
+
+Bayesian analysis. Journal of Personality and Social Psychology 37, 5 (1979).
+
+[43] Tanushree Mitra, Scott Counts, and James W Pennebaker. 2016. Understanding anti-vaccination attitudes in social
+
+media. In ICWSM.
+
+[44] Tanushree Mitra, Scott Counts, and James W Pennebaker. 2016. Understanding Anti-Vaccination Attitudes in Social
+
+Media. In Tenth International AAAI Conference on Web and Social Media - ICWSM ’16.
+
+[45] Brendan Thomas Noone. 2020. Conspiracy in the time of coronavirus — United States Studies Centre. https://www.
+
+ussc.edu.au/analysis/conspiracy-in-the-time-of-coronavirus. (Accessed on 05/28/2020).
+
+[46] Umashanthi Pavalanathan and Munmun De Choudhury. 2015. Identity management and mental health discourse in
+
+social media. In WWW. ACM.
+
+[47] James W Pennebaker. 2001. Linguistic inquiry and word count: LIWC 2001. (2001).
+[48] Aaron Rupar. 2019. El Paso shooting: Fox & Friends continues to push “invasion” conspiracy theory - Vox. https://www.
+vox.com/2019/8/6/20756711/fox-friends-invasion-el-paso-shooting-trump-live-tweets. (Accessed on 05/28/2020).
+
+[49] Koustuv Saha and Amit Sharma. 2020. Causal Factors of Effective Psychosocial Outcomes in Online Mental Health
+
+Communities. (2020).
+
+[50] Koustuv Saha, Benjamin Sugar, John Torous, Bruno Abrahao, Emre Kıcıman, and Munmun De Choudhury. 2019. A
+social media study on the effects of psychiatric medication use. In Proceedings of the International AAAI Conference on
+Web and Social Media, Vol. 13. 440–451.
+
+[51] Mattia Samory and Tanushree Mitra. 2018. Conspiracies Online: User Discussions in a Conspiracy Community
+Following Dramatic Events. In Proceedings of the 12th International AAAI Conference on Web and Social Media - ICWSM
+’18.
+
+Proc. ACM Meas. Anal. Comput. Syst., Vol. 37, No. 4, Article 111. Publication date: August 2020.
+
+111:28
+
+Shruti Phadke, Mattia Samory, Tanushree Mitra
+
+[52] Mattia Samory and Tanushree Mitra. 2018. “The Government Spies Using Our Webcams”: The Language of Conspiracy
+
+Theories in Online Discussions. Proc. CSCW 4 (2018).
+
+[53] Simon Sheather. 2009. A modern approach to regression with R. Springer Science & Business Media.
+[54] Ben Smith. 2011. More than half of Democrats believed Bush knew - POLITICO. https://www.politico.com/blogs/ben-
+
+smith/2011/04/more-than-half-of-democrats-believed-bush-knew-035224. (Accessed on 05/24/2020).
+
+[55] Kate Starbird. 2017. Examining the Alternative Media Ecosystem Through the Production of Alternative Narratives of
+
+Mass Shooting Events on Twitter.. In ICWSM.
+
+[56] Carl Stempel, Thomas Hargrove, and Guido H Stempel. 2007. Media Use, Social Structure, and Belief in 9/11 Con-
+spiracy Theories. Journalism & Mass Communication Quarterly 84, 2 (6 2007), 353–372. https://doi.org/10.1177/
+107769900708400210
+
+[57] Cass R Sunstein and Adrian Vermeule. 2009. Conspiracy theories: Causes and cures. Journal of Political Philosophy 17,
+
+2 (2009).
+
+[58] Cass R. Sunstein and Adrian Vermeule. 2009. Conspiracy Theories: Causes and Cures. Journal of Political Philosophy
+
+17, 2 (2009), 202–227. https://doi.org/10.1111/j.1467-9760.2008.00325.x
+
+[59] Yla R Tausczik and James W Pennebaker. 2010. The psychological meaning of words: LIWC and computerized text
+
+analysis methods. Journal of language and social psychology 29, 1 (2010).
+
+[60] Joseph Uscinski and Casey Klofstad. 2018. New poll: the QAnon conspiracy movement is very unpopular - The Wash-
+ington Post. https://www.washingtonpost.com/news/monkey-cage/wp/2018/08/30/the-qanon-conspiracy-movement-
+is-very-unpopular-our-new-poll-finds/. (Accessed on 05/24/2020).
+
+[61] Joseph E Uscinski, Casey Klofstad, and Matthew D Atkinson. 2016. What drives conspiratorial beliefs? The role of
+
+informational cues and predispositions. Political Research Quarterly 69, 1 (2016).
+
+[62] Jan-Willem van Prooijen, Karen M Douglas, and Clara De Inocencio. 2018. Connecting the dots: Illusory pattern
+
+perception predicts belief in conspiracies and the supernatural. European Journal of Social Psychology 48, 3 (2018).
+
+[63] Jan Willem van Prooijen and Nils B. Jostmann. 2013. Belief in conspiracy theories: The influence of uncertainty and
+
+perceived morality. European Journal of Social Psychology 43, 1 (2013), 109–115. https://doi.org/10.1002/ejsp.1922
+[64] Joseph A Vitriol and Jessecae K Marsh. 2018. The illusion of explanatory depth and endorsement of conspiracy beliefs.
+
+European Journal of Social Psychology 48, 7 (2018).
+
+[65] Isaac Waller and Ashton Anderson. 2019. Generalists and specialists: Using community embeddings to quantify
+activity diversity in online platforms. The Web Conference 2019 - Proceedings of the World Wide Web Conference, WWW
+2019 2 (2019), 1954–1964. https://doi.org/10.1145/3308558.3313729
+
+[66] Isaac Waller and Ashton Anderson. 2019. Generalists and Specialists: Using Community Embeddings to Quantify
+
+Activity Diversity in Online Platforms. In The World Wide Web Conference. ACM.
+
+[67] Yi-Chia Wang, Moira Burke, and Robert Kraut. 2016. Modeling self-disclosure in social networking sites. In Proceedings
+
+of the 19th ACM conference on computer-supported cooperative work & social computing. 74–85.
+
+[68] Marvin Zonis and Craig M Joseph. 1994. Conspiracy Thinking in the Middle East. Political Psychology 15, 3 (1994),
+
+443–459. https://doi.org/papers2://publication/uuid/15ECA456-C8E9-40E2-A96E-2773EF20B6B5
+
+Proc. ACM Meas. Anal. Comput. Syst., Vol. 37, No. 4, Article 111. Publication date: August 2020.
+
+What Makes People Join Conspiracy Communities?: Role of Social Factors in Conspiracy Engagement
+
+111:29
+
+A APPENDIX
+
+INDIVIDUAL FACTORS
+
+min max mean
+
+std
+
+distribution
+
+Psychological Predisposition
+
+Anger
+
+Anxiety
+
+Sadness
+
+VADER Positive Sentiment
+
+VADER Negative Sentiment
+
+Episteomology
+
+Exclusivity in Contributions
+
+0.0
+
+0.0
+
+0.0
+
+0.0
+
+0.0
+
+∼0
+
+0.15
+
+0.07
+
+0.36
+
+0.04
+
+0.20
+
+0.04
+
+1.00
+
+0.14
+
+0.78
+
+0.08
+
+0.97
+
+0.58
+
+Subreddit Similarity to conspiracy community
+
+-0.32
+
+27.3
+
+1.88
+
+Content Similarity to Conspiracies
+
+∼0
+
+0.76
+
+0.41
+
+0.01
+
+0.04
+
+0.03
+
+0.04
+
+0.03
+
+0.18
+
+3.67
+
+0.13
+
+Table 6. Descriptive statistics and distribution plots for individual factors.
+
+Proc. ACM Meas. Anal. Comput. Syst., Vol. 37, No. 4, Article 111. Publication date: August 2020.
+
+111:30
+
+Shruti Phadke, Mattia Samory, Tanushree Mitra
+
+Social Factors
+
+Availability
+
+Ratio of Dyadic interactions with CC
+
+Ratio of CC in dyadic interactions
+
+Ratio of threads with CC
+
+Information
+
+min
+
+max
+
+mean
+
+std
+
+distribution
+
+0.0
+
+0.0
+
+0.0
+
+1.0
+
+1.0
+
+1.0
+
+0.06
+
+0.09
+
+0.10
+
+0.05
+
+0.06
+
+0.08
+
+Contribution Order in Dyadic Interactions
+
+-2868
+
+787
+
+-0.66
+
+118
+
+Time Lapse in Dyadic Interactions (seconds)
+
+16.0
+
+30716740
+
+50321
+
+277346
+
+Reputation
+
+Age Reputation of CC (months)
+
+0.03
+
+113.0
+
+22.88
+
+10.73
+
+Karma Reputation of CC
+
+-12090
+
+12015457
+
+189715
+
+363908
+
+Emotion
+
+LIWC Positive affect
+
+Coordination in positive affect
+
+LIWC Negative affect
+
+Coordination in negative affect
+
+Group Polarization
+
+First person singular
+
+Coordination in first person singular
+
+First person plural
+
+Coordination in first person plural
+
+Second person
+
+Coordination in second person
+
+Third person
+
+Coordination in third person
+
+Self-selection
+
+Moderated contributions
+
+Negatively scoring contributions
+
+0.0
+
+0.0
+
+0.0
+
+0.0
+
+0.0
+
+0.0
+
+0.0
+
+0.0
+
+0.0
+
+0.0
+
+0.0
+
+0.0
+
+0.0
+
+0.0
+
+0.60
+
+0.80
+
+0.13
+
+0.26
+
+0.20
+
+0.16
+
+0.20
+
+0.21
+
+0.07
+
+0.15
+
+0.30
+
+0.30
+
+1.0
+
+1.0
+
+0.12
+
+0.18
+
+0.03
+
+0.06
+
+0.001
+
+0.002
+
+0.002
+
+0.06
+
+0.004
+
+0.10
+
+0.14
+
+0.03
+
+0.06
+
+0.03
+
+0.01
+
+0.02
+
+0.04
+
+0.04
+
+0.001
+
+0.002
+
+0.01
+
+0.004
+
+0.02
+
+0.03
+
+0.002
+
+0.02
+
+0.016
+
+0.4
+
+Contribution trend in the observation period
+
+-1483
+
+1371
+
+1.78
+
+19.99
+
+Table 7. Descriptive statistics and distribution plots for social factors.
+
+Proc. ACM Meas. Anal. Comput. Syst., Vol. 37, No. 4, Article 111. Publication date: August 2020.
+
+

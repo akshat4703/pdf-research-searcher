@@ -1,0 +1,584 @@
+Deep Learning Approach for Early Stage Lung Cancer Detection
+Saleh Abunajm, Nelly Elsayed, Zag ElSayed, Murat Ozer
+School of Information Technology
+University of Cincinnati
+Ohio, United States
+Abstract
+Lung cancer is the leading cause of death among dif-
+ferent types of cancers. Every year, the lives lost due
+to lung cancer exceed those lost to pancreatic, breast,
+and prostate cancer combined. The survival rate for lung
+cancer patients is very low compared to other cancer
+patients due to late diagnostics. Thus, early lung can-
+cer diagnostics is crucial for patients to receive early
+treatments, increasing the survival rate or even becom-
+ing cancer-free. This paper proposed a deep-learning
+model for early lung cancer prediction and diagnosis
+from Computed Tomography (CT) scans. The proposed
+mode achieves high accuracy. In addition, it can be a
+beneﬁcial tool to support radiologists’ decisions in pre-
+dicting and detecting lung cancer and its stage.
+Introduction
+Cancer is a disease that can affect any part of the body and
+cause uncontrolled, abnormal cell growth. The characteris-
+tics of cancer cells are different from normal cells, such as
+uncontrollable growth, invading and spreading to nearby tis-
+sues, and they are immortal.
+Lung cancer is the most common cancer world-
+wide (World Cancer Research Fund ), and it is the third most
+common cancer in the UK and the United States. The lead-
+ing killer of cancer in men and women is lung cancer. Al-
+most 25% of all cancer deaths are caused by lung cancer.
+It is most common in older people. Most people diagnosed
+with lung cancer are 65 or older. A small number of individ-
+uals diagnosed with lung cancer are younger than 45 (So-
+ciety Last Revised January 12 2021). Based on the death
+numbers that statistics have shown, lung cancer is respon-
+sible for almost 25% of deaths caused by cancer. There are
+ﬁve stages of cancer (Woodard, Jones, and Jablons 2016;
+Hammerschmidt and Wirtz 2009):
+•Stage 0: This is the earliest Stage of cancer, and the can-
+cer cell still did not spread.
+•Stage I: Cancer cells are small and spread into local areas
+but do not spread to nearby lymph nodes or other body
+parts.
+Copyright © 2022 by the authors. All rights reserved.•Stage II: Cancer cells have spread into nearby lymph
+nodes or tissues in a local area. In this Stage, cancer cells
+are more signiﬁcant than in Stage I.
+•Stage III: Cancer cells spread to a set of lymph nodes,
+and the tumor growth exceeds a speciﬁc size.
+•Stage IV: In this Stage, the cancer is considered
+metastatic; cancer cells have invaded other organs and
+spread to other parts of the patient’s body. The acknowl-
+edgment is hidden to maintain the anonymity of the au-
+thors and their afﬁliations. The full acknowledgment will
+be added to the ﬁnal version.
+It is critical to continue the research to help in the early
+detection of lung cancer. The American Cancer Society’s es-
+timates for lung cancer in the United States for 2021 are (So-
+ciety Last Revised January 12 2021):
+• About 235,760 new cases of lung cancer (119,100 in men
+and 116,660 in women).
+• About 131,880 deaths from lung cancer (69,410 in men
+and 62,470 in women).
+Medical providers use different types of cancer scans to
+help diagnose and plan treatment. The most common types
+are magnetic resonance imaging (MRI) scans, which take
+detailed images of the patient’s target area in the body; com-
+puted tomography (CT) scans, also known as CAT Scans,
+which create 3D images of the patient’s target area in the
+body from different angles, and positron emission tomog-
+raphy (PET/CT), which uses a tracer gets injected into the
+patient’s body. It makes the cancerous cells appear brighter
+than the non-cancerous cells.
+The survival rate in each stage is different, and the ear-
+lier medical providers diagnose cancer, the higher the sur-
+vival rate. While we keep in mind that doctors do not have a
+guaranteed treatment to cure cancer, diagnosing cancer at an
+early stage gives medical providers more time for their treat-
+ment plans. The treatment for a stage IV patient is particu-
+larly challenging. Therefore, computing tools can be used to
+support medical providers in early lung cancer diagnostics.
+This paper proposed a Deep Convolutional Neural Net-
+work (CNN) based model for the early prediction and detec-
+tion of lung cancer and its stages. The proposed model out-
+put testing is to be comparable to real-life cases diagnosed
+by expert radiologists. Thus, it can be an effective tool to
+assist medical providers in diagnostic decision-making.arXiv:2302.02456v2  [eess.IV]  15 Feb 2023
+Author Year Model Dataset Imaging Type Remarks Limitations
+(Teramoto et al. 2016) 2016 CNN 104 Japanese men and women CT and PET images False positive was reduced A small number of patients
+104 Japanese men and women CT and PET images compared to their previous study were used in the study.
+(Van Ginneken et al. 2015) 2015 OverFeat CNN LIDC dataset 865 CT scans CT scan Combining OverFeat CNN with CAD indicated Using OverFeat CNN achieved
+remarkable improvement in detection performance unfavorable results compared to CAD
+(Ali et al. 2018) 2018 CNN Reinforcement Learning LIDC/IDRI database (LUNA) CT scan The model does not Small number of CT scans
+challenge, 888 CT scans CT scan require preprocessed data Small number of CT scans
+(Shen et al. 2019) 2019 Hierarchical semantic convolutional LIDC-IDRI (1010 patients) CT scan HSCNN accomplished better Semantic labels did not
+neural network (HSCNN) LIDC-IDRI (1010 patients) CT scan performance than a 3D CNN contain nodule size, location,
+or margin spiculation
+(Zhang et al. 2019) 2019 VGG16, VGG19, ResNet50, LIDC-IDRI CT scan DenseNet121 and Xception have Small sample size
+DenseNet121, MobileNet, Xception, (1018 CT scans/1010 patients) better results detecting lung nodule used in the study
+NASNetMobile, and NASNetLarge DenseNet121 and Xception
+(Song et al. 2017) 2017 CNN,DNN, and SAE LIDC-IDRI (4581 images) CT scan CNN has a better performance Due to the dataset’s limitations,
+compared to DNN and SAE the CNN architecture has small layers
+(Sahu et al. 2018) 2018 Multi-Section CNN LIDC-IDRI dataset (649 patients) CT scan It takes one hour to train the MobileNet based model Small cohort used in the study
+Table 1: A comparison between the state-of-the-art CNN based models for detection lung cancer.
+Related Work
+Medical imaging refers to several different technologies that
+are used to view the human body to diagnose, monitor, or
+treat medical conditions. There are several types of medical
+imaging, such as magnetic resonance imaging (MRI), CT
+scans, also known as CAT Scans, positron emission tomog-
+raphy (PET/CT), X-ray, arthrogram, ultrasound, and myel-
+ogram. For lung cancer, a CT scan is the recommended
+type of medical imaging. CT scans point out whether abnor-
+mal growth exists in the lung. This abnormal growth could
+be cancerous (malignant) or non-cancerous (benign). There-
+fore, radiologists review CT scans to determine if cancer has
+developed. Detecting lung cancer is extremely important.
+However, this is challenging for radiologists as the lung nod-
+ules can be missed or even some false-positive diagnoses.
+Lung cancer classiﬁcation is crucial. In deep learning, nod-
+ules classiﬁcation could be based on nodules’ location, size,
+number, consistency, and other factors.
+In 2022, Wenfa et al. (Jiang et al. 2022) proposed a deep
+learning model to verify the prediction accuracy of lung can-
+cer using CT images. In their study, they used two types
+of images formats, ‘.DICOM’ and ‘.MHD’ formats. One of
+the main highlights of their study is false positive reduction,
+and they used U-Net and 3D CNN which achieved high ac-
+curacy in false-positive nodules screening. In 2020, Tasnim
+Ahmad et al. (Ahmed et al. 2020) used 3D CNN classiﬁer.
+The proposed CNN model has two conventional layers, two
+max-pooling layers, and a fully connected layer. LUNA data
+set was used with one hundred (100) patients divided be-
+tween training and testing 80%, 20% respectively. The accu-
+racy rate was 80% on 400 images tested. In 2020, A hybrid
+deep-convolutional neural network-based model (LungNet)
+was proposed by (Rajan et al. 2020) with 53 total layers.
+The 19089 CT scan images were used in the study, and the
+data set was obtained from CancerImagingArchive.net. The
+LungNet model was compared to AlexNet, and the false pos-
+itive was 0% compared to AlexNet false positive which was
+6.4%.
+(Mehta et al. 2021) proposed a hybrid approach, a 3D
+CNN, and a Random Forest. The authors use (LIDC-IDRI)
+dataset. The dataset has 1018 CT cases. Binary classiﬁca-
+tion is used, benign and malignant. A K-Nearest Neigh-
+bors algorithm was used to identify nodules with features
+that are closest to benign or malignant. The analysis of their
+study shows that the Forest model that used only Biomark-
+ers outperformed their novel hybrid model. In 2019, (Xu etal. 2019) used CNN and RNN to help predict survival and
+measure other outcomes of patients’ diagnoses with NSCLS.
+The authors used their CNN model to predict survival using
+images prior to and post-radiation therapy. Using CNN and
+RNN models, in their study, they were able to track tumors
+and predict survival and prognosis at one and two years of
+overall survival. (Kirienko et al. 2018) developed a CNN to
+classify lung cancer lesions. (Tekade and Rajeswari 2018)
+proposed a 3D multipath VGG-like network. The authors
+chose the VGG-like model because the model trains faster
+than other models. The architecture of the model VGG-16
+has fully convolutional layers.
+In 2018, (Hosny et al. 2018) introduced a 3D CNN model.
+The study aims to employ a CNN model in predicting a two
+years survival of NSCLC patients. Their model is gauged
+in contrast to random forest models. However, the authors
+pointed out some limitations that the study has, such as the
+prognostics knowledge reﬁned into the CNN model is based
+on past treatment options and plans and may not be suit-
+able to predict prognostics for patients treated with the latest
+technology. (Ardila et al. 2019) developed a 3D CNN model
+to detect cancer regions in CT scans to predict cancer risk.
+Yunlang She et al. (She et al. 2020) developed a deep learn-
+ing model (DeepSurv) to predict survival among lung cancer
+patients. DeepSurv could be used as a useful tool for pa-
+tients’ treatment recommendations. There are a few advan-
+tages for DeepSurv identiﬁed in the study: (I) DeepSurv is
+adaptive to variables such as real-world clinical factors. (II)
+Flexibility when dealing with complicated elements. (III)
+Learn and analyze censored features. (IV) Perform better in
+big data analysis. The study also indicated some limitations:
+(I) The excessive cost associated with deep learning models
+training and validating. (II) Interpreting the model’s predic-
+tion could be hard because the functionality of deep learning
+networks is like black boxes. (III) The study lacks external
+validation. In a study conducted by (Song et al. 2017), three
+types of deep neural networks were proposed. Convolutional
+Neural Network (CNN), Deep Neural Network (DNN), and
+Stacked Autoencoder (SAE). The limitation of this study is
+pointed out by the authors in that the layers of the models are
+relatively small. In 2020, (Yoo et al. 2020) aims to evaluate
+the performance of a deep learning model to detect lung can-
+cer. In their study, ResNet34, a 34-layer CNN model is used
+to classify images. Table 1 gives a comparison between the
+state-of-the-art CNN-based models for detecting lung can-
+cer.
+Methodology
+In this paper, we proposed a deep convolutional neural net-
+work (CNN) model for early predicting and detecting differ-
+ent lung cancer stages.
+Model architecture
+Our proposed model used several convolutional layers to
+perform the detection task. Table shows the proposed model
+summary. The table shows the layers, the corresponding ﬁl-
+ters, the activation function, the output shape, and the num-
+ber of parameters at each layer. The rectiﬁed linear unit
+(ReLU) has been used to add the nonlinearity (Elsayed,
+Maida, and Bayoumi 2018b). The max-pooling layer was
+added to prevent overﬁtting (Elsayed, Maida, and Bayoumi
+2018a). The SoftMax activation function (LeCun, Bengio,
+and Hinton 2015) was used because classify three classes of
+lung cancer: benign, malignant, and normal.
+Dataset
+We used the dataset from IQ-OTH/NCCD-Lung Cancer
+Dataset in Kaggle (Kareem 2021). The dataset is divided
+into three classes, benign, which contains 15 cases, malig-
+nant, which contains 40 cases; and normal, which contains
+55 cases. The size of the dataset is 219 MB and contains
+1097 CT scan images. Benign cases contain 120 images,
+malignant cases contain 561 images, and normal cases con-
+tain 416 images. We performed data preprocessing for the
+dataset images prior to using them for the model training
+stage.
+Data Preprocessing
+The dataset we used (IQ-OTH/NCCD-Lung Cancer)is real-
+world data and contains some quality issues, missing values,
+inconsistency, noise, and incompatible formats. Therefore,
+the data preprocessing stage is crucial to help eliminate in-
+consistencies, remove duplicates, and normalize the data.
+Image Resizing: All the images in the dataset were re-
+sized to 224 224. Prior to resizing, the benign class had
+120 images with an image size of 512 512, the malignant
+class had one image with a size of 404 511, 501 images
+with an image size of 512 512, 31 images with an image
+size of 512 62, 28 images with an image size of 512 801,
+and for the images in the normal class, one image with a size
+of 331 506, 415 images with an image size of 512 512.
+Image Enhancement Contrast Limited Adaptive His-
+togram Equalization (CLAHE) is applied to enhance the
+contrast of the dataset images. CLAHE is a variant of adap-
+tive histogram equalization in which the contrast ampliﬁca-
+tion is limited, to reduce this problem of noise ampliﬁcation.
+In CLAHE, the contrast ampliﬁcation in the vicinity of a
+given pixel value is given by the slope of the transformation
+function. (Pizer et al. 1987) CLAHE is a block-based im-
+age processing. CLAHE Algorithm works on a small area
+of the image called tiles, the contrast procedure is applied
+to each tile. After enhancing the contrast in each tile, they
+are combined by using a resampling technique called bilin-
+ear interpolation. Bilinear interpolation is used to prevent
+Figure 1: A ﬂowchart of the image enhancement process us-
+ing CLAHE.
+Figure 2: The input image before enhancement (on the left),
+and the output enhanced image (on the right).
+induced borderlines around the tiles. Figure 1 is a ﬂow chart
+of the image enhancement process using CLAHE. There are
+ﬁve steps to enhance images using CLAHE:
+1. Each image is divided into square tiles as a two-factor
+vector of a positive integer. M represents rows, columns
+are represented by N, and T represents the total number
+of tiles. We used the tile default tile size in OpenCV 8 8.
+T=MN (1)
+2. The mapping function of local histogram is calculated by:
+f(xj) = (G 1)jX
+i=0ti
+T(2)
+where(G) represents total possible gray levels and T rep-
+resents the total of pixels in an image. The cumulative
+number of gray pixels between zero and Xjis represented
+by:Pj
+i=0ti
+T
+3. We use the clipping point of CLAHE. Clip limit, also
+called contrast-enhanced limit, is used to normalize an
+image and prevent over-concentration in similar areas of
+the image. We can use a clip limit value between zero
+and one. The higher the value, the more contrast. The clip
+limit default value is 0.01. The clip limit determines how
+many pixels are allowed in a histogram bin. The default
+number of histogram bins is 256. It is a positive integer
+and is used to develop a contrast-enhancing transforma-
+tion.
+Layer Filters Kernel Activation Output Shape No. Param.
+Input Conv2D 8 (3,3) ReLU (None,224,224,8) 80
+Max-pooling2D layer (2,2) (None,112,112,8) 0
+Conv2D 16 (3,3) ReLU (None,110,110,16) 1168
+(Max-pooling2D layer (2,2) (None,55,55,16) 0
+Conv2D 32 (3,3) ReLU (None,53,53,32) 4640
+Max-pooling2D (2,2) (None,26,26,32) 0
+Conv2D 64 (3,3) ReLU (None,24,24,64) 18694
+Max-pooling2D (2,2) (None,12,12,64) 0
+Flatten (None,9216) 0
+Dense (None,24) 221208
+Dense SoftMax (None,3) 75
+Total parameters 245667
+Trainable parameters 245667
+Non-trainable parameters 0
+Table 2: The proposed CNN-based model for early prediction and detection of lung cancer stages summary.
+4. We apply the histogram equalization to each region.
+5. To reduce the noise in the image. Median ﬁlters are used
+to remove the noise and preserve the image edges. This is
+essential because the noise could lead to a false positive.
+Figure 2 is an example of an input image before enhance-
+ment and the output enhanced image using CLAHE. Any
+extra noise must be removed to prevent any false positives
+due to noise presence.
+Data augmentation
+Data augmentation has been performed on the dataset im-
+ages to increase the dataset size and increase the problem
+complexity. The following augmentations have been per-
+formed:
+• Flip-top-bottom is 40%.
+• Flip-left-right is 30%.
+• Random brightness with a probability of 30%, minimumf
+actor of 30%, and maximum factor of 1.2.
+• Zoom random is 20%.
+• Also, we used horizontal ﬂip.
+• The rotation range is 40.
+• Shear range is 20%.
+• Rescaling by 1/255.
+• Height shift range is 20%.
+Then, data is split into three sets 70% training set, 15% val-
+idation set, and 15% testing set.
+Results and Discussion
+Our model was built in Python 3 using TensorFlow-Keras
+libraries. We have run the model on Google Colab Pro with
+Tesla P100-PCIE-16GB, and 32 GB RAM. To measure the
+performance of our CNN model, we used a variety of met-
+rics.
+In our experiment, the original dataset consists of one
+thousand ninety-seven (1097) CT scan images. We have in-
+creased the dataset to eight thousand 8461 images using
+Figure 3: The confusion matrix for the proposed model to
+detect the lung cancer.
+augmentation methods. Six thousand three hundred forty-
+ﬁve images were used for training, and 2116 images were
+used for validation. The training images were divided into
+three classes; benign cases consisted of 961 images, ma-
+lignant cases consisted of 3067 images, and normal cases
+consisted of 2317 images. Also, the validation images were
+divided into three classes; benign cases consisted of 321 im-
+ages, malignant cases consisted of 1023 images, and normal
+cases consisted of 772 images.
+Several metrics have been used to measure our model per-
+formance. Figure 3 shows the confusion matrix diagram for
+the three classes where the True Positive (TP) indicates the
+number of times where the actual value is yes (true), and
+the model predicted yes. False Positive (FP) indicates the
+number of times where the actual value is yes (true), and the
+model predicted yes. This is known as a Type-I error. True
+Negative (TN) indicates the number of times the actual value
+is no, and the model predicted no. False Negative (FN) in-
+dicates the number of times the actual value is yes, and the
+model predicted no. This is known as a Type-II error.
+The accuracy of the proposed model has been calculated
+by:
+Accuracy =TP+TN
+TP+FP+TN+FN(3)
+The precision value that reveals how many of the pre-
+Class Precision Sensitivity) Speciﬁcity F1-score Support
+Benign (0) 98% 98% 99% 98% 321
+Malignant (1) 1.00 99% 99% 1.00 1023
+Normal (2) 98% 99% 98% 99% 772
+Accuracy 99% 2116
+Loss 0.17 2116
+Macro Average 99% 99% 99% 99% 2116
+Weighted Average 99% 99% 99% 99% 2116
+Table 3: The proposed model empirical results.
+Figure 4: The proposed model training versus validation ac-
+curacies.
+Figure 5: The proposed model training versus validation
+loss.
+dicted positive values are actually true is calculated by:
+Precision =TP
+TP+FP(4)
+The recall (sensitivity) that represents the actual output that
+is predicted correctly is calculated by:
+Recall (Sensitivity ) =TP
+TP+FN(5)
+The speciﬁcity that shows the true negative of the model
+by applying the following formula:
+Specificity =TN
+TN+FP(6)
+Combining the recall and precision of the model’s classiﬁ-
+cation into a single metric. To maintain the balance between
+recall and precision, we use the harmonic mean:
+F1 Score = 2Recall Precision
+Recall +Precision(7)
+Precision for benign, malignant, and normal cases are
+98%, 1.00, and 98%, respectively. The results of sensitivity(recall) for benign, malignant, and normal cases are 98%,
+99%, and 99%, respectively. Speciﬁcity for benign, malig-
+nant, and normal cases are 99.55%, 99.45%, and 98.65%,
+respectively. F1-score results for benign, malignant, and nor-
+mal cases are 0.98, 1.00, and 99%, respectively. Measur-
+ing The macro average and the weighted average for Preci-
+sion, recall, and F1-score, the output was the same 99%. The
+model’s accuracy is 99.45%, and the loss is 1.75%. Figure 4
+and Figure 5 show the proposed CNN model’s accuracy and
+loss for the training versus validation diagrams over the ten
+epochs. Table 3 shows the proposed model oveall statistical
+results.
+In our experiment, the original dataset consists of one
+thousand ninety-seven (1097) CT scan images. We have in-
+creased the dataset to eight thousand four hundred sixty-one
+(8461) images using augmentation methods. Six thousand
+three hundred forty-ﬁve (6345) images were used for train-
+ing, and two thousand one hundred sixteen (2116) images
+were used for validation. The training images were divided
+into three classes, benign cases consisted of nine hundred
+sixty-one (961) images, malignant cases consisted of three
+thousand sixty-seven (3067) images, and normal cases con-
+sisted of two thousand three hundred seventeen (2317) im-
+ages. Also, the validation images were divided into three
+classes, benign cases consisted of three hundred twenty-one
+(321) images, malignant cases consisted of one thousand
+twenty-three (1023) images, and normal cases consisted of
+seven hundred seventy-two (772) images. The performance
+of the CNN model was assessed using the confusion ma-
+trix. Table 4.4 shows the confusion matrix report. Precision
+for benign, malignant, and normal cases are 98%, 1.00, and
+98%, respectively. The results of sensitivity (recall) for be-
+nign, malignant, and normal cases are 98%, 99%, and 99%,
+respectively. Speciﬁcity for benign, malignant, and normal
+cases are 99.55%, 99.45%, and 98.65%, respectively. F1-
+score results for benign, malignant, and normal cases are
+0.98, 1.00, and 99%, respectively. Measuring The macro av-
+erage and the weighted average for Precision, recall, and f1-
+score the output was the same 99%. The model’s accuracy
+is 99.45%, and the loss is 1.75%. Figure 4.5 shows the pro-
+posed CNN model’s accuracy and loss.
+We have compared our results with three different states
+of the art models. Table shows a comparison between our
+proposed model and some of the state-of- the-art models
+used the same dataset (IQ-OTH/NCCD).
+Author Year Dataset Model Epoch Sensitivity Speciﬁcity Accuracy
+(Kareem et al. 2021) 2020 IQ-OTH/NCCD SVW N/A 97.14% 97.5% 89.88%
+(AL-Huseiny and Sajit 2021) 2021 IQ-OTH/NCCD GoogleNet N/A 95.08% 93.7% 94.38%
+(Al-Yasriy et al. 2020) 2020 IQ-OTH/NCCD AlexNet 100 95.71% 95% 93.45%
+Proposed model IQ-OTH/NCCD CNN 10 99% 99.21% 99.45%
+Table 4: A comparison between the proposed model and convolutional-based state-of-the art models over the IQ-OTH/NCCD-
+Lung Cancer Dataset.
+Conclusion
+This paper proposed a CNN-based model for early predic-
+tion and detection of lung cancer from CT scan imaging. The
+model detected benign, malignant, and normal cases. De-
+tecting lung cancer at an early stage is crucial, and this will
+help medical providers to start their treatment plan, which
+will increase the survival rate. One of the objectives that
+our model achieved is the reduction of false positives. More-
+over, the proposed model has achieved a high accuracy rate
+of 99.45%. Lung cancer is one of the most difﬁcult cancers
+diagnosed in an early stage. With the existing methods that
+radiologists use, the proposed model in this thesis can be a
+particularly useful tool to support their decisions.
+References
+[Ahmed et al. 2020] Ahmed, T.; Parvin, M. S.; Haque, M. R.;
+Uddin, M. S.; et al. 2020. Lung cancer detection using ct
+image based on 3d convolutional neural network. Journal of
+Computer and Communications 8(03):35.
+[AL-Huseiny and Sajit 2021] AL-Huseiny, M. S., and Sajit,
+A. S. 2021. Transfer learning with googlenet for detection of
+lung cancer. Indonesian Journal of Electrical Engineering
+and Computer Science 22(2):1078–1086.
+[Al-Yasriy et al. 2020] Al-Yasriy, H. F.; AL-Husieny, M. S.;
+Mohsen, F. Y .; Khalil, E. A.; and Hassan, Z. S. 2020. Di-
+agnosis of lung cancer based on ct scans using cnn. In IOP
+Conference Series: Materials Science and Engineering , vol-
+ume 928, 022035. IOP Publishing.
+[Ali et al. 2018] Ali, I.; Hart, G. R.; Gunabushanam, G.;
+Liang, Y .; Muhammad, W.; Nartowt, B.; Kane, M.; Ma, X.;
+and Deng, J. 2018. Lung nodule detection via deep rein-
+forcement learning. Frontiers in oncology 8:108.
+[Ardila et al. 2019] Ardila, D.; Kiraly, A. P.; Bharadwaj, S.;
+Choi, B.; Reicher, J. J.; Peng, L.; Tse, D.; Etemadi, M.; Ye,
+W.; Corrado, G.; et al. 2019. End-to-end lung cancer screen-
+ing with three-dimensional deep learning on low-dose chest
+computed tomography. Nature medicine 25(6):954–961.
+[Elsayed, Maida, and Bayoumi 2018a] Elsayed, N.; Maida,
+A. S.; and Bayoumi, M. 2018a. Deep gated recurrent and
+convolutional network hybrid model for univariate time se-
+ries classiﬁcation. arXiv preprint arXiv:1812.07683 .
+[Elsayed, Maida, and Bayoumi 2018b] Elsayed, N.; Maida,
+A. S.; and Bayoumi, M. 2018b. Empirical activation func-
+tion effects on unsupervised convolutional lstm learning. In
+2018 IEEE 30th International Conference on Tools with Ar-
+tiﬁcial Intelligence (ICTAI) , 336–343. IEEE.[Hammerschmidt and Wirtz 2009] Hammerschmidt, S., and
+Wirtz, H. 2009. Lung cancer: current diagnosis and treat-
+ment. Deutsches ¨Arzteblatt International 106(49):809.
+[Hosny et al. 2018] Hosny, A.; Parmar, C.; Coroller, T. P.;
+Grossmann, P.; Zeleznik, R.; Kumar, A.; Bussink, J.; Gillies,
+R. J.; Mak, R. H.; and Aerts, H. J. 2018. Deep learning for
+lung cancer prognostication: a retrospective multi-cohort ra-
+diomics study. PLoS medicine 15(11):e1002711.
+[Jiang et al. 2022] Jiang, W.; Zeng, G.; Wang, S.; Wu, X.;
+and Xu, C. 2022. Application of deep learning in lung can-
+cer imaging diagnosis. Journal of Healthcare Engineering
+2022.
+[Kareem et al. 2021] Kareem, H. F.; Al-Huseiny, M. S.;
+Mohsen, F. Y .; and Al-Yasriy, K. 2021. Evaluation of svm
+performance in the detection of lung cancer in marked ct
+scan dataset. Indonesian Journal of Electrical Engineering
+and Computer Science 21(3):1731.
+[Kareem 2021] Kareem, H. 2021. The iq-oth/nccd lung can-
+cer dataset version 1 retrieved on 14th november 2021.
+[Kirienko et al. 2018] Kirienko, M.; Sollini, M.; Silvestri,
+G.; Mognetti, S.; V oulaz, E.; Antunovic, L.; Rossi, A.;
+Antiga, L.; and Chiti, A. 2018. Convolutional neural net-
+works promising in lung cancer t-parameter assessment on
+baseline fdg-pet/ct. Contrast Media & Molecular Imaging
+2018.
+[LeCun, Bengio, and Hinton 2015] LeCun, Y .; Bengio, Y .;
+and Hinton, G. 2015. Deep learning. nature 521(7553):436–
+444.
+[Mehta et al. 2021] Mehta, K.; Jain, A.; Mangalagiri, J.;
+Menon, S.; Nguyen, P.; and Chapman, D. R. 2021.
+Lung nodule classiﬁcation using biomarkers, volumetric ra-
+diomics, and 3d cnns. Journal of Digital Imaging 1–20.
+[Pizer et al. 1987] Pizer, S. M.; Amburn, E. P.; Austin, J. D.;
+Cromartie, R.; Geselowitz, A.; Greer, T.; ter Haar Romeny,
+B.; Zimmerman, J. B.; and Zuiderveld, K. 1987. Adaptive
+histogram equalization and its variations. Computer vision,
+graphics, and image processing 39(3):355–368.
+[Rajan et al. 2020] Rajan, A.; Jayachandran, A.; Abraham,
+A.; and Peter, P. 2020. Lung cancer detection using ct scans
+using deep learning.
+[Sahu et al. 2018] Sahu, P.; Yu, D.; Dasari, M.; Hou, F.; and
+Qin, H. 2018. A lightweight multi-section cnn for lung nod-
+ule classiﬁcation and malignancy estimation. IEEE journal
+of biomedical and health informatics 23(3):960–968.
+[She et al. 2020] She, Y .; Jin, Z.; Wu, J.; Deng, J.; Zhang, L.;
+Su, H.; Jiang, G.; Liu, H.; Xie, D.; Cao, N.; et al. 2020.
+Development and validation of a deep learning model for
+non–small cell lung cancer survival. JAMA network open
+3(6):e205842–e205842.
+[Shen et al. 2019] Shen, S.; Han, S. X.; Aberle, D. R.; Bui,
+A. A.; and Hsu, W. 2019. An interpretable deep hierarchi-
+cal semantic convolutional neural network for lung nodule
+malignancy classiﬁcation. Expert systems with applications
+128:84–95.
+[Society Last Revised January 12 2021] Society, A. C. Last
+Revised: January 12, 2021. Key Statistics for Lung Cancer.
+How common is lung cancer? https://www.cancer
+.org/cancer/lung-cancer/about/key-stat
+istics.html .
+[Song et al. 2017] Song, Q.; Zhao, L.; Luo, X.; and Dou, X.
+2017. Using deep learning for classiﬁcation of lung nodules
+on computed tomography images. Journal of healthcare en-
+gineering 2017.
+[Tekade and Rajeswari 2018] Tekade, R., and Rajeswari, K.
+2018. Lung cancer detection and classiﬁcation using deep
+learning. 2018 Fourth International Conference on Comput-
+ing Communication Control and Automation (ICCUBEA) 1–
+5.
+[Teramoto et al. 2016] Teramoto, A.; Fujita, H.; Yamamuro,
+O.; and Tamaki, T. 2016. Automated detection of pulmonary
+nodules in pet/ct images: Ensemble false-positive reduction
+using a convolutional neural network technique. Medical
+physics 43(6Part1):2821–2827.
+[Van Ginneken et al. 2015] Van Ginneken, B.; Setio, A. A.;
+Jacobs, C.; and Ciompi, F. 2015. Off-the-shelf convolutional
+neural network features for pulmonary nodule detection in
+computed tomography scans. In 2015 IEEE 12th Interna-
+tional symposium on biomedical imaging (ISBI) , 286–289.
+IEEE.
+[Woodard, Jones, and Jablons 2016] Woodard, G. A.; Jones,
+K. D.; and Jablons, D. M. 2016. Lung cancer staging and
+prognosis. Lung Cancer: Treatment and Research 47–75.
+[World Cancer Research Fund ] World Cancer Research
+Fund. World Cancer Research Fund International.
+https://www.wcrf.org/dietandcancer/lun
+g-cancer-statistics .
+[Xu et al. 2019] Xu, Y .; Hosny, A.; Zeleznik, R.; Parmar,
+C.; Coroller, T.; Franco, I.; Mak, R. H.; and Aerts, H. J.
+2019. Deep learning predicts lung cancer treatment response
+from serial medical imaging. Clinical Cancer Research
+25(11):3266–3275.
+[Yoo et al. 2020] Yoo, H.; Kim, K. H.; Singh, R.; Digu-
+marthy, S. R.; and Kalra, M. K. 2020. Validation of a
+deep learning algorithm for the detection of malignant pul-
+monary nodules in chest radiographs. JAMA network open
+3(9):e2017135–e2017135.
+[Zhang et al. 2019] Zhang, Q.; Wang, H.; Yoon, S. W.; Won,
+D.; and Srihari, K. 2019. Lung nodule diagnosis on 3d com-
+puted tomography images using deep convolutional neural
+networks. Procedia Manufacturing 39:363–370.
