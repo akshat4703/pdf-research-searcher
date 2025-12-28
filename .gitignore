@@ -1,0 +1,7 @@
+__pycache__/
+*.pyc
+.env/
+pdf_env/
+downloaded_papers/
+extracted_texts/
+runs/

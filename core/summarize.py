@@ -1,8 +1,10 @@
+import nltk
+nltk.download("punkt", quiet=True)
 from nltk.tokenize import sent_tokenize
 
-def summarize_text(text, max_sentences=3):
-    sentences = sent_tokenize(text)
-    return " ".join(sentences[:max_sentences]) if sentences else "No summary available."
-
-def summarize_all(texts):
-    return [summarize_text(t) for t in texts]
+def summarize_all(texts, n=3):
+    summaries = []
+    for t in texts:
+        s = sent_tokenize(t)
+        summaries.append(" ".join(s[:n]) if s else "")
+    return summaries

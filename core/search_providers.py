@@ -1,30 +1,38 @@
-import requests
-from bs4 import BeautifulSoup
+from core.scholar_discovery import search_scholar
+from core.crossref_fallback import search_crossref
 
-def search_arxiv(query, limit=5):
-    url = f"http://export.arxiv.org/api/query?search_query=all:{query}&start=0&max_results={limit}"
-    resp = requests.get(url)
-    results = []
-    if resp.status_code == 200:
-        soup = BeautifulSoup(resp.text, "xml")
-        for entry in soup.find_all("entry"):
-            results.append({
-                "title": entry.title.text,
-                "link": entry.id.text,
-                "pdf_url": entry.id.text.replace("abs", "pdf") + ".pdf"
-            })
-    return results
-
-def search_scholar(query, limit=5):
-    # Dummy fallback (scholar blocks scraping)
-    return [{"title": f"Dummy Scholar Paper {i+1}",
-             "link": "https://example.com",
-             "pdf_url": None} for i in range(limit)]
+try:
+    import arxiv
+except ModuleNotFoundError:
+    arxiv = None
 
 def get_pdf_urls(query, limit=5, source="both"):
-    results = []
-    if source in ["arxiv", "both"]:
-        results.extend(search_arxiv(query, limit))
-    if source in ["scholar", "both"]:
-        results.extend(search_scholar(query, limit))
-    return results[:limit]
+    papers = []
+
+    # -------- arXiv --------
+    if source in ("arxiv", "both") and arxiv is not None:
+        search = arxiv.Search(
+            query=query,
+            max_results=limit * 2,
+            sort_by=arxiv.SortCriterion.Relevance,
+        )
+        for r in search.results():
+            papers.append({
+                "title": r.title,
+                "pdf_url": r.pdf_url,
+                "source": "arxiv",
+            })
+
+
+    # -------- Google Scholar --------
+    if source in ("scholar", "both"):
+        try:
+            papers.extend(search_scholar(query, limit))
+        except Exception:
+            pass  # Scholar is best-effort only
+
+    # -------- CrossRef fallback (discovery-level) --------
+    if not papers:
+        papers.extend(search_crossref(query, limit))
+
+    return papers[:limit]

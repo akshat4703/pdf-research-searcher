@@ -1,19 +1,22 @@
 import requests
 from pathlib import Path
 
-def download_pdfs(results, out_dir):
+def download_pdfs(papers, out_dir):
+    out_dir = Path(out_dir)
     out_dir.mkdir(exist_ok=True)
-    downloaded = []
-    for r in results:
-        url = r.get("pdf_url")
-        if not url: continue
-        fname = out_dir / (r['title'].replace(" ", "_")[:50] + ".pdf")
+
+    for i, paper in enumerate(papers, 1):
+        pdf_url = paper.get("pdf_url")
+        if not pdf_url:
+            paper["pdf_path"] = None
+            continue
+
         try:
-            resp = requests.get(url, timeout=20)
-            if resp.status_code == 200:
-                with open(fname, "wb") as f:
-                    f.write(resp.content)
-                downloaded.append(fname)
-        except Exception as e:
-            print("Error downloading:", e)
-    return downloaded
+            res = requests.get(pdf_url, timeout=15)
+            path = out_dir / f"paper_{i}.pdf"
+            path.write_bytes(res.content)
+            paper["pdf_path"] = str(path)
+        except Exception:
+            paper["pdf_path"] = None
+
+    return papers
